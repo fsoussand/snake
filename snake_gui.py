@@ -28,12 +28,12 @@ display_width = 800
 display_height = 400
 
 pygame.init()
-
+fill_color=white
 
 # prepare initial state / display
 display = pygame.display.set_mode((display_width, display_height)) #we create a display of the size we want
 pygame.display.set_caption('Snake Game') #we write a title 
-display.fill(white) #the display will be pink
+display.fill(fill_color) #the display will be white
 pygame.display.update()
 block_size = 10 #size of one square of the snake 
 font_style = pygame.font.SysFont("arial", 25) #we define the style of writing
@@ -52,7 +52,7 @@ def draw_snake1(block_size, snake_body1, Length_of_snake1):
     #if the length of the list snake_body is bigger than length_of_snake, it means no apple was eaten. We thus delete the tail from the list snake_body after having displayed it. 
     if len(snake_body1) > Length_of_snake1: 
         #we draw a rectangle on the display in pink. Its back left corner will be in 10*snake_body1[0][0], 10*snake_body1[0][1] and its width and height will be 10 
-           pygame.draw.rect(display, white, [10*snake_body1[0][0], 10*snake_body1[0][1],10,10]) 
+           pygame.draw.rect(display, fill_color, [10*snake_body1[0][0], 10*snake_body1[0][1],block_size,block_size]) 
            
            del snake_body1[0] #we delete snake_body[0] from the list because it has been displayed
            #snake_body is constructed so that the tail is in position 0 and the head at the end of the list  
@@ -62,7 +62,7 @@ def draw_snake1(block_size, snake_body1, Length_of_snake1):
 
 def draw_snake2(block_size, snake_body2, Length_of_snake2): #we draw the second snake in the same way as the first one
      if len(snake_body2) > Length_of_snake2:
-            pygame.draw.rect(display, white, [10*snake_body2[0][0], 10*snake_body2[0][1],10,10])
+            pygame.draw.rect(display, fill_color, [10*snake_body2[0][0], 10*snake_body2[0][1],block_size,block_size])
             del snake_body2[0]
                        
      for x in snake_body2:
@@ -95,7 +95,7 @@ while True:
     msg = game.refresh()
     
     for i in range(10): #we add the 10 apples to the display
-        pygame.draw.rect(display,black,[10*msg.x[i],10*msg.y[i],10 ,10])
+        pygame.draw.rect(display,black,[10*msg.x[i],10*msg.y[i],block_size ,block_size])
         
     
     snake1_Head = []

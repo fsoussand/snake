@@ -24,6 +24,7 @@ int main(int argc, char** argv)
   inputMsg input1, input2;
   displayMsg display;
   GameIO game_io;
+
   // simulation time
   const double dt(game_io.samplingTime());
 
@@ -84,8 +85,11 @@ int main(int argc, char** argv)
 
 #else
       // write dumb player AI from feedback1 to input1
-    snake.moveRandomlySnake1();
-    snake.moveRandomlySnake2();
+    //snake.moveRandomlySnake1();
+    snake.testbouffagepommeSnake1();
+    snake.EatfoodSnake1(display);
+    std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
+    //snake.moveRandomlySnake2();
     display=snake.updateDisplay(display);
     game_io.sendDisplay(display);
 
