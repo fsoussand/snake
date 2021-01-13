@@ -1,10 +1,11 @@
-#include <duels/snake/game.h>
+#include </home/ecn/snake_project/snake/include/duels/snake/msg.h>
+#include </home/ecn/snake_project/snake/include/duels/snake/game.h>
 
 using namespace duels::snake;
 
 int main()
 {
-  Game game;
+  Game game("snake",1);
 
   inputMsg input;
   feedbackMsg feedback;
