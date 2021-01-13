@@ -16,7 +16,7 @@ find_library ( ZMQ_LIBRARY NAMES zmq )
 include_directories(include ${DUELS_ROOT}/include ${ZMQ_INCLUDE_DIR})
 add_definitions(-DDUELS_ROOT="${DUELS_ROOT}")
 
-add_executable(snake_server server.cpp)
+add_executable(snake_server server.cpp snake_game.cpp)
 target_link_libraries(snake_server ${CMAKE_THREAD_LIBS_INIT} ${ZMQ_LIBRARY})
 
 # add whatever is needed to build display executable

@@ -3,13 +3,14 @@
 #include <duels/client.h>
 #include <duels/snake/msg.h>
 #include <sstream>
+
 namespace duels {
 namespace snake {
 class Game: public duels::Client<inputMsg, feedbackMsg>
 {
 public:
-  Game(std::string name, int difficulty = 1)
-    : Game(name, difficulty, "127.0.0.1") {}
+  Game(std::string name, int difficulty = 1): Game(name, difficulty, "127.0.0.1") {};
+
   Game(std::string name, std::string ip, int difficulty = 1)
       : Game(name, difficulty, ip) {}
 private:

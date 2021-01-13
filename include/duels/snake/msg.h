@@ -4,7 +4,8 @@
 #include <duels/game_state.h>
 namespace duels {
 namespace snake {
-struct initMsg
+
+struct initMsg //
 {
   std::string toYAMLString(std::string p1, std::string p2) const 
   {
@@ -20,7 +21,10 @@ struct inputMsg
   char dir;
 };
 
-struct feedbackMsg
+struct feedbackMsg //what we receive at the end of a turn
+        //x1,y1: position of the 1st snake
+        //x2,y2: position of the 2nd snake
+        //x,y list of food positions
 {
   int x1; int y1; int x2; int y2; int x[10]; int y[10];
   feedbackMsg() {}
@@ -29,7 +33,7 @@ struct feedbackMsg
   State state = State::ONGOING;
 };
 
-struct displayMsg
+struct displayMsg //message we send to the GUI
 {
   int x1; int y1; int x2; int y2; int x[10]; int y[10];
   std::string toYAMLString(int winner) const 
