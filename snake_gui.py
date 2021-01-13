@@ -62,7 +62,7 @@ def draw_snake1(block_size, snake_body1, Length_of_snake1):
 
 def draw_snake2(block_size, snake_body2, Length_of_snake2): #we draw the second snake in the same way as the first one
      if len(snake_body2) > Length_of_snake2:
-            pygame.draw.rect(display, magenta, [10*snake_body2[0][0], 10*snake_body2[0][1],10,10])
+            pygame.draw.rect(display, white, [10*snake_body2[0][0], 10*snake_body2[0][1],10,10])
             del snake_body2[0]
                        
      for x in snake_body2:

@@ -22,33 +22,18 @@ int main(int argc, char** argv)
   feedbackMsg feedback1, feedback2;
   initMsg init;
   inputMsg input1, input2;
+  displayMsg display;
   GameIO game_io;
   // simulation time
   const double dt(game_io.samplingTime());
 
   // build initial game state
- /* std::string p1,p2;
-  std::cout<<"What's the first player's name ?"<<std::endl;
-  std::cin>>p1;
-  std::cout<<std::endl<<"What's the second player's name ?"<<std::endl;
-  std::cin>>p2;
 
-   init.toYAMLString(p1,p2);*/
   
   // build init message for display
-  srand(time(NULL));
-  displayMsg display;
-  display.x1=rand()%80;
-  display.y1=rand()%40;
-  display.x2=rand()%80;
-  display.y2=rand()%40;
-  for(int i=0;i<10;i++)
-  {
-      display.x[i]=rand()%80;
-      display.y[i]=rand()%40;
-  }
 
   snake_game snake(display);
+  game_io.sendDisplay(display);
 
 
 #ifdef LOCAL_GAME
@@ -80,14 +65,8 @@ int main(int argc, char** argv)
 
     //game_io.sendDisplay(display);
 
-    std::cout<<"About to move"<<std::endl;
-    snake.moveRandomlySnake1();
-    display=snake.updateDisplay(display);
-    game_io.sendDisplay(display);
+
     
-
-
-
 
 
 #ifndef LOCAL_GAME
@@ -105,14 +84,12 @@ int main(int argc, char** argv)
 
 #else
       // write dumb player AI from feedback1 to input1
+    snake.moveRandomlySnake1();
+    snake.moveRandomlySnake2();
+    display=snake.updateDisplay(display);
+    game_io.sendDisplay(display);
 
-  //
-  //  feedback=snake.moveRandomlySnake2(feedback);
-    //feedback1=feedback;
-   // feedback2=feedback;
-   // feedback2.x1,feedback2.y1,feedback2.x2,feedback2.y2=feedback2.x2,feedback2.y2,feedback2.x1,feedback2.y1;
-   // display=snake.updateDisplay(feedback);
-   // game_io.sendDisplay(display);
+
 
 #endif
 
@@ -124,8 +101,9 @@ int main(int argc, char** argv)
 #endif
 
     // update game state from input1 and input2
-    
-    
+    std::vector<feedbackMsg> FB=snake.updatefeedback(display);
+    feedback1=FB[0];
+    feedback2=FB[1];
     
     
   }
