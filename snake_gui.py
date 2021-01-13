@@ -43,6 +43,7 @@ block_size = 10 #size of one square of the snake
 apple = pygame.transform.scale(apple, (block_size, block_size))
 font_style = pygame.font.SysFont("arial", 25) #we define the style of writing
 score_font = pygame.font.SysFont("arial", 15)
+clock = pygame.time.Clock()
 
 for i in range (int(display_width/10)):
     for j in range (int(display_height/10)):
@@ -88,6 +89,37 @@ def draw_snake2(block_size, snake_body2, Length_of_snake2): #we draw the second 
                        
      for x in snake_body2:
              pygame.draw.rect(display, cyan, [block_size*x[0], block_size*x[1], block_size, block_size])
+             
+
+def Choosing_Level():
+    pygame.draw.rect(display, red,[200,100,400,200])
+    Levelchoice = score_font.render("What level do you want to play ?", True, white)
+    display.blit(Levelchoice, [225, 150])
+    button_1 = BUTTON(300, 200, '1')
+    button_2 = BUTTON(400, 200, '2')
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        Choosed_level=False
+        while(not(Choosed_level)):
+            if event.type == pygame.MOUSEBUTTONUP:
+                if button_1.collidepoint(pygame.mouse.get_pos()):
+                    display.blit(score_font.render("Choosed", True, white), [300, 200])
+                    Choosed_level=True
+                    Level=1
+                elif button_2.collidepoint(pygame.mouse.get_pos()):
+                    Choosed_level=True
+                    Level=2
+            clock.tick(60)
+            pygame.display.update()
+        return Level
+        
+def BUTTON(x,y, level):
+    pygame.draw.circle(display, black,(x,y),25)
+    Leveli = score_font.render(level, True, white)
+    return display.blit(Leveli, (x,y))
+        
         
 
 #if __name__ == '__main__':
@@ -112,8 +144,14 @@ t0 = time()
 
 while True:
     
+    #Level=Choosing_Level()
+    
     t0 = time()
     msg = game.refresh()
+    
+    
+    
+
     
     for i in range(10): #we add the 10 apples to the display
         display.blit(apple,[block_size*msg.x[i],block_size*msg.y[i],1,1])

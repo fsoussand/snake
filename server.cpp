@@ -89,7 +89,6 @@ int main(int argc, char** argv)
     display=snake.updateDisplay(display);
     game_io.sendDisplay(display);
 
-    game_io.get(input1)
 
 
 
