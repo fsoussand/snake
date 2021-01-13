@@ -28,8 +28,6 @@ snake_game::snake_game(displayMsg display)
     srand(time(NULL));
     display.x1=rand()%80;
     display.y1=rand()%40;
-    std::cout<<display.x1<<std::endl;
-    std::cout<<display.y1<<std::endl;
     display.x2=rand()%80;
     display.y2=rand()%40;
     for(int i=0;i<10;i++)
@@ -62,11 +60,9 @@ void snake_game::moveRandomlySnake1()
     switch (randomdir)
     {
     case 0 : //moving down
-        std::cout<<"Moving down"<<std::endl;
         Y=Y-1;
         break;
     case 1: //moving up
-        std::cout<<"Moving up"<<std::endl;
         Y=Y+1;
         break;
     case 2: //moving right
@@ -76,7 +72,6 @@ void snake_game::moveRandomlySnake1()
         X=X-1;
         break;
     }
-    std::cout<<"Inserting in list"<<std::endl;
     COORDINATE Head=Convert_To_Coordinate(X,Y);
     Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
 }
@@ -89,11 +84,9 @@ void snake_game::moveRandomlySnake2()
     switch (randomdir)
     {
     case 0 : //moving down
-        std::cout<<"Moving down"<<std::endl;
         Y=Y-1;
         break;
     case 1: //moving up
-        std::cout<<"Moving up"<<std::endl;
         Y=Y+1;
         break;
     case 2: //moving right
@@ -103,7 +96,6 @@ void snake_game::moveRandomlySnake2()
         X=X-1;
         break;
     }
-    std::cout<<"Inserting in list"<<std::endl;
     COORDINATE Head=Convert_To_Coordinate(X,Y);
     Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),Head);
 
