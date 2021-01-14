@@ -103,7 +103,7 @@ def Choosing_Level():
             sys.exit()
         Choosed_level=False
         while(not(Choosed_level)):
-            if event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 if button_1.collidepoint(pygame.mouse.get_pos()):
                     display.blit(score_font.render("Choosed", True, white), [300, 200])
                     Choosed_level=True
@@ -144,18 +144,14 @@ t0 = time()
 
 while True:
     
-    #Level=Choosing_Level()
+    Level=Choosing_Level()
     
     t0 = time()
     msg = game.refresh()
     
     
-    
-
-    
     for i in range(10): #we add the 10 apples to the display
         display.blit(apple,[block_size*msg.x[i],block_size*msg.y[i],1,1])
-        
         #pygame.draw.rect(display,black,[block_size*msg.x[i],block_size*msg.y[i],block_size ,block_size])
         
     
