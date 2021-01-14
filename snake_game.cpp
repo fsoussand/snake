@@ -171,7 +171,6 @@ void snake_game::testbouffagepommeSnake1()
         X=X-1;
         break;
     }
-    std::cout<<"Inserting in list"<<std::endl;
     COORDINATE Head=Convert_To_Coordinate(X,Y);
     Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
 }

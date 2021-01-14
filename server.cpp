@@ -29,7 +29,6 @@ int main(int argc, char** argv)
   const double dt(game_io.samplingTime());
 
   // build initial game state
-
   
   // build init message for display
 
