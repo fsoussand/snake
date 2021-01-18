@@ -5,13 +5,17 @@
 namespace duels {
 namespace snake {
 
-struct initMsg //
+
+struct initMsg
 {
+  int level;
   std::string toYAMLString(std::string p1, std::string p2) const 
   {
     std::stringstream ss;
     ss << "p1: " << p1;
     ss << "\np2: " << p2;
+
+    ss << "\nlevel: " << level;
     return ss.str();
   }
 };
@@ -20,6 +24,7 @@ struct inputMsg
 {
   char dir;
 };
+
 
 struct feedbackMsg //what we receive at the end of a turn
         //x1,y1: position of the 1st snake

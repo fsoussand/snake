@@ -1,7 +1,7 @@
 #define LOCAL_GAME  // to test the game AI with a dumb player AI
 
 #include <duels/snake/msg.h>
-#include<snake_game.h>
+#include<duels/snake/snake_game.h>
 #ifdef LOCAL_GAME
 #include <duels/local.h>
 #else
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
   const double dt(game_io.samplingTime());
 
   // build initial game state
-  
+
   // build init message for display
 
   snake_game snake(display);
@@ -65,8 +65,6 @@ int main(int argc, char** argv)
 
     //game_io.sendDisplay(display);
 
-
-    
 
 
 #ifndef LOCAL_GAME
@@ -108,10 +106,10 @@ int main(int argc, char** argv)
     std::vector<feedbackMsg> FB=snake.updatefeedback(display);
     feedback1=FB[0];
     feedback2=FB[1];
-    
-    
+
   }
 
   // final results
   game_io.sendResult(display, feedback1, feedback2);
 }
+

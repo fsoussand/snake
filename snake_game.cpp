@@ -1,4 +1,4 @@
-#include "include/snake_game.h"
+#include "include/duels/snake/snake_game.h"
 #include <duels/snake/msg.h>
 #include<time.h>
 #include<stdlib.h>

@@ -30,6 +30,7 @@ install(FILES snake_gui.py DESTINATION bin
         PERMISSIONS OWNER_WRITE OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
         
 # client headers and templates
-install(FILES include/duels/snake/game.h include/duels/snake/msg.h DESTINATION include/duels/snake)
+
+install(FILES include/duels/snake/game.h include/duels/snake/msg.h include/duels/snake/snake_game DESTINATION include/duels/snake)
 install(FILES client_template/CMakeLists.txt DESTINATION games/snake)
 install(FILES client_template/snake.cpp DESTINATION games/snake )
