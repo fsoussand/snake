@@ -2,6 +2,7 @@
 
 #include <duels/snake/msg.h>
 #include<duels/snake/snake_game.h>
+#include <duels/snake/snake_ia.h>
 #ifdef LOCAL_GAME
 #include <duels/local.h>
 #else
@@ -37,7 +38,8 @@ int main(int argc, char** argv)
 
 
 #ifdef LOCAL_GAME
-  game_io.initDisplay(init, "snake");  // add false at the end if you run the display in another terminal
+  game_io.initDisplay(init, "snake"); // add false at the end if you run the display in another terminal
+  snake_IA snake_IA(init.level,snake);
   game_io.setLevel(1);
   game_io.sendDisplay(display);
 
@@ -84,6 +86,7 @@ int main(int argc, char** argv)
       // write dumb player AI from feedback1 to input1
     //snake.moveRandomlySnake1();
     snake.testbouffagepommeSnake1();
+    //snake_IA.move(init.level,snake);
     snake.EatfoodSnake1(display);
     std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
     //snake.moveRandomlySnake2();

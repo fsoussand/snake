@@ -9,13 +9,7 @@
 using duels::Player;
 using namespace duels::snake;
 
-COORDINATE Convert_To_Coordinate(int x, int y)
-{
-    COORDINATE Coor;
-    Coor.X=x;
-    Coor.Y=y;
-    return Coor;
-}
+
 COORDINATE Print_Coord(COORDINATE coor)
 {
     int x=coor.X;

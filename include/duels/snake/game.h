@@ -1,7 +1,7 @@
 #ifndef SNAKE_GAME_H
 #define SNAKE_GAME_H
 #include "duels/client.h"
-#include "duels/snake/msg.h"
+#include "msg.h"
 #include <sstream>
 
 namespace duels {
