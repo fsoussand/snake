@@ -16,6 +16,8 @@ struct COORDINATE
 
 
 
+
+
 class snake_game
 {
 public:
@@ -23,6 +25,13 @@ public:
     snake_game(displayMsg);
 
     displayMsg Create_display();
+    COORDINATE Convert_To_Coordinate(int x, int y)
+    {
+        COORDINATE Coor;
+        Coor.X=x;
+        Coor.Y=y;
+        return Coor;
+    }
     bool isaliveSnake1(displayMsg); //By snake1 we mean the snake whose head is located in (x1,y1)
     bool isaliveSnake2(displayMsg); //By snake2 we mean the snake whose head is located in (x2,y2)
     void EatfoodSnake1(displayMsg);

@@ -1,7 +1,8 @@
 #define LOCAL_GAME  // to test the game AI with a dumb player AI
 
 #include <duels/snake/msg.h>
-#include<snake_game.h>
+#include<duels/snake/snake_game.h>
+#include <duels/snake/snake_ia.h>
 #ifdef LOCAL_GAME
 #include <duels/local.h>
 #else
@@ -30,7 +31,6 @@ int main(int argc, char** argv)
 
   // build initial game state
 
-  
   // build init message for display
 
   snake_game snake(display);
@@ -38,7 +38,8 @@ int main(int argc, char** argv)
 
 
 #ifdef LOCAL_GAME
-  game_io.initDisplay(init, "snake");  // add false at the end if you run the display in another terminal
+  game_io.initDisplay(init, "snake"); // add false at the end if you run the display in another terminal
+  snake_IA snake_IA(init.level,snake);
   game_io.setLevel(1);
   game_io.sendDisplay(display);
 
@@ -67,8 +68,6 @@ int main(int argc, char** argv)
     //game_io.sendDisplay(display);
 
 
-    
-
 
 #ifndef LOCAL_GAME
     if(two_players)
@@ -87,6 +86,7 @@ int main(int argc, char** argv)
       // write dumb player AI from feedback1 to input1
     //snake.moveRandomlySnake1();
     snake.testbouffagepommeSnake1();
+    //snake_IA.move(init.level,snake);
     snake.EatfoodSnake1(display);
     std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
     //snake.moveRandomlySnake2();
@@ -109,10 +109,10 @@ int main(int argc, char** argv)
     std::vector<feedbackMsg> FB=snake.updatefeedback(display);
     feedback1=FB[0];
     feedback2=FB[1];
-    
-    
+
   }
 
   // final results
   game_io.sendResult(display, feedback1, feedback2);
 }
+

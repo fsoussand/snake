@@ -1,4 +1,4 @@
-#include "include/snake_game.h"
+#include "include/duels/snake/snake_game.h"
 #include <duels/snake/msg.h>
 #include<time.h>
 #include<stdlib.h>
@@ -9,13 +9,7 @@
 using duels::Player;
 using namespace duels::snake;
 
-COORDINATE Convert_To_Coordinate(int x, int y)
-{
-    COORDINATE Coor;
-    Coor.X=x;
-    Coor.Y=y;
-    return Coor;
-}
+
 COORDINATE Print_Coord(COORDINATE coor)
 {
     int x=coor.X;
@@ -171,7 +165,6 @@ void snake_game::testbouffagepommeSnake1()
         X=X-1;
         break;
     }
-    std::cout<<"Inserting in list"<<std::endl;
     COORDINATE Head=Convert_To_Coordinate(X,Y);
     Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
 }
