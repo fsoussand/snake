@@ -35,13 +35,18 @@ int main(int argc, char** argv)
 
   snake_game snake(display);
   game_io.sendDisplay(display);
+  int Debug;
 
 
 #ifdef LOCAL_GAME
+  std::cout<<"The level is set to "<<init.level<<std::endl;
   game_io.initDisplay(init, "snake"); // add false at the end if you run the display in another terminal
-  snake_IA snake_IA(init.level,snake);
   game_io.setLevel(1);
+  std::cout<<"Init is set to "<<init.level<<std::endl;
   game_io.sendDisplay(display);
+  std::cout<<"Init is set to "<<init.level<<std::endl;
+
+
 
 
 
