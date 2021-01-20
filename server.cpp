@@ -35,19 +35,14 @@ int main(int argc, char** argv)
 
   snake_game snake(display);
   game_io.sendDisplay(display);
-  int Debug;
-
 
 #ifdef LOCAL_GAME
-  std::cout<<"The level is set to "<<init.level<<std::endl;
   game_io.initDisplay(init, "snake"); // add false at the end if you run the display in another terminal
   game_io.setLevel(1);
-  std::cout<<"Init is set to "<<init.level<<std::endl;
   game_io.sendDisplay(display);
-  std::cout<<"Init is set to "<<init.level<<std::endl;
 
 
-
+snake_IA snakeIA(1,snake);
 
 
 #else
@@ -89,9 +84,9 @@ int main(int argc, char** argv)
 
 #else
       // write dumb player AI from feedback1 to input1
-    //snake.moveRandomlySnake1();
-    snake.testbouffagepommeSnake1();
-    //snake_IA.move(init.level,snake);
+    snake.moveRandomlySnake1();
+    //snake.testbouffagepommeSnake1();
+    snakeIA.move(2,snake);
     snake.EatfoodSnake1(display);
     std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
     //snake.moveRandomlySnake2();
