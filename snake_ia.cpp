@@ -131,45 +131,29 @@ void snake_IA::move(int level,snake_game snake){
         else {obj_reached=false;}
         if (X != obj_x)
         {
-            std::cout<<"X-obj_x"<<X-obj_x<<std::endl;
+            std::cout<<"X-obj_x"<<X-obj_x<<" ";
             if (X - obj_x <0)
             {
-                dir=2;
+                X=X+1; //Moving right
             }
             else
             {
-                dir=3;
+                X=X-1; //Moving left
             }
         }
         else
         {
-            std::cout<<"Y-obj_y"<<Y-obj_y<<std::endl;
+            std::cout<<"Y-obj_y"<<Y-obj_y<<" ";
             if (Y - obj_y <0)
             {
-                dir=1;
+                Y=Y+1; //Moving up
             }
             else
             {
-                dir=0;
+                Y=Y-1; //Moving down
             }
         }
-        switch (dir)
-        {
-        case 0 : //moving up
-            std::cout<<"Moving up"<<std::endl;
-            Y=Y-1;
-            break;
-        case 1: //moving down
-            std::cout<<"Moving down"<<std::endl;
-            Y=Y+1;
-            break;
-        case 2: //moving right
-            X=X+1;
-            break;
-        case 3: //moving left
-            X=X-1;
-            break;
-        }
+        std::cout<<"Position is "<<X<<" "<<Y<<std::endl;
         COORDINATE Head=snake.Convert_To_Coordinate(X,Y);
         snake.Snake1ListOfCoordinate.insert(snake.Snake1ListOfCoordinate.begin(),Head);
         break;

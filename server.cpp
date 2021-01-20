@@ -88,7 +88,7 @@ snake_IA snakeIA(1,snake);
     //snake.testbouffagepommeSnake1();
     snakeIA.move(2,snake);
     snake.EatfoodSnake1(display);
-    std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
+    //std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
     //snake.moveRandomlySnake2();
     display=snake.updateDisplay(display);
     game_io.sendDisplay(display);
