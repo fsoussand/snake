@@ -9,14 +9,6 @@
 using duels::Player;
 using namespace duels::snake;
 
-
-COORDINATE Print_Coord(COORDINATE coor)
-{
-    int x=coor.X;
-    int y=coor.Y;
-    std::cout<<"("<<x<<","<<y<<")"<<std::endl;
-}
-
 snake_game::snake_game(){
 
 }
@@ -67,9 +59,10 @@ void snake_game::EatfoodSnake1(displayMsg display)
             Snake1Length+=1;
             COORDINATE coor;
             coor = Convert_To_Coordinate(display.x1,display.y1);
-            COORDINATE coor2= Convert_To_Coordinate(coor.X+dx,coor.Y+dy);
+            COORDINATE coor2= Convert_To_Coordinate(Snake1ListOfCoordinate[Snake1Length-1].X+dx,Snake1ListOfCoordinate[Snake1Length-1].Y+dy);
             Snake1ListOfCoordinate.push_back(coor2);
-            for (int i=0;i<Snake1Length;i++)
+            std::cout<<"new corps"<<std::endl;
+            for (int i=0;i<Snake1ListOfCoordinate.size();i++)
             {
                 Print_Coord(Snake1ListOfCoordinate[i]);
             }
@@ -89,7 +82,6 @@ void snake_game::EatfoodSnake1(displayMsg display)
             Appleslist.erase(Appleslist.begin()+pos);
         }
     }
-    updateDisplay(display);
 }
 
 bool EatfoodSnake2(displayMsg display);
@@ -102,10 +94,10 @@ void snake_game::moveRandomlySnake1()
     int Y=Snake1ListOfCoordinate[0].Y;
     switch (randomdir)
     {
-    case 0 : //moving down
+    case 0 : //moving up
         Y=Y-1;
         break;
-    case 1: //moving up
+    case 1: //moving down
         Y=Y+1;
         break;
     case 2: //moving right
@@ -126,6 +118,8 @@ void snake_game::testbouffagepommeSnake1()
     int Y=Snake1ListOfCoordinate[0].Y;
     int obj_x = Appleslist[0].X;
     int obj_y = Appleslist[0].Y;
+    std::cout<<"Head avant deplacement"<<std::endl;
+    Print_Coord(Convert_To_Coordinate(X,Y));
     if (X != obj_x)
     {
         if (X - obj_x <0)
@@ -151,11 +145,9 @@ void snake_game::testbouffagepommeSnake1()
     switch (randomdir)
     {
     case 0 : //moving up
-        std::cout<<"Moving up"<<std::endl;
         Y=Y-1;
         break;
     case 1: //moving down
-        std::cout<<"Moving down"<<std::endl;
         Y=Y+1;
         break;
     case 2: //moving right
@@ -167,6 +159,16 @@ void snake_game::testbouffagepommeSnake1()
     }
     COORDINATE Head=Convert_To_Coordinate(X,Y);
     Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
+    Snake1ListOfCoordinate.pop_back();
+    std::cout<<"corps apres deplacement"<<std::endl;
+    for (int i=0;i<Snake1ListOfCoordinate.size();i++)
+    {
+        Print_Coord(Snake1ListOfCoordinate[i]);
+    }
+    std::cout<<"Head apres deplacement"<<std::endl;
+    Print_Coord(Head);
+    std::cout<<"Pomme objectif"<<std::endl;
+    Print_Coord(Appleslist[0]);
 }
 
 void snake_game::moveRandomlySnake2()
@@ -176,10 +178,10 @@ void snake_game::moveRandomlySnake2()
     int Y=Snake2ListOfCoordinate[0].Y;
     switch (randomdir)
     {
-    case 0 : //moving down
+    case 0 : //moving up
         Y=Y-1;
         break;
-    case 1: //moving up
+    case 1: //moving down
         Y=Y+1;
         break;
     case 2: //moving right
@@ -196,10 +198,10 @@ void snake_game::moveRandomlySnake2()
 
 displayMsg snake_game::updateDisplay(displayMsg display)
 {
-    display.x1=Snake1ListOfCoordinate[Snake1Length-1].X;
-    display.y1=Snake1ListOfCoordinate[Snake1Length-1].Y;
-    display.x2=Snake2ListOfCoordinate[Snake2Length-1].X;
-    display.y2=Snake2ListOfCoordinate[Snake2Length-1].Y;
+    display.x1=Snake1ListOfCoordinate[0].X;
+    display.y1=Snake1ListOfCoordinate[0].Y;
+    display.x2=Snake2ListOfCoordinate[0].X;
+    display.y2=Snake2ListOfCoordinate[0].Y;
     for(int i=0;i<10;i++)
     {
         display.x[i]=Appleslist[i].X;
