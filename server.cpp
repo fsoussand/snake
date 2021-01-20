@@ -42,7 +42,7 @@ int main(int argc, char** argv)
   game_io.sendDisplay(display);
 
 
-snake_IA snakeIA(1,snake);
+snake_IA snakeIA(2,snake);
 
 
 #else
@@ -84,9 +84,11 @@ snake_IA snakeIA(1,snake);
 
 #else
       // write dumb player AI from feedback1 to input1
-    snake.moveRandomlySnake1();
+    //snake.moveRandomlySnake1();
     //snake.testbouffagepommeSnake1();
-    snakeIA.move(2,snake);
+    snake=snakeIA.move(2,snake);
+    //int debug;
+    //std::cin>>debug;
     snake.EatfoodSnake1(display);
     //std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
     //snake.moveRandomlySnake2();

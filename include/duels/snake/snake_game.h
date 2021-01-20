@@ -39,6 +39,8 @@ public:
     void moveRandomlySnake1();
     void testbouffagepommeSnake1();
     void moveRandomlySnake2();
+    bool eat_itself(int);
+    void go_target1(int, int);
     displayMsg updateDisplay(displayMsg);
     std::vector<feedbackMsg> updatefeedback(displayMsg);
 
