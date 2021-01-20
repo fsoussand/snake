@@ -37,13 +37,13 @@ int main(int argc, char** argv)
   display=snake.updateDisplay(display);
   game_io.sendDisplay(display);
 
-
 #ifdef LOCAL_GAME
   game_io.initDisplay(init, "snake"); // add false at the end if you run the display in another terminal
-  snake_IA snake_IA(init.level,snake);
   game_io.setLevel(1);
   game_io.sendDisplay(display);
 
+
+snake_IA snakeIA(2,snake);
 
 
 #else
@@ -92,8 +92,12 @@ int main(int argc, char** argv)
     snake.Print_Coord(snake.Convert_To_Coordinate(display.x1,display.y1));
     game_io.sendDisplay(display);
     //snake_IA.move(init.level,snake);
-    snake.EatfoodSnake1(display);
-    std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
+    //snake.testbouffagepommeSnake1();
+    //snake=snakeIA.move(2,snake);
+    //int debug;
+    //std::cin>>debug;
+    //snake.EatfoodSnake1(display);
+    //std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
     //snake.moveRandomlySnake2();
 
     std::cout<<"========================"<<std::endl;

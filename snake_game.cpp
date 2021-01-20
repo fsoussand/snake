@@ -51,7 +51,7 @@ void snake_game::EatfoodSnake1(displayMsg display)
             if (Snake1Length>=2)
             {
                 dx=Snake1ListOfCoordinate[Snake1Length-1].X-Snake1ListOfCoordinate[Snake1Length-2].X;
-                std::cout<<"dx "<<dx<<std::endl;
+                std::cout<<"dx "<<dx<<std::endl; //dx = 1/-1/0
 
                 dy=Snake1ListOfCoordinate[Snake1Length-1].Y-Snake1ListOfCoordinate[Snake1Length-2].Y;
                 std::cout<<"dy "<<dy<<std::endl;
@@ -111,6 +111,26 @@ void snake_game::moveRandomlySnake1()
     Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
 }
 
+bool snake_game::eat_itself(int dir)
+{
+    switch (dir)
+    {
+    case 0 : //moving up
+        if (Snake1ListOfCoordinate[0].Y+1==Snake1ListOfCoordinate[1].Y){return true;}
+        break;
+    case 1: //moving down
+        if (Snake1ListOfCoordinate[0].Y-1==Snake1ListOfCoordinate[1].Y){return true;}
+        break;
+    case 2: //moving right
+        if (Snake1ListOfCoordinate[0].X-1==Snake1ListOfCoordinate[1].X){return true;}
+        break;
+    case 3: //moving left
+        if (Snake1ListOfCoordinate[0].X+1==Snake1ListOfCoordinate[1].X){return true;}
+        break;
+    }
+    return false;
+}
+
 void snake_game::testbouffagepommeSnake1()
 {
     int randomdir=0;
@@ -120,6 +140,17 @@ void snake_game::testbouffagepommeSnake1()
     int obj_y = Appleslist[0].Y;
     std::cout<<"Head avant deplacement"<<std::endl;
     Print_Coord(Convert_To_Coordinate(X,Y));
+    bool eat_itself;
+    
+    //if (X==obj_x && Y==obj_y)
+    //{
+    //    randomdir=random()%4;
+    //    while(snake_game::eat_itself(randomdir))
+    //    {
+    //        randomdir=random()%4;
+    //    }
+    //}
+
     if (X != obj_x)
     {
         if (X - obj_x <0)
@@ -170,6 +201,62 @@ void snake_game::testbouffagepommeSnake1()
     std::cout<<"Pomme objectif"<<std::endl;
     Print_Coord(Appleslist[0]);
 }
+
+void snake_game::go_target1(int obj_x,int obj_y)
+{
+    int randomdir=0;
+    int X=Snake1ListOfCoordinate[0].X;
+    int Y=Snake1ListOfCoordinate[0].Y;
+    if (X==obj_x && Y==obj_y)
+    {
+        randomdir=random()%4;
+        while(snake_game::eat_itself(randomdir))
+        {
+            randomdir=random()%4;
+        }
+    }
+
+    if (X != obj_x)
+    {
+        if (X - obj_x <0)
+        {
+            randomdir=2;
+        }
+        else
+        {
+            randomdir=3;
+        }
+    }
+    else
+    {
+        if (Y - obj_y <0)
+        {
+            randomdir=1;
+        }
+        else
+        {
+            randomdir=0;
+        }
+    }
+    switch (randomdir)
+    {
+    case 0 : //moving up
+        Y=Y-1;
+        break;
+    case 1: //moving down
+        Y=Y+1;
+        break;
+    case 2: //moving right
+        X=X+1;
+        break;
+    case 3: //moving left
+        X=X-1;
+        break;
+    }
+    COORDINATE Head=Convert_To_Coordinate(X,Y);
+    Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
+}
+
 
 void snake_game::moveRandomlySnake2()
 {
