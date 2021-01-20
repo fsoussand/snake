@@ -5,6 +5,7 @@
 #include <vector>
 #include<duels/utils/vector2d.h>
 
+
 using namespace duels;
 using namespace duels::snake;
 
@@ -31,6 +32,12 @@ public:
         Coor.X=x;
         Coor.Y=y;
         return Coor;
+    }
+    COORDINATE Print_Coord(COORDINATE coor)
+    {
+        int x=coor.X;
+        int y=coor.Y;
+        std::cout<<"("<<x<<","<<y<<")"<<std::endl;
     }
     bool isaliveSnake1(displayMsg); //By snake1 we mean the snake whose head is located in (x1,y1)
     bool isaliveSnake2(displayMsg); //By snake2 we mean the snake whose head is located in (x2,y2)
