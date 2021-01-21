@@ -86,17 +86,23 @@ snake_IA snakeIA(2,snake);
 #else
       // write dumb player AI from feedback1 to input1
     //snake.moveRandomlySnake1();
+    /* partie Lucas pour mangeage correct
     snake.testbouffagepommeSnake1();
     display=snake.updateDisplay(display);
     std::cout<<"display envoyé a python"<<std::endl;
     snake.Print_Coord(snake.Convert_To_Coordinate(display.x1,display.y1));
-    game_io.sendDisplay(display);
-    //snake_IA.move(init.level,snake);
+    game_io.sendDisplay(display);*/
+    /* partie Flora pour pomme la plus proche*/
+    //snakeIA.move(init.level,snake);
     //snake.testbouffagepommeSnake1();
-    //snake=snakeIA.move(2,snake);
+    snake=snakeIA.move(2,snake);
+    display=snake.updateDisplay(display);
+    std::cout<<"display envoyé a python"<<std::endl;
+    snake.Print_Coord(snake.Convert_To_Coordinate(display.x1,display.y1));
+    game_io.sendDisplay(display);
     //int debug;
-    //std::cin>>debug;
-    //snake.EatfoodSnake1(display);
+    //std::cin>>debug;*/
+    snake.EatfoodSnake1(display);
     //std::cout<<"longueur "<<snake.Snake1Length<<std::endl;
     //snake.moveRandomlySnake2();
 

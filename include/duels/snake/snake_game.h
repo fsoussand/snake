@@ -5,6 +5,7 @@
 #include <vector>
 #include<duels/utils/vector2d.h>
 
+
 using namespace duels;
 using namespace duels::snake;
 

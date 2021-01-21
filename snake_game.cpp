@@ -1,5 +1,6 @@
 #include "include/duels/snake/snake_game.h"
 #include <duels/snake/msg.h>
+#include "include/duels/snake/snake_ia.h"
 #include<time.h>
 #include<stdlib.h>
 #include <vector>
@@ -41,8 +42,8 @@ bool isaliveSnake2(displayMsg display);
 
 void snake_game::EatfoodSnake1(displayMsg display)
 {
-    int dx=0;
-    int dy=0;
+    int dx_back=0;
+    int dy_back=0;
     for (int i=0;i<10;i++)
     {
         if ((display.x1 == display.x[i])&&(display.y1 == display.y[i]))
@@ -50,16 +51,17 @@ void snake_game::EatfoodSnake1(displayMsg display)
 
             if (Snake1Length>=2)
             {
-                dx=Snake1ListOfCoordinate[Snake1Length-1].X-Snake1ListOfCoordinate[Snake1Length-2].X;
-                std::cout<<"dx "<<dx<<std::endl; //dx = 1/-1/0
+                dx_back=Snake1ListOfCoordinate[Snake1Length-1].X-Snake1ListOfCoordinate[Snake1Length-2].X;
+                std::cout<<"dx "<<dx_back<<std::endl; //dx = 1/-1/0
 
-                dy=Snake1ListOfCoordinate[Snake1Length-1].Y-Snake1ListOfCoordinate[Snake1Length-2].Y;
-                std::cout<<"dy "<<dy<<std::endl;
+                dy_back=Snake1ListOfCoordinate[Snake1Length-1].Y-Snake1ListOfCoordinate[Snake1Length-2].Y;
+                std::cout<<"dy "<<dy_back<<std::endl;
+
             }
             Snake1Length+=1;
             COORDINATE coor;
             coor = Convert_To_Coordinate(display.x1,display.y1);
-            COORDINATE coor2= Convert_To_Coordinate(Snake1ListOfCoordinate[Snake1Length-1].X+dx,Snake1ListOfCoordinate[Snake1Length-1].Y+dy);
+            COORDINATE coor2= Convert_To_Coordinate(Snake1ListOfCoordinate[Snake1Length-2].X+dx_back,Snake1ListOfCoordinate[Snake1Length-2].Y+dy_back);
             Snake1ListOfCoordinate.push_back(coor2);
             std::cout<<"new corps"<<std::endl;
             for (int i=0;i<Snake1ListOfCoordinate.size();i++)
@@ -204,17 +206,19 @@ void snake_game::testbouffagepommeSnake1()
 
 void snake_game::go_target1(int obj_x,int obj_y)
 {
-    int randomdir=0;
+    int randomdir;
     int X=Snake1ListOfCoordinate[0].X;
     int Y=Snake1ListOfCoordinate[0].Y;
-    if (X==obj_x && Y==obj_y)
+    std::cout<<"Head avant deplacement"<<std::endl;
+    Print_Coord(Snake1ListOfCoordinate[0]);
+    /*if (X==obj_x && Y==obj_y)
     {
         randomdir=random()%4;
         while(snake_game::eat_itself(randomdir))
         {
             randomdir=random()%4;
         }
-    }
+    }*/
 
     if (X != obj_x)
     {
@@ -255,6 +259,9 @@ void snake_game::go_target1(int obj_x,int obj_y)
     }
     COORDINATE Head=Convert_To_Coordinate(X,Y);
     Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
+    Snake1ListOfCoordinate.pop_back();
+    std::cout<<"Head avant deplacement"<<std::endl;
+    Print_Coord(Head);
 }
 
 
