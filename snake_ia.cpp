@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "include/duels/snake/snake_game.h"
+#include <vector>
 
 
 snake_IA::snake_IA()
@@ -26,7 +27,7 @@ snake_IA::snake_IA(int Level, snake_game snake){
     };
 }
 
-snake_game snake_IA::move(int level,snake_game snake){
+snake_game snake_IA::move1(int level,snake_game snake){
     int dx_front=0;
     int dy_front=0;
     switch(level)
@@ -58,14 +59,14 @@ snake_game snake_IA::move(int level,snake_game snake){
     case 1:
     {
         int randomdir=rand()%4;
-        int randomapple=rand()%10;
+        int randomapple=rand()%snake.Appleslist.size();
         int X=snake.Snake1ListOfCoordinate[0].X;
         int Y=snake.Snake1ListOfCoordinate[0].Y;
-        obj_x = snake.Appleslist[randomapple].X;
-        obj_y = snake.Appleslist[randomapple].Y;
-        if (X != obj_x)
+        obj1_x = snake.Appleslist[randomapple].X;
+        obj1_y = snake.Appleslist[randomapple].Y;
+        if (X != obj1_x)
         {
-            if (X - obj_x <0)
+            if (X - obj1_x <0)
             {
                 randomdir=2;
             }
@@ -76,7 +77,7 @@ snake_game snake_IA::move(int level,snake_game snake){
         }
         else
         {
-            if (Y - obj_y <0)
+            if (Y - obj1_y <0)
             {
                 randomdir=1;
             }
@@ -109,14 +110,11 @@ snake_game snake_IA::move(int level,snake_game snake){
         int X=snake.Snake1ListOfCoordinate[0].X;
         int Y=snake.Snake1ListOfCoordinate[0].Y;
         int closest_apple=0;
-
-        if(obj_reached)
+        if(obj1_reached || obj1_already_eaten)
         {
-            //int distmin=abs(X*X+Y*Y-snake.Appleslist[closest_apple].X*snake.Appleslist[closest_apple].X-snake.Appleslist[closest_apple].Y*snake.Appleslist[closest_apple].Y);
             int distmin=std::pow((X-snake.Appleslist[closest_apple].X),2)+std::pow((Y-snake.Appleslist[closest_apple].Y),2);
-            for(int i=1;i<10;i++)
+            for(int i=1;i<snake.Appleslist.size();i++)
             {
-                //int dist = abs(X*X+Y*Y-snake.Appleslist[i].X*snake.Appleslist[i].X-snake.Appleslist[i].Y*snake.Appleslist[i].Y);
                 int dist=std::pow((X-snake.Appleslist[i].X),2)+std::pow((Y-snake.Appleslist[i].Y),2);
                 if (dist<distmin)
                 {
@@ -125,21 +123,151 @@ snake_game snake_IA::move(int level,snake_game snake){
                 }
 
             }
-            obj_x = snake.Appleslist[closest_apple].X;
-            obj_y = snake.Appleslist[closest_apple].Y;
+            obj1_x = snake.Appleslist[closest_apple].X;
+            obj1_y = snake.Appleslist[closest_apple].Y;
+            obj1_already_eaten=false;
+
         }
-        if (X==obj_x && Y==obj_y)
+        if (X==obj1_x && Y==obj1_y)
         {
-            obj_reached=true;
-            snake=move(2,snake);
+            obj1_reached=true;
+            snake=move1(2,snake);
         }
         else
         {
-            obj_reached=false;
-            snake.go_target1(obj_x,obj_y);
+            if(obj2_reached && obj1_x==obj2_x && obj1_y==obj2_y)
+            {
+                obj1_already_eaten=true;
+            }
+            obj1_reached=false;
+            snake.go_target1(obj1_x,obj1_y);
+                    }
+        //std::cout<<"objectif"<<std::endl;
+        //snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));
+
+    }
+
+    }
+    return snake;
+};
+
+snake_game snake_IA::move2(int level,snake_game snake){
+    int dx_front=0;
+    int dy_front=0;
+    switch(level)
+    {
+    case 0:
+    {
+        int dir=rand()%4;
+        int X=snake.Snake2ListOfCoordinate[0].X;
+        int Y=snake.Snake2ListOfCoordinate[0].Y;
+        switch (dir)
+        {
+        case 0 : //moving down
+            Y=Y-1;
+            break;
+        case 1: //moving up
+            Y=Y+1;
+            break;
+        case 2: //moving right
+            X=X+1;
+            break;
+        case 3: //moving left
+            X=X-1;
+            break;
+        };
+        COORDINATE Head=snake.Convert_To_Coordinate(X,Y);
+        snake.Snake2ListOfCoordinate.insert(snake.Snake2ListOfCoordinate.begin(),Head);
+        break;
+    }
+    case 1:
+    {
+        int randomdir=rand()%4;
+        int randomapple=rand()%snake.Appleslist.size();
+        int X=snake.Snake2ListOfCoordinate[0].X;
+        int Y=snake.Snake2ListOfCoordinate[0].Y;
+        obj2_x = snake.Appleslist[randomapple].X;
+        obj2_y = snake.Appleslist[randomapple].Y;
+        if (X != obj2_x)
+        {
+            if (X - obj2_x <0)
+            {
+                randomdir=2;
+            }
+            else
+            {
+                randomdir=3;
+            }
         }
-        std::cout<<"objectif"<<std::endl;
-        snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));
+        else
+        {
+            if (Y - obj2_y <0)
+            {
+                randomdir=1;
+            }
+            else
+            {
+                randomdir=0;
+            }
+        }
+        switch (randomdir)
+        {
+        case 0 : //moving up
+            Y=Y-1;
+            break;
+        case 1: //moving down
+            Y=Y+1;
+            break;
+        case 2: //moving right
+            X=X+1;
+            break;
+        case 3: //moving left
+            X=X-1;
+            break;
+        }
+        COORDINATE Head=snake.Convert_To_Coordinate(X,Y);
+        snake.Snake2ListOfCoordinate.insert(snake.Snake2ListOfCoordinate.begin(),Head);
+        break;
+    }
+    case 2:
+    {
+        int X=snake.Snake2ListOfCoordinate[0].X;
+        int Y=snake.Snake2ListOfCoordinate[0].Y;
+        int closest_apple=0;
+        if(obj2_reached || obj2_already_eaten)
+        {
+            int distmin=std::pow((X-snake.Appleslist[closest_apple].X),2)+std::pow((Y-snake.Appleslist[closest_apple].Y),2);
+            for(int i=1;i<snake.Appleslist.size();i++)
+            {
+                int dist=std::pow((X-snake.Appleslist[i].X),2)+std::pow((Y-snake.Appleslist[i].Y),2);
+                if (dist<distmin)
+                {
+                    distmin=dist;
+                    closest_apple=i;
+                }
+
+            }
+            obj2_x = snake.Appleslist[closest_apple].X;
+            obj2_y = snake.Appleslist[closest_apple].Y;
+            obj2_already_eaten=false;
+
+        }
+        if (X==obj2_x && Y==obj2_y)
+        {
+            obj2_reached=true;
+            snake=move2(2,snake);
+        }
+        else
+        {
+            if(obj2_reached && obj2_x==obj1_x && obj2_y==obj1_y)
+            {
+                obj2_already_eaten=true;
+            }
+            obj2_reached=false;
+            snake.go_target2(obj2_x,obj2_y);
+        }
+        //std::cout<<"objectif"<<std::endl;
+        //snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));
 
     }
 
