@@ -39,15 +39,18 @@ public:
         int y=coor.Y;
         std::cout<<"("<<x<<","<<y<<")"<<std::endl;
     }
-    bool isaliveSnake1(displayMsg); //By snake1 we mean the snake whose head is located in (x1,y1)
-    bool isaliveSnake2(displayMsg); //By snake2 we mean the snake whose head is located in (x2,y2)
+    bool isaliveSnake1(); //By snake1 we mean the snake whose head is located in (x1,y1)
+    bool isaliveSnake2(); //By snake2 we mean the snake whose head is located in (x2,y2)
     void EatfoodSnake1(displayMsg);
-    bool EatfoodSnake2(displayMsg);
+    void EatfoodSnake2(displayMsg);
     void moveRandomlySnake1();
     void testbouffagepommeSnake1();
+    void suicide_itself();
     void moveRandomlySnake2();
-    bool eat_itself(int);
+    bool eat_itself1(int);
+    bool eat_itself2(int);
     void go_target1(int, int);
+    void go_target2(int, int);
     displayMsg updateDisplay(displayMsg);
     std::vector<feedbackMsg> updatefeedback(displayMsg);
 
