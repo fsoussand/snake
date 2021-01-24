@@ -28,8 +28,6 @@ snake_IA::snake_IA(int Level, snake_game snake){
 }
 
 snake_game snake_IA::move1(int level,snake_game snake){
-    int dx_front=0;
-    int dy_front=0;
     switch(level)
     {
     case 0:
@@ -141,7 +139,12 @@ snake_game snake_IA::move1(int level,snake_game snake){
             }
             obj1_reached=false;
             snake.go_target1(obj1_x,obj1_y);
-                    }
+            }
+        COORDINATE obj = snake.Convert_To_Coordinate(obj1_x,obj1_y);
+        if (!snake.Test_Coord_in_List(obj,snake.Appleslist))
+        {
+            move1(2,snake);
+        }
         //std::cout<<"objectif"<<std::endl;
         //snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));
 
@@ -152,8 +155,6 @@ snake_game snake_IA::move1(int level,snake_game snake){
 };
 
 snake_game snake_IA::move2(int level,snake_game snake){
-    int dx_front=0;
-    int dy_front=0;
     switch(level)
     {
     case 0:
@@ -259,12 +260,17 @@ snake_game snake_IA::move2(int level,snake_game snake){
         }
         else
         {
-            if(obj2_reached && obj2_x==obj1_x && obj2_y==obj1_y)
+            if(obj1_reached && obj2_x==obj1_x && obj2_y==obj1_y)
             {
                 obj2_already_eaten=true;
             }
             obj2_reached=false;
             snake.go_target2(obj2_x,obj2_y);
+        }
+        COORDINATE obj = snake.Convert_To_Coordinate(obj2_x,obj2_y);
+        if (!snake.Test_Coord_in_List(obj,snake.Appleslist))
+        {
+            move2(2,snake);
         }
         //std::cout<<"objectif"<<std::endl;
         //snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));

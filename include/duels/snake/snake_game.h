@@ -39,6 +39,18 @@ public:
         int y=coor.Y;
         std::cout<<"("<<x<<","<<y<<")"<<std::endl;
     }
+    bool Test_Coord_in_List(COORDINATE coor,std::vector<COORDINATE> list)
+    {
+        bool Is_in=false;
+        for (int i=0;i<list.size();i++)
+        {
+            if ((coor.X==list[i].X) && ((coor.Y==list[i].Y)))
+            {
+                Is_in = true;
+            }
+        }
+        return Is_in;
+    }
     bool isaliveSnake1(); //By snake1 we mean the snake whose head is located in (x1,y1)
     bool isaliveSnake2(); //By snake2 we mean the snake whose head is located in (x2,y2)
     void EatfoodSnake1(displayMsg);

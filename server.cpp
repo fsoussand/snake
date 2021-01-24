@@ -5,6 +5,7 @@
 #include <duels/snake/snake_ia.h>
 #ifdef LOCAL_GAME
 #include <duels/local.h>
+
 #else
 #include <duels/server.h>
 #endif

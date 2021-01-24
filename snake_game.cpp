@@ -145,10 +145,10 @@ void snake_game::EatfoodSnake2(displayMsg display)
 
             if (Snake2Length>=2)
             {
-                dx_back=Snake2ListOfCoordinate[Snake2Length-1].X-Snake1ListOfCoordinate[Snake2Length-2].X;
+                dx_back=Snake2ListOfCoordinate[Snake2Length-1].X-Snake2ListOfCoordinate[Snake2Length-2].X;
                 std::cout<<"dx "<<dx_back<<std::endl; //dx = 1/-1/0
 
-                dy_back=Snake2ListOfCoordinate[Snake2Length-1].Y-Snake1ListOfCoordinate[Snake2Length-2].Y;
+                dy_back=Snake2ListOfCoordinate[Snake2Length-1].Y-Snake2ListOfCoordinate[Snake2Length-2].Y;
                 std::cout<<"dy "<<dy_back<<std::endl;
 
             }
