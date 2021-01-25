@@ -355,6 +355,8 @@ void snake_game::go_target1(int obj_x,int obj_y)
             dir=0;
         }
     }
+
+    dir=avoid_obstacles1(dir);
     switch (dir)
     {
     case 0 : //moving up
@@ -456,6 +458,55 @@ void snake_game::moveRandomlySnake2()
     }
     COORDINATE Head=Convert_To_Coordinate(X,Y);
     Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),Head);
+
+};
+
+bool snake_game::is_an_obstacle1(int dir) // dir = 0,1,2 or 3 : it represents the direction in which the snake is trying to go.
+{
+    COORDINATE Head=Convert_To_Coordinate(Snake1ListOfCoordinate[0].X,Snake1ListOfCoordinate[0].Y);
+    switch(dir)
+    {
+    case 0:
+        Head.Y-=1;
+    case 1:
+        Head.Y+=1;
+    case 2:
+        Head.X+=1;
+    case 3:
+        Head.X-=1;
+
+    }
+
+    if(Head.X<0||Head.X>40||Head.Y<0||Head.Y>80) //Beyond the grid dimensions
+    {
+        return true;
+    }
+    for(int i=1;i<Snake1Length;i++) //itself
+    {
+        if(Head.X==Snake1ListOfCoordinate[i].X && Head.Y==Snake1ListOfCoordinate[i].Y)
+        {
+            return true;
+        }
+    }
+    for(int i=0;i<Snake2Length;i++) //the other snake
+    {
+        if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
+        {
+            return true;
+        }
+    }
+    return false;
+};
+
+int snake_game::avoid_obstacles1(int dir) //changes the direction to avoid an obstacle
+{
+    bool surrounded_by_obstacles = is_an_obstacle1(0) && is_an_obstacle1(1) && is_an_obstacle1(2) && is_an_obstacle1(3);
+    if(surrounded_by_obstacles) return true;
+    while(is_an_obstacle1(dir))
+    {
+       dir=rand()%4;
+    }
+    return dir;
 
 };
 
