@@ -356,7 +356,6 @@ void snake_game::go_target1(int obj_x,int obj_y)
         }
     }
 
-    dir=avoid_obstacles1(dir);
     switch (dir)
     {
     case 0 : //moving up
@@ -474,29 +473,36 @@ bool snake_game::is_an_obstacle1(int dir) // dir = 0,1,2 or 3 : it represents th
         Head.X+=1;
     case 3:
         Head.X-=1;
+    case 4:
+        Head=Head;
 
     }
 
     if(Head.X<0||Head.X>40||Head.Y<0||Head.Y>80) //Beyond the grid dimensions
     {
         return true;
+        std::cout<<"The snake wants to eat the wall"<<std::endl;
     }
-    for(int i=1;i<Snake1Length;i++) //itself
+    for(int i=1;i<Snake1Length-1;i++) //itself
     {
         if(Head.X==Snake1ListOfCoordinate[i].X && Head.Y==Snake1ListOfCoordinate[i].Y)
         {
+            std::cout<<"The snake wants to eat its "<<i<<" body part"<<std::endl;
             return true;
         }
     }
-    for(int i=0;i<Snake2Length;i++) //the other snake
+    for(int i=0;i<Snake2Length-1;i++) //the other snake
     {
         if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
         {
+            std::cout<<"The snake wants to eat the other "<<i<<" body part"<<std::endl;
             return true;
         }
     }
     return false;
 };
+
+
 
 int snake_game::avoid_obstacles1(int dir) //changes the direction to avoid an obstacle
 {
@@ -504,7 +510,8 @@ int snake_game::avoid_obstacles1(int dir) //changes the direction to avoid an ob
     if(surrounded_by_obstacles) return true;
     while(is_an_obstacle1(dir))
     {
-       dir=rand()%4;
+       std::cout<<"Changing the direction"<<std::endl;
+        dir=rand()%4;
     }
     return dir;
 
