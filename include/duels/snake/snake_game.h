@@ -63,6 +63,9 @@ public:
     bool eat_itself2(int);
     void go_target1(int, int);
     void go_target2(int, int);
+    bool is_an_obstacle1(int);
+    int avoid_obstacles1(int);
+    void avoid_obstacles2();
     displayMsg updateDisplay(displayMsg);
     std::vector<feedbackMsg> updatefeedback(displayMsg);
 

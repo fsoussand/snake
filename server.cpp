@@ -44,7 +44,7 @@ int main(int argc, char** argv)
   game_io.sendDisplay(display);
 
 
-snake_IA snakeIA(2,snake);
+snake_IA snakeIA(3,snake);
 
 
 #else
