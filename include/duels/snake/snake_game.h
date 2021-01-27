@@ -5,6 +5,8 @@
 #include <vector>
 #include<duels/utils/vector2d.h>
 
+const int HEIGHT=40;
+const int WIDTH=40;
 
 using namespace duels;
 using namespace duels::snake;
@@ -68,6 +70,7 @@ public:
     void avoid_obstacles2();
     bool moveX(int ,int ,int *);
     bool moveY(int ,int ,int *);
+    COORDINATE generate_random_apple();
     COORDINATE EvalPosHead(int,int ,int);
     bool isaliveSnake1bis(COORDINATE);
     displayMsg updateDisplay(displayMsg);
