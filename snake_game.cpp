@@ -316,7 +316,7 @@ void snake_game::testbouffagepommeSnake1()
     std::cout<<"Pomme objectif"<<std::endl;
     Print_Coord(Appleslist[0]);
 }
-
+/*
 void snake_game::go_target1(int obj_x,int obj_y)
 {
     int dir;
@@ -377,7 +377,7 @@ void snake_game::go_target1(int obj_x,int obj_y)
     //std::cout<<"Head avant deplacement"<<std::endl;
     //Print_Coord(Head);
 }
-
+*/
 void snake_game::go_target2(int obj_x,int obj_y)
 {
     int dir;
@@ -556,7 +556,7 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
     return FB;
 
 }
-/*
+
 bool snake_game::moveX(int X,int obj_x, int *dir)
 {
     bool move=false;
@@ -669,10 +669,6 @@ void snake_game::go_target1(int obj_x,int obj_y)
         {
             depla_y=moveY(Y,obj_y,&dir);
         }
-        if (depla_y)
-        {
-            depla_x=moveX(X,obj_x,&dir);
-        }
         next_Head = EvalPosHead(X,Y,dir);
         is_alive = isaliveSnake1bis(next_Head);
         if (is_alive)
@@ -682,13 +678,23 @@ void snake_game::go_target1(int obj_x,int obj_y)
         }
         else
         {
-            int dx=Snake1ListOfCoordinate[0].X-Snake1ListOfCoordinate[1].X;
-            int dy=Snake1ListOfCoordinate[0].Y-Snake1ListOfCoordinate[1].Y;
-            next_Head = Convert_To_Coordinate(X+dy,Y+dx);
+            std::vector<int> dir_available;
+            for (int i=0;i<4;i++)
+            {
+                next_Head = EvalPosHead(X,Y,i);
+                if (isaliveSnake1bis(next_Head))
+                {
+                    dir_available.push_back(i);
+                }
+            }
+            if (dir_available.size()!=0)
+            {
+                dir=dir_available[rand()%dir_available.size()];
+            }
+            next_Head = EvalPosHead(X,Y,dir);
             Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),next_Head);
             Snake1ListOfCoordinate.pop_back();
         }
-
     }
 }
-*/
+
