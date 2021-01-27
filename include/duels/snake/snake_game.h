@@ -66,6 +66,10 @@ public:
     bool is_an_obstacle1(int);
     int avoid_obstacles1(int);
     void avoid_obstacles2();
+    bool moveX(int ,int ,int *);
+    bool moveY(int ,int ,int *);
+    COORDINATE EvalPosHead(int,int ,int);
+    bool isaliveSnake1bis(COORDINATE);
     displayMsg updateDisplay(displayMsg);
     std::vector<feedbackMsg> updatefeedback(displayMsg);
 

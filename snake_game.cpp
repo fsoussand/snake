@@ -155,7 +155,7 @@ void snake_game::EatfoodSnake2(displayMsg display)
             Snake2Length+=1;
             COORDINATE coor;
             coor = Convert_To_Coordinate(display.x2,display.y2);
-            COORDINATE coor2= Convert_To_Coordinate(Snake2ListOfCoordinate[Snake2Length-2].X+dx_back,Snake1ListOfCoordinate[Snake2Length-2].Y+dy_back);
+            COORDINATE coor2= Convert_To_Coordinate(Snake2ListOfCoordinate[Snake2Length-2].X+dx_back,Snake2ListOfCoordinate[Snake2Length-2].Y+dy_back);
             Snake2ListOfCoordinate.push_back(coor2);
             std::cout<<"new corps"<<std::endl;
             for (int i=0;i<Snake2ListOfCoordinate.size();i++)
@@ -556,3 +556,139 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
     return FB;
 
 }
+/*
+bool snake_game::moveX(int X,int obj_x, int *dir)
+{
+    bool move=false;
+    if (X!=obj_x)
+    {
+        if (X - obj_x<0)
+        {
+            *dir=2;
+        }
+        else
+        {
+            *dir=3;
+        }
+        move=true;
+    }
+    return move;
+}
+
+bool snake_game::moveY(int Y,int obj_y, int *dir)
+{
+    bool move=false;
+    if (Y!=obj_y)
+    {
+        if (Y - obj_y<0)
+        {
+            *dir=1;
+        }
+        else
+        {
+            *dir=0;
+        }
+        move=true;
+    }
+    return move;
+}
+
+COORDINATE snake_game::EvalPosHead(int X, int Y, int dir)
+{
+    COORDINATE Head;
+    int pos_x=X;
+    int pos_y=Y;
+    switch(dir)
+    {
+    case 0:
+        pos_y=Y-1;
+        break;
+    case 1:
+        pos_y=Y+1;
+        break;
+    case 2:
+        pos_x=X+1;
+        break;
+    case 3:
+        pos_x=X-1;
+    }
+    Head = Convert_To_Coordinate(pos_x,pos_y);
+    return Head;
+}
+
+bool snake_game::isaliveSnake1bis(COORDINATE Head)
+{
+  bool state=true;
+  if(Head.X<0||Head.Y<0||Head.X>80||Head.Y>40)
+  {
+      state=false;
+  }
+  for (int i=0;i<Snake2Length;i++)
+  {
+   if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
+   {
+       state=false;
+   }
+  }
+  for(int i=1;i<Snake1Length;i++)
+  {
+      if(Head.X==Snake1ListOfCoordinate[i].X && Head.Y==Snake1ListOfCoordinate[i].Y)
+      {
+          state=false;
+      }
+  }
+  return state;
+};
+
+void snake_game::go_target1(int obj_x,int obj_y)
+{
+    int dir;
+    int X=Snake1ListOfCoordinate[0].X;
+    int Y=Snake1ListOfCoordinate[0].Y;
+    bool depla_x=false;
+    bool depla_y=false;
+    COORDINATE next_Head;
+    bool is_alive;
+    depla_x=moveX(X,obj_x,&dir);
+    if (!depla_x)
+    {
+        depla_y=moveY(Y,obj_y,&dir);
+    }
+    next_Head = EvalPosHead(X,Y,dir);
+    is_alive = isaliveSnake1bis(next_Head);
+    std::cout<<"alive"<<std::endl;
+    std::cout<<is_alive<<std::endl;
+    if (is_alive)
+    {
+        Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),next_Head);
+        Snake1ListOfCoordinate.pop_back();
+    }
+    else
+    {
+        if (depla_x)
+        {
+            depla_y=moveY(Y,obj_y,&dir);
+        }
+        if (depla_y)
+        {
+            depla_x=moveX(X,obj_x,&dir);
+        }
+        next_Head = EvalPosHead(X,Y,dir);
+        is_alive = isaliveSnake1bis(next_Head);
+        if (is_alive)
+        {
+            Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),next_Head);
+            Snake1ListOfCoordinate.pop_back();
+        }
+        else
+        {
+            int dx=Snake1ListOfCoordinate[0].X-Snake1ListOfCoordinate[1].X;
+            int dy=Snake1ListOfCoordinate[0].Y-Snake1ListOfCoordinate[1].Y;
+            next_Head = Convert_To_Coordinate(X+dy,Y+dx);
+            Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),next_Head);
+            Snake1ListOfCoordinate.pop_back();
+        }
+
+    }
+}
+*/
