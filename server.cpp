@@ -97,7 +97,7 @@ snake_IA snakeIA(3,snake);
     std::cout<<"display envoyé a python"<<std::endl;
     snake.Print_Coord(snake.Convert_To_Coordinate(display.x1,display.y1));
     game_io.sendDisplay(display);*/
-    snake=snakeIA.move1(2,snake);
+    snake=snakeIA.move1(3,snake);
     //snake=snakeIA.move2(2,snake);
     display=snake.updateDisplay(display);
 
