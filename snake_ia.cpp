@@ -173,7 +173,7 @@ snake_game snake_IA::move1(int level,snake_game snake){
             {
                 duels::GridPoint Point(i,j);
                 COORDINATE Coor=snake.Convert_To_Coordinate(i,j);
-                if(snake.isaliveSnake1bis(Coor))
+                if(snake.isaliveSnake1(Coor))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
 

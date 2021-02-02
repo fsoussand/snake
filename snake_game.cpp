@@ -74,57 +74,6 @@ COORDINATE snake_game::generate_random_apple()
     return new_apple;
 }
 
-bool snake_game::isaliveSnake1() //return true if the snake 1 is still alive
-{
-  int X=Snake1ListOfCoordinate[0].X;
-  int Y=Snake1ListOfCoordinate[0].Y;
-  if(X<0||Y<0||X>WIDTH||Y>HEIGHT)
-  {
-      return false;
-  }
-  for (int i=2;i<Snake1Length;i++) //Check is the snake ate itself
-  {
-   if(X==Snake1ListOfCoordinate[i].X && Y==Snake1ListOfCoordinate[i].Y)
-   {
-       return false;
-   }
-  }
-  for(int i=0;i<Snake2Length;i++) //Check is the snake eats its opponent
-  {
-      if(X==Snake2ListOfCoordinate[i].X && Y==Snake2ListOfCoordinate[i].Y)
-      {
-          return false;
-      }
-  }
-  return true;
-};
-
-
-bool snake_game::isaliveSnake2() //same function, but with the second snake
-{
-    int X=Snake2ListOfCoordinate[0].X;
-    int Y=Snake2ListOfCoordinate[0].Y;
-    if(X<0||Y<0||X>WIDTH||Y>HEIGHT)
-    {
-        return false;
-    }
-    for (int i=2;i<Snake2Length;i++)
-    {
-     if(X==Snake2ListOfCoordinate[i].X && Y==Snake2ListOfCoordinate[i].Y)
-     {
-         return false;
-     }
-    }
-    for(int i=0;i<Snake1Length;i++)
-    {
-        if(X==Snake1ListOfCoordinate[i].X && Y==Snake1ListOfCoordinate[i].Y)
-        {
-            return false;
-        }
-    }
-    return true;
-};
-
 void snake_game::EatfoodSnake1(displayMsg display) //THe function that deals with the snake eating an apple
 {
     int dx_back=0;
@@ -212,206 +161,7 @@ void snake_game::EatfoodSnake2(displayMsg display)
     }
 
 };
-
-
-void snake_game::moveRandomlySnake1() //A function that gives a random direction to the snake
-{
-    int randomdir=rand()%4;
-    int X=Snake1ListOfCoordinate[0].X;
-    int Y=Snake1ListOfCoordinate[0].Y;
-    switch (randomdir)
-    {
-    case 0 : //moving up
-        Y=Y-1;
-        break;
-    case 1: //moving down
-        Y=Y+1;
-        break;
-    case 2: //moving right
-        X=X+1;
-        break;
-    case 3: //moving left
-        X=X-1;
-        break;
-    }
-    COORDINATE Head=Convert_To_Coordinate(X,Y);
-    Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
-}
-
-bool snake_game::eat_itself1(int dir) //return true if the snake eat itself when doing a turn back
-{
-    switch (dir)
-    {
-    case 0 : //moving up
-        if (Snake1ListOfCoordinate[0].Y+1==Snake1ListOfCoordinate[1].Y){return true;}
-        break;
-    case 1: //moving down
-        if (Snake1ListOfCoordinate[0].Y-1==Snake1ListOfCoordinate[1].Y){return true;}
-        break;
-    case 2: //moving right
-        if (Snake1ListOfCoordinate[0].X-1==Snake1ListOfCoordinate[1].X){return true;}
-        break;
-    case 3: //moving left
-        if (Snake1ListOfCoordinate[0].X+1==Snake1ListOfCoordinate[1].X){return true;}
-        break;
-    }
-    return false;
-}
-
-bool snake_game::eat_itself2(int dir)
-{
-    switch (dir)
-    {
-    case 0 : //moving up
-        if (Snake2ListOfCoordinate[0].Y+1==Snake2ListOfCoordinate[1].Y){return true;}
-        break;
-    case 1: //moving down
-        if (Snake2ListOfCoordinate[0].Y-1==Snake2ListOfCoordinate[1].Y){return true;}
-        break;
-    case 2: //moving right
-        if (Snake2ListOfCoordinate[0].X-1==Snake2ListOfCoordinate[1].X){return true;}
-        break;
-    case 3: //moving left
-        if (Snake2ListOfCoordinate[0].X+1==Snake2ListOfCoordinate[1].X){return true;}
-        break;
-    }
-    return false;
-}
-
-/*void snake_game::testbouffagepommeSnake1()
-{
-    int randomdir=0;
-    int X=Snake1ListOfCoordinate[0].X;
-    int Y=Snake1ListOfCoordinate[0].Y;
-    int obj_x = Appleslist[0].X;
-    int obj_y = Appleslist[0].Y;
-   // std::cout<<"Head avt deplacement"<<std::endl;
-    //Print_Coord(Convert_To_Coordinate(X,Y));
-    bool eat_itself;
-    
-    //if (X==obj_x && Y==obj_y)
-    //{
-    //    randomdir=random()%4;
-    //    while(snake_game::eat_itself(randomdir))
-    //    {
-    //        randomdir=random()%4;
-    //    }
-    //}
-
-    if (X != obj_x)
-    {
-        if (X - obj_x <0)
-        {
-            randomdir=2;
-        }
-        else
-        {
-            randomdir=3;
-        }
-    }
-    else
-    {
-        if (Y - obj_y <0)
-        {
-            randomdir=1;
-        }
-        else
-        {
-            randomdir=0;
-        }
-    }
-    switch (randomdir)
-    {
-    case 0 : //moving up
-        Y=Y-1;
-        break;
-    case 1: //moving down
-        Y=Y+1;
-        break;
-    case 2: //moving right
-        X=X+1;
-        break;
-    case 3: //moving left
-        X=X-1;
-        break;
-    }
-    COORDINATE Head=Convert_To_Coordinate(X,Y);
-    Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
-    Snake1ListOfCoordinate.pop_back();
-    std::cout<<"corps apres deplacement"<<std::endl;
-    for (int i=0;i<Snake1ListOfCoordinate.size();i++)
-    {
-        Print_Coord(Snake1ListOfCoordinate[i]);
-    }
-    std::cout<<"Head apres deplacement"<<std::endl;
-    Print_Coord(Head);
-    std::cout<<"Pomme objectif"<<std::endl;
-    Print_Coord(Appleslist[0]);
-
-}
-
-void snake_game::go_target1(int obj_x,int obj_y) //the snake will go toward the coordinates (obj_x, obj_y)
-
-{
-    int dir;
-    int X=Snake1ListOfCoordinate[0].X;
-    int Y=Snake1ListOfCoordinate[0].Y;
-    //std::cout<<"Head avant deplacement"<<std::endl;
-    //Print_Coord(Snake1ListOfCoordinate[0]);
-    if (X==obj_x && Y==obj_y)
-    {
-        dir=random()%4;
-        while(snake_game::eat_itself1(dir))
-        {
-            dir=random()%4;
-        }
-    }
-
-    if (X != obj_x)
-    {
-        if (X - obj_x <0)
-        {
-            dir=2;
-        }
-        else
-        {
-            dir=3;
-        }
-    }
-    else
-    {
-        if (Y - obj_y <0)
-        {
-            dir=1;
-        }
-        else
-        {
-            dir=0;
-        }
-    }
-
-    switch (dir)
-    {
-    case 0 : //moving up
-        Y=Y-1;
-        break;
-    case 1: //moving down
-        Y=Y+1;
-        break;
-    case 2: //moving right
-        X=X+1;
-        break;
-    case 3: //moving left
-        X=X-1;
-        break;
-    }
-    COORDINATE Head=Convert_To_Coordinate(X,Y);
-    Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head);
-    Snake1ListOfCoordinate.pop_back();
-    //std::cout<<"Head avant deplacement"<<std::endl;
-    //Print_Coord(Head);
-}
-*/
+/*
 void snake_game::go_target2(int obj_x,int obj_y)
 {
     int dir;
@@ -466,90 +216,8 @@ void snake_game::go_target2(int obj_x,int obj_y)
     COORDINATE Head=Convert_To_Coordinate(X,Y);
     Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),Head);
     Snake2ListOfCoordinate.pop_back();
-}
+}*/
 
-
-void snake_game::moveRandomlySnake2()
-{
-    int randomdir=rand()%4;
-    int X=Snake2ListOfCoordinate[0].X;
-    int Y=Snake2ListOfCoordinate[0].Y;
-    switch (randomdir)
-    {
-    case 0 : //moving up
-        Y=Y-1;
-        break;
-    case 1: //moving down
-        Y=Y+1;
-        break;
-    case 2: //moving right
-        X=X+1;
-        break;
-    case 3: //moving left
-        X=X-1;
-        break;
-    }
-    COORDINATE Head=Convert_To_Coordinate(X,Y);
-    Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),Head);
-
-};
-
-bool snake_game::is_an_obstacle1(int dir) // dir = 0,1,2 or 3 : it represents the direction in which the snake is trying to go.
-{
-    COORDINATE Head=Convert_To_Coordinate(Snake1ListOfCoordinate[0].X,Snake1ListOfCoordinate[0].Y);
-    switch(dir)
-    {
-    case 0:
-        Head.Y-=1;
-    case 1:
-        Head.Y+=1;
-    case 2:
-        Head.X+=1;
-    case 3:
-        Head.X-=1;
-    case 4:
-        Head=Head;
-
-    }
-
-    if(Head.X<0||Head.X>HEIGHT||Head.Y<0||Head.Y>WIDTH) //Beyond the grid dimensions
-    {
-        return true;
-        std::cout<<"The snake wants to eat the wall"<<std::endl;
-    }
-    for(int i=1;i<Snake1Length-1;i++) //itself
-    {
-        if(Head.X==Snake1ListOfCoordinate[i].X && Head.Y==Snake1ListOfCoordinate[i].Y)
-        {
-            std::cout<<"The snake wants to eat its "<<i<<" body part"<<std::endl;
-            return true;
-        }
-    }
-    for(int i=0;i<Snake2Length-1;i++) //the other snake
-    {
-        if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
-        {
-            std::cout<<"The snake wants to eat the other "<<i<<" body part"<<std::endl;
-            return true;
-        }
-    }
-    return false;
-};
-
-
-
-int snake_game::avoid_obstacles1(int dir) //changes the direction to avoid an obstacle
-{
-    bool surrounded_by_obstacles = is_an_obstacle1(0) && is_an_obstacle1(1) && is_an_obstacle1(2) && is_an_obstacle1(3);
-    if(surrounded_by_obstacles) return true;
-    while(is_an_obstacle1(dir))
-    {
-       std::cout<<"Changing the direction"<<std::endl;
-        dir=rand()%4;
-    }
-    return dir;
-
-};
 
 displayMsg snake_game::updateDisplay(displayMsg display)
 {
@@ -650,7 +318,7 @@ COORDINATE snake_game::EvalPosHead(int X, int Y, int dir)
     return Head;
 }
 
-bool snake_game::isaliveSnake1bis(COORDINATE Head)
+bool snake_game::isaliveSnake1(COORDINATE Head)
 {
   bool state=true;
   if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
@@ -689,7 +357,7 @@ void snake_game::go_target1(int obj_x,int obj_y)
         depla_y=moveY(Y,obj_y,&dir);
     }
     next_Head = EvalPosHead(X,Y,dir);
-    is_alive = isaliveSnake1bis(next_Head);
+    is_alive = isaliveSnake1(next_Head);
     //std::cout<<"alive"<<std::endl;
     //std::cout<<is_alive<<std::endl;
     if (is_alive)
@@ -704,7 +372,7 @@ void snake_game::go_target1(int obj_x,int obj_y)
             depla_y=moveY(Y,obj_y,&dir);
         }
         next_Head = EvalPosHead(X,Y,dir);
-        is_alive = isaliveSnake1bis(next_Head);
+        is_alive = isaliveSnake1(next_Head);
         if (is_alive)
         {
             Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),next_Head);
@@ -716,7 +384,7 @@ void snake_game::go_target1(int obj_x,int obj_y)
             for (int i=0;i<4;i++)
             {
                 next_Head = EvalPosHead(X,Y,i);
-                if (isaliveSnake1bis(next_Head))
+                if (isaliveSnake1(next_Head))
                 {
                     dir_available.push_back(i);
                 }
@@ -728,6 +396,89 @@ void snake_game::go_target1(int obj_x,int obj_y)
             next_Head = EvalPosHead(X,Y,dir);
             Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),next_Head);
             Snake1ListOfCoordinate.pop_back();
+        }
+    }
+}
+
+
+bool snake_game::isaliveSnake2(COORDINATE Head)
+{
+  bool state=true;
+  if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
+  {
+      state=false;
+  }
+  for (int i=1;i<Snake2Length;i++)
+  {
+   if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
+   {
+       state=false;
+   }
+  }
+  for(int i=0;i<Snake1Length;i++)
+  {
+      if(Head.X==Snake1ListOfCoordinate[i].X && Head.Y==Snake1ListOfCoordinate[i].Y)
+      {
+          state=false;
+      }
+  }
+  return state;
+};
+
+void snake_game::go_target2(int obj_x,int obj_y)
+{
+    int dir;
+    int X=Snake2ListOfCoordinate[0].X;
+    int Y=Snake2ListOfCoordinate[0].Y;
+    bool depla_x=false;
+    bool depla_y=false;
+    COORDINATE next_Head;
+    bool is_alive;
+    depla_x=moveX(X,obj_x,&dir);
+    if (!depla_x)
+    {
+        depla_y=moveY(Y,obj_y,&dir);
+    }
+    next_Head = EvalPosHead(X,Y,dir);
+    is_alive = isaliveSnake2(next_Head);
+    //std::cout<<"alive"<<std::endl;
+    //std::cout<<is_alive<<std::endl;
+    if (is_alive)
+    {
+        Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),next_Head);
+        Snake2ListOfCoordinate.pop_back();
+    }
+    else
+    {
+        if (depla_x)
+        {
+            depla_y=moveY(Y,obj_y,&dir);
+        }
+        next_Head = EvalPosHead(X,Y,dir);
+        is_alive = isaliveSnake2(next_Head);
+        if (is_alive)
+        {
+            Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),next_Head);
+            Snake2ListOfCoordinate.pop_back();
+        }
+        else
+        {
+            std::vector<int> dir_available;
+            for (int i=0;i<4;i++)
+            {
+                next_Head = EvalPosHead(X,Y,i);
+                if (isaliveSnake2(next_Head))
+                {
+                    dir_available.push_back(i);
+                }
+            }
+            if (dir_available.size()!=0)
+            {
+                dir=dir_available[rand()%dir_available.size()];
+            }
+            next_Head = EvalPosHead(X,Y,dir);
+            Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),next_Head);
+            Snake2ListOfCoordinate.pop_back();
         }
     }
 }

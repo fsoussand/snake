@@ -17,10 +17,6 @@ struct COORDINATE
     int Y;
 };
 
-
-
-
-
 class snake_game
 {
 public:
@@ -53,26 +49,16 @@ public:
         }
         return Is_in;
     }
-    bool isaliveSnake1(); //By snake1 we mean the snake whose head is located in (x1,y1)
-    bool isaliveSnake2(); //By snake2 we mean the snake whose head is located in (x2,y2)
     void EatfoodSnake1(displayMsg);
     void EatfoodSnake2(displayMsg);
-    void moveRandomlySnake1();
-    void testbouffagepommeSnake1();
-    void suicide_itself();
-    void moveRandomlySnake2();
-    bool eat_itself1(int);
-    bool eat_itself2(int);
     void go_target1(int, int);
     void go_target2(int, int);
-    bool is_an_obstacle1(int);
-    int avoid_obstacles1(int);
-    void avoid_obstacles2();
     bool moveX(int ,int ,int *);
     bool moveY(int ,int ,int *);
     COORDINATE generate_random_apple();
     COORDINATE EvalPosHead(int,int ,int);
-    bool isaliveSnake1bis(COORDINATE);
+    bool isaliveSnake1(COORDINATE);
+    bool isaliveSnake2(COORDINATE);
     displayMsg updateDisplay(displayMsg);
     std::vector<feedbackMsg> updatefeedback(displayMsg);
 
