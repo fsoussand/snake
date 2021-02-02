@@ -43,6 +43,7 @@ public:
     int obj1_y;
     int obj2_x;
     int obj2_y;
+    int closest_apple=0;
     bool obj1_reached=true;
     bool obj2_reached=true;
     bool obj1_already_eaten=false;
