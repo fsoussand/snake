@@ -224,7 +224,6 @@ snake_game snake_IA::move1(int level,snake_game snake){
 
             goal.x=obj1_x;
             goal.y=obj1_y;
-            std::cout<<goal.x<<" "<<goal.y<<std::endl;
 
             path = duels::Astar(start, goal, true);
             duels::GridPoint next_Point=path[1];
