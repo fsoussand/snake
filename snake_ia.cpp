@@ -4,7 +4,10 @@
 #include <iostream>
 #include "include/duels/snake/snake_game.h"
 #include <vector>
-
+#include "include/duels/snake/a_star.h"
+#include "include/duels/snake/vector2d.h"
+#include "include/duels/snake/grid.h"
+#include "include/duels/snake/grid_point.h"
 
 snake_IA::snake_IA()
 {

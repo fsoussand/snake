@@ -315,15 +315,11 @@ bool snake_game::eat_itself2(int dir)
     Print_Coord(Head);
     std::cout<<"Pomme objectif"<<std::endl;
     Print_Coord(Appleslist[0]);
-<<<<<<< HEAD
+
 }
 /*
-void snake_game::go_target1(int obj_x,int obj_y)
-=======
-}*/
-
 void snake_game::go_target1(int obj_x,int obj_y) //the snake will go toward the coordinates (obj_x, obj_y)
->>>>>>> db0de7b89bed84e3359d0634b527ec407f208e8f
+
 {
     int dir;
     int X=Snake1ListOfCoordinate[0].X;
