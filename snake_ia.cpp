@@ -4,6 +4,7 @@
 #include <iostream>
 #include "include/duels/snake/snake_game.h"
 #include <vector>
+
 #include "grid_point.h"
 #include <duels/utils/rand_utils.h>
 #include <map>
@@ -158,7 +159,6 @@ snake_game snake_IA::move1(int level,snake_game snake){
         const int rows(HEIGHT);
         const int cols(WIDTH);
 
-
         duels::Grid grid(rows, cols);
         int X=snake.Snake1ListOfCoordinate[0].X;
         int Y=snake.Snake1ListOfCoordinate[0].Y;
@@ -173,7 +173,7 @@ snake_game snake_IA::move1(int level,snake_game snake){
             {
                 duels::GridPoint Point(i,j);
                 COORDINATE Coor=snake.Convert_To_Coordinate(i,j);
-                if(snake.isaliveSnake1bis(Coor))
+                if(snake.isaliveSnake1(Coor))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
 
