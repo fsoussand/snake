@@ -18,14 +18,21 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
 {
 
     srand(time(NULL));
-    display.x1=rand()%80; //Generates the head of the first snake
-    display.y1=rand()%40;
-    display.x2=rand()%80; //Generates the head of the second snake
-    display.y2=rand()%40;
-    for(int i=0;i<10;i++) //Generates the apples
+
+    display.x1=rand()%WIDTH;
+    display.y1=rand()%HEIGHT;
+    display.x2=rand()%WIDTH;
+    display.y2=rand()%HEIGHT;
+    for(int i=0;i<20;i++)
     {
-        display.x[i]=rand()%80;
-        display.y[i]=rand()%40;
+
+        display.x[i]=rand()%WIDTH;
+        display.y[i]=rand()%HEIGHT;
+        while(display.x[i]>WIDTH-15 && display.y[i]<5)
+        {
+            display.x[i]=rand()%WIDTH;
+            display.y[i]=rand()%HEIGHT;
+        }
         this->Appleslist.push_back(Convert_To_Coordinate(display.x[i],display.y[i]));
     }
 
@@ -35,13 +42,42 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
     this->Snake2ListOfCoordinate.push_back(Convert_To_Coordinate(display.x2,display.y2));
 }
 
+COORDINATE snake_game::generate_random_apple()
+{
+    COORDINATE new_apple;
+    new_apple.X=rand()%WIDTH;
+    new_apple.Y=rand()%HEIGHT;
+    while(new_apple.X>WIDTH-15 && new_apple.Y<5)
+    {
+        new_apple.X=rand()%WIDTH;
+        new_apple.Y=rand()%HEIGHT;
+    }
+    for(int i=0;i<Snake1Length-1;i++)
+    {
 
+            while(new_apple.X==Snake1ListOfCoordinate[i].X && new_apple.Y==Snake1ListOfCoordinate[i].Y)
+    {
+        new_apple.X=rand()%WIDTH;
+        new_apple.Y=rand()%HEIGHT;
+    }
+    }
+    for(int i=0;i<Snake2Length-1;i++)
+    {
+
+            while(new_apple.X==Snake2ListOfCoordinate[i].X && new_apple.Y==Snake2ListOfCoordinate[i].Y)
+    {
+        new_apple.X=rand()%WIDTH;
+        new_apple.Y=rand()%HEIGHT;
+    }
+    }
+    return new_apple;
+}
 
 bool snake_game::isaliveSnake1() //return true if the snake 1 is still alive
 {
   int X=Snake1ListOfCoordinate[0].X;
   int Y=Snake1ListOfCoordinate[0].Y;
-  if(X<0||Y<0||X>80||Y>40) //Checks if the snake is beyond the window borders
+  if(X<0||Y<0||X>WIDTH||Y>HEIGHT)
   {
       return false;
   }
@@ -67,7 +103,7 @@ bool snake_game::isaliveSnake2() //same function, but with the second snake
 {
     int X=Snake2ListOfCoordinate[0].X;
     int Y=Snake2ListOfCoordinate[0].Y;
-    if(X<0||Y<0||X>80||Y>40)
+    if(X<0||Y<0||X>WIDTH||Y>HEIGHT)
     {
         return false;
     }
@@ -116,11 +152,9 @@ void snake_game::EatfoodSnake1(displayMsg display) //THe function that deals wit
             {
                 Print_Coord(Snake1ListOfCoordinate[i]);
             }
-            int new_x=rand()%80;
-            int new_y=rand()%40;
-            COORDINATE new_pomme;
-            new_pomme = Convert_To_Coordinate(new_x,new_y);
-            Appleslist.push_back(new_pomme); //We add a new apple to the list
+            COORDINATE new_apple=generate_random_apple();
+            Appleslist.push_back(new_apple);
+
             int pos;
             for (int i=0;i<Appleslist.size();i++)
             {
@@ -162,11 +196,8 @@ void snake_game::EatfoodSnake2(displayMsg display)
             {
                 Print_Coord(Snake2ListOfCoordinate[i]);
             }
-            int new_x=rand()%80;
-            int new_y=rand()%40;
-            COORDINATE new_pomme;
-            new_pomme = Convert_To_Coordinate(new_x,new_y);
-            Appleslist.push_back(new_pomme);
+            COORDINATE new_apple=generate_random_apple();
+            Appleslist.push_back(new_apple);
             int pos;
             for (int i=0;i<Appleslist.size();i++)
             {
@@ -480,7 +511,7 @@ bool snake_game::is_an_obstacle1(int dir) // dir = 0,1,2 or 3 : it represents th
 
     }
 
-    if(Head.X<0||Head.X>40||Head.Y<0||Head.Y>80) //Beyond the grid dimensions
+    if(Head.X<0||Head.X>HEIGHT||Head.Y<0||Head.Y>WIDTH) //Beyond the grid dimensions
     {
         return true;
         std::cout<<"The snake wants to eat the wall"<<std::endl;
@@ -621,7 +652,7 @@ COORDINATE snake_game::EvalPosHead(int X, int Y, int dir)
 bool snake_game::isaliveSnake1bis(COORDINATE Head)
 {
   bool state=true;
-  if(Head.X<0||Head.Y<0||Head.X>80||Head.Y>40)
+  if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
   {
       state=false;
   }
@@ -658,8 +689,8 @@ void snake_game::go_target1(int obj_x,int obj_y)
     }
     next_Head = EvalPosHead(X,Y,dir);
     is_alive = isaliveSnake1bis(next_Head);
-    std::cout<<"alive"<<std::endl;
-    std::cout<<is_alive<<std::endl;
+    //std::cout<<"alive"<<std::endl;
+    //std::cout<<is_alive<<std::endl;
     if (is_alive)
     {
         Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),next_Head);

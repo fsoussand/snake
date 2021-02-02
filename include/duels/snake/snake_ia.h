@@ -3,8 +3,7 @@
 #include "snake_game.h"
 #include <vector>
 
-const int HEIGHT=40;
-const int WIDTH=80;
+
 
 typedef struct _node
 {
@@ -48,8 +47,6 @@ public:
     bool obj2_reached=true;
     bool obj1_already_eaten=false;
     bool obj2_already_eaten=false;
-    aStarFindPath aStar_AISnake;
-    bool firstSearch=true;
 };
 
 
