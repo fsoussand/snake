@@ -162,9 +162,9 @@ snake_game snake_IA::move1(int level,snake_game snake){
         duels::Grid grid(rows, cols);
         int X=snake.Snake1ListOfCoordinate[0].X;
         int Y=snake.Snake1ListOfCoordinate[0].Y;
-        int closest_apple=0;
         std::vector<duels::GridPoint> path;
         duels::GridPoint start(X,Y);
+        duels::GridPoint goal;
 
 
         for(int i = 0; i < cols; i++) //This will be used to construct the grid
@@ -196,15 +196,16 @@ snake_game snake_IA::move1(int level,snake_game snake){
                 {
                     distmin=dist;
                     closest_apple=i;
-                    std::cout<<"Objective is "<<i<<std::endl;
+
                 }
 
             }
+            obj1_x = snake.Appleslist[closest_apple].X;
+            obj1_y = snake.Appleslist[closest_apple].Y;
+            obj1_already_eaten=false;
         }
-        obj1_already_eaten=false;
-        obj1_x = snake.Appleslist[closest_apple].X;
-        obj1_y = snake.Appleslist[closest_apple].Y;
-        duels::GridPoint goal(snake.Appleslist[closest_apple].X, snake.Appleslist[closest_apple].Y);
+
+
         duels::GridPoint::configure(grid, true);
 
 
@@ -220,6 +221,10 @@ snake_game snake_IA::move1(int level,snake_game snake){
                 obj1_already_eaten=true;
             }
             obj1_reached=false;
+
+            goal.x=obj1_x;
+            goal.y=obj1_y;
+            std::cout<<goal.x<<" "<<goal.y<<std::endl;
 
             path = duels::Astar(start, goal, true);
             duels::GridPoint next_Point=path[1];
