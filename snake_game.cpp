@@ -5,6 +5,7 @@
 #include<stdlib.h>
 #include <vector>
 
+
 #include <duels/local.h>
 
 using duels::Player;
