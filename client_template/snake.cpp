@@ -9,11 +9,8 @@ using namespace duels::snake;
 
 int main()
 {
-<<<<<<< HEAD
   Game game("snake",1);
-=======
-  Game game;
->>>>>>> trial
+
 
   inputMsg input;
   feedbackMsg feedback;

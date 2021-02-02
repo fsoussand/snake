@@ -348,7 +348,7 @@ bool snake_game::eat_itself2(int dir)
     Print_Coord(Appleslist[0]);
 
 }
-/*
+
 void snake_game::go_target1(int obj_x,int obj_y) //the snake will go toward the coordinates (obj_x, obj_y)
 
 {

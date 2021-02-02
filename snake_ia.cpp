@@ -155,7 +155,6 @@ snake_game snake_IA::move1(int level,snake_game snake){
     case 3:
     {
 
-
     }
     }
 
