@@ -56,9 +56,9 @@ snake_IA snakeIA(3,snake);
   while(true)
   {
     // check if any regular winner
-    if(!snake.isaliveSnake1()||!snake.isaliveSnake2())
+    if(!snake.isaliveSnake1bis()||!snake.isaliveSnake2bis())
     {
-      if(!snake.isaliveSnake1()){
+      if(!snake.isaliveSnake1bis()){
           game_io.registerVictory(Player::One, feedback1, feedback2);
           game_io.sendDisplay(display,2);
       }

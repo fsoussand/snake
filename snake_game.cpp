@@ -483,3 +483,52 @@ void snake_game::go_target2(int obj_x,int obj_y)
     }
 }
 
+bool snake_game::isaliveSnake1bis()
+{
+    COORDINATE Head=Snake1ListOfCoordinate[0];
+  bool state=true;
+  if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
+  {
+      state=false;
+  }
+  for (int i=0;i<Snake2Length;i++)
+  {
+   if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
+   {
+       state=false;
+   }
+  }
+  for(int i=1;i<Snake1Length-1;i++)
+  {
+      if(Head.X==Snake1ListOfCoordinate[i].X && Head.Y==Snake1ListOfCoordinate[i].Y)
+      {
+          state=false;
+      }
+  }
+  return state;
+};
+
+bool snake_game::isaliveSnake2bis()
+{
+    COORDINATE Head=Snake2ListOfCoordinate[0];
+  bool state=true;
+  if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
+  {
+      state=false;
+  }
+  for (int i=1;i<Snake2Length-1;i++)
+  {
+   if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
+   {
+       state=false;
+   }
+  }
+  for(int i=0;i<Snake1Length-1;i++)
+  {
+      if(Head.X==Snake1ListOfCoordinate[i].X && Head.Y==Snake1ListOfCoordinate[i].Y)
+      {
+          state=false;
+      }
+  }
+  return state;
+};

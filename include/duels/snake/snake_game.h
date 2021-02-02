@@ -59,6 +59,8 @@ public:
     COORDINATE EvalPosHead(int,int ,int);
     bool isaliveSnake1(COORDINATE);
     bool isaliveSnake2(COORDINATE);
+    bool isaliveSnake1bis();
+    bool isaliveSnake2bis();
     displayMsg updateDisplay(displayMsg);
     std::vector<feedbackMsg> updatefeedback(displayMsg);
 
