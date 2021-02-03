@@ -31,12 +31,13 @@ public:
         Coor.Y=y;
         return Coor;
     }
-    COORDINATE Print_Coord(COORDINATE coor)
+    void Print_Coord(COORDINATE coor)
     {
         int x=coor.X;
         int y=coor.Y;
         std::cout<<"("<<x<<","<<y<<")"<<std::endl;
     }
+
     bool Test_Coord_in_List(COORDINATE coor,std::vector<COORDINATE> list)
     {
         bool Is_in=false;
@@ -49,8 +50,8 @@ public:
         }
         return Is_in;
     }
-    void EatfoodSnake1(displayMsg);
-    void EatfoodSnake2(displayMsg);
+    void EatfoodSnake1();
+    void EatfoodSnake2();
     void go_target1(int, int);
     void go_target2(int, int);
     bool moveX(int ,int ,int *);
