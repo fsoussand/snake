@@ -15,7 +15,7 @@ public:
 private:
   Game(std::string name, int difficulty, std::string ip)
       : duels::Client<inputMsg, feedbackMsg>(
-      25, name, difficulty, ip, "snake") {}
+      100, name, difficulty, ip, "snake") {}
 };
 }
 }

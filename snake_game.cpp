@@ -76,6 +76,10 @@ COORDINATE snake_game::generate_random_apple()
 
 void snake_game::EatfoodSnake1(displayMsg display) //THe function that deals with the snake eating an apple
 {
+    std::cout<<"avant eat"<<std::endl;
+
+    Print_Coord(Snake1ListOfCoordinate[0]);
+
     int dx_back=0;
     int dy_back=0;
     for (int i=0;i<Appleslist.size();i++)
@@ -116,6 +120,10 @@ void snake_game::EatfoodSnake1(displayMsg display) //THe function that deals wit
             Appleslist.erase(Appleslist.begin()+pos); //We erase from the list the apple that was eaten
         }
     }
+    std::cout<<"apres eat"<<std::endl;
+
+    Print_Coord(Snake1ListOfCoordinate[0]);
+
 }
 
 void snake_game::EatfoodSnake2(displayMsg display)
@@ -161,63 +169,6 @@ void snake_game::EatfoodSnake2(displayMsg display)
     }
 
 };
-/*
-void snake_game::go_target2(int obj_x,int obj_y)
-{
-    int dir;
-    int X=Snake2ListOfCoordinate[0].X;
-    int Y=Snake2ListOfCoordinate[0].Y;
-    if (X==obj_x && Y==obj_y)
-    {
-        dir=random()%4;
-        while(snake_game::eat_itself2(dir))
-        {
-            dir=random()%4;
-        }
-    }
-
-    if (X != obj_x)
-    {
-        if (X - obj_x <0)
-        {
-            dir=2;
-        }
-        else
-        {
-            dir=3;
-        }
-    }
-    else
-    {
-        if (Y - obj_y <0)
-        {
-            dir=1;
-        }
-        else
-        {
-            dir=0;
-        }
-    }
-    switch (dir)
-    {
-    case 0 : //moving up
-        Y=Y-1;
-        break;
-    case 1: //moving down
-        Y=Y+1;
-        break;
-    case 2: //moving right
-        X=X+1;
-        break;
-    case 3: //moving left
-        X=X-1;
-        break;
-    }
-    COORDINATE Head=Convert_To_Coordinate(X,Y);
-    Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),Head);
-    Snake2ListOfCoordinate.pop_back();
-}*/
-
 
 displayMsg snake_game::updateDisplay(displayMsg display)
 {
@@ -486,31 +437,31 @@ void snake_game::go_target2(int obj_x,int obj_y)
 bool snake_game::isaliveSnake1bis()
 {
     COORDINATE Head=Snake1ListOfCoordinate[0];
-  bool state=true;
-  if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
-  {
-      state=false;
-  }
-  for (int i=0;i<Snake2Length;i++)
-  {
-   if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
-   {
-       state=false;
-   }
-  }
-  for(int i=1;i<Snake1Length-1;i++)
-  {
-      if(Head.X==Snake1ListOfCoordinate[i].X && Head.Y==Snake1ListOfCoordinate[i].Y)
-      {
-          state=false;
-      }
-  }
-  return state;
+    bool state=true;
+    if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
+    {
+        state=false;
+    }
+    for (int i=0;i<Snake2Length;i++)
+    {
+        if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
+        {
+            state=false;
+        }
+    }
+    for(int i=1;i<Snake1Length-1;i++)
+        {
+            if(Head.X==Snake1ListOfCoordinate[i].X && Head.Y==Snake1ListOfCoordinate[i].Y)
+            {
+                state=false;
+            }
+        }
+    return state;
 };
 
 bool snake_game::isaliveSnake2bis()
 {
-    COORDINATE Head=Snake2ListOfCoordinate[0];
+  COORDINATE Head=Snake2ListOfCoordinate[0];
   bool state=true;
   if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
   {
