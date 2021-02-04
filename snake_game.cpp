@@ -19,17 +19,26 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
 {
 
     srand(time(NULL));
-
     display.x1=rand()%WIDTH;
     display.y1=rand()%HEIGHT;
+    while (display.x1>=WIDTH-15 && display.y1<5)
+    {
+        display.x1=rand()%WIDTH;
+        display.y1=rand()%HEIGHT;
+    }
     display.x2=rand()%WIDTH;
     display.y2=rand()%HEIGHT;
+    while (display.x2>=WIDTH-15 && display.y2<5)
+    {
+        display.x2=rand()%WIDTH;
+        display.y2=rand()%HEIGHT;
+    }
     for(int i=0;i<20;i++)
     {
 
         display.x[i]=rand()%WIDTH;
         display.y[i]=rand()%HEIGHT;
-        while(display.x[i]>WIDTH-15 && display.y[i]<5)
+        while(display.x[i]>=WIDTH-15 && display.y[i]<5)
         {
             display.x[i]=rand()%WIDTH;
             display.y[i]=rand()%HEIGHT;
@@ -48,7 +57,7 @@ COORDINATE snake_game::generate_random_apple()
     COORDINATE new_apple;
     new_apple.X=rand()%WIDTH;
     new_apple.Y=rand()%HEIGHT;
-    while(new_apple.X>WIDTH-15 && new_apple.Y<5)
+    while(new_apple.X>=WIDTH-15 && new_apple.Y<5)
     {
         new_apple.X=rand()%WIDTH;
         new_apple.Y=rand()%HEIGHT;
@@ -248,6 +257,10 @@ bool snake_game::isaliveSnake1(COORDINATE Head)
   {
       state=false;
   }
+  if(Head.X>=WIDTH-15&&Head.Y<5)
+  {
+      state=false;
+  }
   for (int i=0;i<Snake2Length;i++)
   {
    if(Head.X==Snake2ListOfCoordinate[i].X && Head.Y==Snake2ListOfCoordinate[i].Y)
@@ -328,6 +341,10 @@ bool snake_game::isaliveSnake2(COORDINATE Head)
 {
   bool state=true;
   if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH-1)
+  {
+      state=false;
+  }
+  if(Head.X>=WIDTH-15&&Head.Y<5)
   {
       state=false;
   }
