@@ -95,7 +95,8 @@ snake_IA snakeIA(3,snake);
     snake.EatfoodSnake1();
     snake.EatfoodSnake2();
     snake=snakeIA.move1(4,snake);
-    snake=snakeIA.move2(2,snake);
+
+    snake=snakeIA.move2(3,snake);
     display=snake.updateDisplay(display);
 
     game_io.sendDisplay(display);
