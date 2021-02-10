@@ -2,6 +2,7 @@
 #define SNAKE_MSG_H
 #include <sstream>
 #include <duels/game_state.h>
+
 namespace duels {
 namespace snake {
 struct initMsg

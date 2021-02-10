@@ -31,6 +31,6 @@ install(FILES snake_gui.py DESTINATION bin
         
 # client headers and templates
 
-install(FILES include/duels/snake/game.h include/duels/snake/msg.h include/duels/snake/snake_game include/duels/snake/snake_ia.h include/duels/snake/a_star.h include/duels/snake/grid.h include/duels/snake/grid_point.h include/duels/snake/vector2d.h DESTINATION include/duels/snake)
+install(FILES include/duels/snake/game.h include/duels/snake/msg.h include/duels/snake/snake_game include/duels/snake/snake_ia.h include/duels/snake/a_star.h include/duels/snake/grid.h include/duels/snake/grid_point.h include/duels/snake/vector2d.h include/duels/snake/Coordinate.h DESTINATION include/duels/snake)
 install(FILES client_template/CMakeLists.txt DESTINATION games/snake)
 install(FILES client_template/snake.cpp DESTINATION games/snake )

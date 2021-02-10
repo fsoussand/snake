@@ -1,7 +1,7 @@
 #define LOCAL_GAME  // to test the game AI with a dumb player AI
 
 #include <duels/snake/msg.h>
-#include<duels/snake/snake_game.h>
+#include <duels/snake/snake_game.h>
 #include <duels/snake/snake_ia.h>
 #ifdef LOCAL_GAME
 #include <duels/local.h>
@@ -35,16 +35,15 @@ int main(int argc, char** argv)
   // build init message for display
 
   snake_game snake(display);
-  display=snake.updateDisplay(display);
+  snake_IA snake1=snake_IA();
+  snake_IA snake2=snake_IA();
+  display=snake.updateDisplay(display,snake1,snake2);
   game_io.sendDisplay(display);
 
 #ifdef LOCAL_GAME
   game_io.initDisplay(init, "snake"); // add false at the end if you run the display in another terminal
   game_io.setLevel(1);
   game_io.sendDisplay(display);
-
-
-snake_IA snakeIA(3,snake);
 
 
 #else
@@ -56,9 +55,9 @@ snake_IA snakeIA(3,snake);
   while(true)
   {
     // check if any regular winner
-    if(!snake.isaliveSnake1bis()||!snake.isaliveSnake2bis())
+    if(!snake1.isaliveSnakebis(snake2)||!snake2.isaliveSnakebis(snake1))
     {
-      if(!snake.isaliveSnake1bis()){
+      if(!snake1.isaliveSnakebis(snake2)){
           game_io.registerVictory(Player::One, feedback1, feedback2);
           game_io.sendDisplay(display,2);
       }
@@ -96,21 +95,28 @@ snake_IA snakeIA(3,snake);
     display=snake.updateDisplay(display);
     std::cout<<"display envoyé a python"<<std::endl;
     snake.Print_Coord(snake.Convert_To_Coordinate(display.x1,display.y1));
-    game_io.sendDisplay(display);*/
+    game_io.sendDisplay(display);
     snake.EatfoodSnake1();
     snake.EatfoodSnake2();
     snake=snakeIA.move1(3,snake);
     snake=snakeIA.move2(3,snake);
     display=snake.updateDisplay(display);
 
-    game_io.sendDisplay(display);
+    game_io.sendDisplay(display);*/
 
 
 
 #endif
 
       // artificial opponent: put your AI here
+    snake.EatfoodSnake(snake1,snake2,feedback1);
+    snake.EatfoodSnake(snake2,snake1,feedback2);
+    snake1.move(3,feedback1,snake2);
+    snake2.move(3,feedback2,snake1);
 
+    display=snake.updateDisplay(display,snake1,snake2);
+
+    game_io.sendDisplay(display);
 
 #ifndef LOCAL_GAME
     }

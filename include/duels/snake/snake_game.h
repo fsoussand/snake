@@ -1,9 +1,14 @@
 #ifndef SNAKE_GAME_H
 #define SNAKE_GAME_H
 
+#include "snake_ia.h"
+
 #include <duels/snake/msg.h>
 #include <vector>
 #include<duels/utils/vector2d.h>
+
+
+
 
 const int HEIGHT=40;
 const int WIDTH=40;
@@ -11,12 +16,7 @@ const int WIDTH=40;
 using namespace duels;
 using namespace duels::snake;
 
-struct COORDINATE
-{
-    int X;
-    int Y;
-};
-
+/*anceienne version a supp des qu'on a modif ca bien
 class snake_game
 {
 public:
@@ -71,6 +71,24 @@ public:
     std::vector <COORDINATE> Snake2ListOfCoordinate;
     std::vector <COORDINATE> Appleslist;
 
+};*/
+
+class snake_game
+{
+public:
+    snake_game();
+    snake_game(displayMsg);
+
+    displayMsg Create_display();
+
+    void EatfoodSnake(snake_IA,snake_IA,feedbackMsg);
+    COORDINATE generate_random_apple(snake_IA,snake_IA);
+    displayMsg updateDisplay(displayMsg,snake_IA,snake_IA);
+    std::vector<feedbackMsg> updatefeedback(displayMsg);
+
+    std::vector <COORDINATE> Appleslist;
+
 };
 
 #endif // SNAKE_GAME_H
+
