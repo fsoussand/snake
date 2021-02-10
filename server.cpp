@@ -122,6 +122,7 @@ int main(int argc, char** argv)
 
     game_io.sendDisplay(display);
 
+
 #ifndef LOCAL_GAME
     }
 #endif

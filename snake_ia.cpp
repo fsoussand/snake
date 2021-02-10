@@ -31,7 +31,7 @@ snake_IA::snake_IA(int Level, snake_game snake){
     case 4:
         std::cout<<"IA-level 4: A* measures the distances<<std::endl;
 
-    };*/
+    };
 }
 
 snake_game snake_IA::move1(int level,snake_game snake){
