@@ -90,15 +90,19 @@ int main(int argc, char** argv)
 #else
       // write dumb player AI from feedback1 to input1
 
+
     /* partie Lucas pour mangeage correct
     snake.testbouffagepommeSnake1();
     display=snake.updateDisplay(display);
     std::cout<<"display envoyé a python"<<std::endl;
     snake.Print_Coord(snake.Convert_To_Coordinate(display.x1,display.y1));
     game_io.sendDisplay(display);
+
+
     snake.EatfoodSnake1();
     snake.EatfoodSnake2();
-    snake=snakeIA.move1(3,snake);
+    snake=snakeIA.move1(4,snake);
+
     snake=snakeIA.move2(3,snake);
     display=snake.updateDisplay(display);
 
