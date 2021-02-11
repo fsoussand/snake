@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include "include/duels/snake/snake_game.h"
-#include "include/duels/snake/Coordinate.h"
 #include <vector>
 
 #include "grid_point.h"
@@ -654,7 +653,31 @@ snake_IA::snake_IA()
 {
 }
 
-snake_IA::snake_IA(int Level,displayMsg display){
+snake_IA::snake_IA(int Level,displayMsg display,int snake_number){ //snake number is either 1 or 2, it represents which snake we're playing with
+    SnakeNumber=snake_number;
+    switch (snake_number) {
+    case 1:
+    {
+    switch(Level)
+    case 0:
+    {
+        std::cout<<"IA-level 0: moving randomly"<<std::endl;
+        break;
+    case 1:
+        std::cout<<"IA-level 1 : eating a random apple"<<std::endl;
+        break;
+    case 2:
+        std::cout<<"IA-level 2 : eating the closest apple"<<std::endl;
+        break;
+    case 3:
+        std::cout<<"IA-level 3: using A*"<<std::endl;
+    };
+    SnakeLength=1;
+    SnakeListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
+        break;
+    }
+    case 2:
+    {
     switch(Level)
     {
     case 0:
@@ -671,10 +694,16 @@ snake_IA::snake_IA(int Level,displayMsg display){
     };
     SnakeLength=1;
     SnakeListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
+        break;
+    }
+
+    }
+
+
 
 }
 
-void snake_IA::move(int level,feedbackMsg msg,snake_IA other){
+inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
     std::vector <COORDINATE> Appleslist;
     for (int i=0;i<20;i++)
     {
@@ -685,35 +714,28 @@ void snake_IA::move(int level,feedbackMsg msg,snake_IA other){
     case 0:
     {
         int randomdir=rand()%4;
-        int X=SnakeListOfCoordinate[0].X;
-        int Y=SnakeListOfCoordinate[0].Y;
-        switch (randomdir)
-        {
-        case 0 : //moving down
-            Y=Y-1;
-            break;
-        case 1: //moving up
-            Y=Y+1;
-            break;
-        case 2: //moving right
-            X=X+1;
-            break;
-        case 3: //moving left
-            X=X-1;
-            break;
-        };
-        COORDINATE Head=Convert_To_Coordinate(X,Y);
-        SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),Head);
+        inputMsg input;
+        input.dir=randomdir;
+        return input;
         break;
     }
     case 1:
     {
+        inputMsg input;
         int randomdir=rand()%4;
         int randomapple=rand()%Appleslist.size();
-        int X=SnakeListOfCoordinate[0].X;
-        int Y=SnakeListOfCoordinate[0].Y;
+        int X=msg.x1;
+        int Y=msg.y1;
+        if(obj_reached)
+        {
         obj_x = Appleslist[randomapple].X;
         obj_y = Appleslist[randomapple].Y;
+        obj_reached=false;
+        }
+        if(X==obj_x && Y==obj_y)
+        {
+            obj_reached=true;
+        }
         if (X != obj_x)
         {
             if (X - obj_x <0)
@@ -736,23 +758,8 @@ void snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 randomdir=0;
             }
         }
-        switch (randomdir)
-        {
-        case 0 : //moving up
-            Y=Y-1;
-            break;
-        case 1: //moving down
-            Y=Y+1;
-            break;
-        case 2: //moving right
-            X=X+1;
-            break;
-        case 3: //moving left
-            X=X-1;
-            break;
-        }
-        COORDINATE Head=Convert_To_Coordinate(X,Y);
-        SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),Head);
+       input.dir=randomdir;
+       return input;
         break;
     }
     case 2:
@@ -775,6 +782,7 @@ void snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             }
             obj_x = Appleslist[closest_apple].X;
             obj_y = Appleslist[closest_apple].Y;
+            std::cout<<obj_x<<" "<<obj_y<<std::endl;
             obj_already_eaten=false;
 
         }
@@ -793,13 +801,15 @@ void snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 move(2,msg,other);
             }
             else
-            {
+            {   
                 go_target(obj_x,obj_y,other);
             }
         }
         //std::cout<<"objectif"<<std::endl;
         //snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));
         break;
+
+
     }
     case 3:
     {
