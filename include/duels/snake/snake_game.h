@@ -16,7 +16,6 @@ const int WIDTH=40;
 using namespace duels;
 using namespace duels::snake;
 
-/*anceienne version a supp des qu'on a modif ca bien
 class snake_game
 {
 public:
@@ -64,6 +63,8 @@ public:
     bool isaliveSnake2bis();
     displayMsg updateDisplay(displayMsg);
     std::vector<feedbackMsg> updatefeedback(displayMsg);
+    std::vector<feedbackMsg> constructFeedback(feedbackMsg,feedbackMsg);
+    void UpdateGame(inputMsg,inputMsg);
 
     int Snake1Length;
     std::vector<COORDINATE> Snake1ListOfCoordinate;
@@ -71,7 +72,9 @@ public:
     std::vector <COORDINATE> Snake2ListOfCoordinate;
     std::vector <COORDINATE> Appleslist;
 
-};*/
+};
+
+/*
 
 class snake_game
 {
@@ -81,14 +84,22 @@ public:
 
     displayMsg Create_display();
 
+    void EatfoodSnake1();
+    void EatfoodSnake2();
+
     void EatfoodSnake(snake_IA,snake_IA,feedbackMsg);
     COORDINATE generate_random_apple(snake_IA,snake_IA);
-    displayMsg updateDisplay(displayMsg,snake_IA,snake_IA);
+    displayMsg updateDisplay(displayMsg,snake_game);
     std::vector<feedbackMsg> updatefeedback(displayMsg);
 
+    int Snake1Length;
+    std::vector<COORDINATE> Snake1ListOfCoordinate;
+    int Snake2Length;
+    std::vector <COORDINATE> Snake2ListOfCoordinate;
     std::vector <COORDINATE> Appleslist;
 
-};
+
+};*/
 
 #endif // SNAKE_GAME_H
 

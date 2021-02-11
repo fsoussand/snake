@@ -14,7 +14,7 @@ using namespace duels::snake;
 snake_game::snake_game(){
 
 }
-/*a suppr une fois reussi avec tout ce bordel
+
 snake_game::snake_game(displayMsg display) //constructor of snake_game : creates the display of the two snakes and the apples
 {
 
@@ -82,6 +82,8 @@ COORDINATE snake_game::generate_random_apple()
     }
     return new_apple;
 }
+
+
 
 void snake_game::EatfoodSnake1() //THe function that deals with the snake eating an apple
 {
@@ -191,6 +193,48 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
 
 }
 
+void snake_game::UpdateGame(inputMsg input1,inputMsg input2)
+{
+    int X1=Snake1ListOfCoordinate[0].X;
+    int Y1=Snake1ListOfCoordinate[0].Y;
+    int X2=Snake2ListOfCoordinate[0].X;
+    int Y2=Snake2ListOfCoordinate[0].Y;
+  switch(input1.dir)
+  {
+  case 0 : //moving up
+      Y1=Y1-1;
+      break;
+  case 1: //moving down
+      Y1=Y1+1;
+      break;
+  case 2: //moving right
+      X1=X1+1;
+      break;
+  case 3: //moving left
+      X1=X1-1;
+      break;
+  }
+  switch(input2.dir)
+  {
+  case 0 : //moving up
+      Y2=Y2-1;
+      break;
+  case 1: //moving down
+      Y2=Y2+1;
+      break;
+  case 2: //moving right
+      X2=X2+1;
+      break;
+  case 3: //moving left
+      X2=X2-1;
+      break;
+  }
+  COORDINATE Head1=Convert_To_Coordinate(X1,Y1);
+  Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head1);
+  COORDINATE Head2=Convert_To_Coordinate(X2,Y2);
+  Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),Head2);
+}
+
 bool snake_game::moveX(int X,int obj_x, int *dir)
 {
     bool move=false;
@@ -249,6 +293,7 @@ COORDINATE snake_game::EvalPosHead(int X, int Y, int dir)
     Head = Convert_To_Coordinate(pos_x,pos_y);
     return Head;
 }
+
 
 bool snake_game::isaliveSnake1(COORDINATE Head)
 {
@@ -471,38 +516,37 @@ bool snake_game::isaliveSnake2bis()
       }
   }
   return state;
-};*/
+};
 
-snake_game::snake_game(displayMsg display) //constructor of snake_game : creates the display of the two snakes and the apples
+std::vector<feedbackMsg> snake_game::constructFeedback(feedbackMsg msg1, feedbackMsg msg2)
 {
+ for (int i=0;i<Appleslist.size();i++)
+ {
+     msg1.x[i]=Appleslist[i].X;
+     msg1.y[i]=Appleslist[i].Y;
+     msg2.x[i]=Appleslist[i].X;
+     msg2.y[i]=Appleslist[i].Y;
+ }
 
-    srand(time(NULL));
-    display.x1=rand()%WIDTH;
-    display.y1=rand()%HEIGHT;
-    while (display.x1>=WIDTH-15 && display.y1<5)
-    {
-        display.x1=rand()%WIDTH;
-        display.y1=rand()%HEIGHT;
-    }
-    display.x2=rand()%WIDTH;
-    display.y2=rand()%HEIGHT;
-    while (display.x2>=WIDTH-15 && display.y2<5)
-    {
-        display.x2=rand()%WIDTH;
-        display.y2=rand()%HEIGHT;
-    }
-    for(int i=0;i<20;i++)
-    {
+ msg1.x1=Snake1ListOfCoordinate[0].X;
+ msg1.y1=Snake1ListOfCoordinate[0].Y;
+ msg1.x2=Snake2ListOfCoordinate[0].X;
+ msg1.y2=Snake2ListOfCoordinate[0].Y;
 
-        display.x[i]=rand()%WIDTH;
-        display.y[i]=rand()%HEIGHT;
-        while(display.x[i]>=WIDTH-15 && display.y[i]<5)
-        {
-            display.x[i]=rand()%WIDTH;
-            display.y[i]=rand()%HEIGHT;
-        }
-    }
+ msg2.x1=Snake2ListOfCoordinate[0].X;
+ msg2.y1=Snake2ListOfCoordinate[0].Y;
+ msg2.x2=Snake1ListOfCoordinate[0].X;
+ msg2.y2=Snake1ListOfCoordinate[0].Y;
+
+ std::vector<feedbackMsg> FB;
+ FB.push_back(msg1);
+ FB.push_back(msg2);
+ return FB;
+
 }
+
+
+/*
 
 COORDINATE snake_game::generate_random_apple(snake_IA snake1, snake_IA snake2)
 {
@@ -569,12 +613,13 @@ void snake_game::EatfoodSnake(snake_IA snake,snake_IA other, feedbackMsg msg) //
     }
 }
 
-displayMsg snake_game::updateDisplay(displayMsg display,snake_IA snake1, snake_IA snake2)
+displayMsg snake_game::updateDisplay(displayMsg display,snake_game snake)
 {
-    display.x1=snake1.SnakeListOfCoordinate[0].X;
-    display.y1=snake1.SnakeListOfCoordinate[0].Y;
-    display.x2=snake2.SnakeListOfCoordinate[0].X;
-    display.y2=snake2.SnakeListOfCoordinate[0].Y;
+
+    display.x1=snake.Snake1ListOfCoordinate[0].X;
+    display.y1=snake.Snake1ListOfCoordinate[0].Y;
+    display.x2=snake.Snake2ListOfCoordinate[0].X;
+    display.y2=snake.Snake2ListOfCoordinate[0].Y;
     for(int i=0;i<Appleslist.size();i++)
     {
         display.x[i]=Appleslist[i].X;
@@ -607,4 +652,4 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
     FB.push_back(feedback2);
     return FB;
 
-}
+}*/

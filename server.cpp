@@ -21,11 +21,16 @@ using GameIO = duels::Server<initMsg, inputMsg, feedbackMsg, displayMsg, 100, 50
 
 int main(int argc, char** argv)
 {
+
   feedbackMsg feedback1, feedback2;
   initMsg init;
   inputMsg input1, input2;
   displayMsg display;
   GameIO game_io;
+
+  snake_IA snake1;
+  snake_IA snake2;
+
 
   // simulation time
   const double dt(game_io.samplingTime());
@@ -35,29 +40,37 @@ int main(int argc, char** argv)
   // build init message for display
 
   snake_game snake(display);
-  snake_IA snake1=snake_IA();
-  snake_IA snake2=snake_IA();
-  display=snake.updateDisplay(display,snake1,snake2);
+
+  //snake_IA snake1=snake_IA();
+  //snake_IA snake2=snake_IA();
+  display=snake.updateDisplay(display);
   game_io.sendDisplay(display);
+
+  std::vector<feedbackMsg> FB=snake.constructFeedback(feedback1,feedback2);
+  feedback1=FB[0];
+  feedback2=FB[1];
+
+
 
 #ifdef LOCAL_GAME
   game_io.initDisplay(init, "snake"); // add false at the end if you run the display in another terminal
+
   game_io.setLevel(1);
   game_io.sendDisplay(display);
-
 
 #else
   game_io.initDisplay(argc, argv, init);
   const bool two_players = game_io.hasTwoPlayers();
+
 #endif
 
 
   while(true)
   {
     // check if any regular winner
-    if(!snake1.isaliveSnakebis(snake2)||!snake2.isaliveSnakebis(snake1))
+    if(!snake.isaliveSnake1bis()||!snake.isaliveSnake2bis())
     {
-      if(!snake1.isaliveSnakebis(snake2)){
+      if(!snake.isaliveSnake1bis()){
           game_io.registerVictory(Player::One, feedback1, feedback2);
           game_io.sendDisplay(display,2);
       }
@@ -113,12 +126,13 @@ int main(int argc, char** argv)
 #endif
 
       // artificial opponent: put your AI here
-    snake.EatfoodSnake(snake1,snake2,feedback1);
-    snake.EatfoodSnake(snake2,snake1,feedback2);
-    snake1.move(3,feedback1,snake2);
-    snake2.move(3,feedback2,snake1);
+    snake.EatfoodSnake1();
+    snake.EatfoodSnake2();
+    input1=snake1.move(1,feedback1,snake2);
+    input2=snake2.move(1,feedback2,snake1);
+    snake.UpdateGame(input1,input2);
 
-    display=snake.updateDisplay(display,snake1,snake2);
+    display=snake.updateDisplay(display);
 
     game_io.sendDisplay(display);
 

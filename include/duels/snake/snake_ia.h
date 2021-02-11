@@ -30,8 +30,8 @@ class snake_IA
 {
 public:
     snake_IA();
-    snake_IA(int,displayMsg);
-    void move(int,feedbackMsg,snake_IA);
+    snake_IA(int,displayMsg,int);
+    inputMsg move(int,feedbackMsg,snake_IA);
     bool isaliveSnake(COORDINATE,snake_IA);
     bool isaliveSnakebis(snake_IA);
     COORDINATE EvalPosHead(int, int,int);
@@ -45,6 +45,7 @@ public:
     bool obj_already_eaten=false;
     int SnakeLength;
     std::vector<COORDINATE> SnakeListOfCoordinate;
+    int SnakeNumber;
 };
 
 
