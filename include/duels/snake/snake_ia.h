@@ -29,15 +29,16 @@ using namespace duels::snake;
 class snake_IA
 {
 public:
+
     snake_IA();
     snake_IA(int,displayMsg,int);
     inputMsg move(int,feedbackMsg,snake_IA);
     bool isaliveSnake(COORDINATE,snake_IA);
     bool isaliveSnakebis(snake_IA);
     COORDINATE EvalPosHead(int, int,int);
-    void go_target(int, int, snake_IA);
-    bool moveX(int *);
-    bool moveY(int *);
+    inputMsg go_target(int, int,feedbackMsg, snake_IA);
+    bool moveX(feedbackMsg, int *);
+    bool moveY(feedbackMsg, int *);
     int obj_x;
     int obj_y;
     int closest_apple=0;
@@ -46,6 +47,7 @@ public:
     int SnakeLength;
     std::vector<COORDINATE> SnakeListOfCoordinate;
     int SnakeNumber;
+    void ConstructGrid(feedbackMsg,snake_IA other);
 };
 
 

@@ -546,6 +546,7 @@ std::vector<feedbackMsg> snake_game::constructFeedback(feedbackMsg msg1, feedbac
 }
 
 
+
 /*
 
 COORDINATE snake_game::generate_random_apple(snake_IA snake1, snake_IA snake2)

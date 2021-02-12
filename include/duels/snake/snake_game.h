@@ -10,6 +10,7 @@
 
 
 
+
 const int HEIGHT=40;
 const int WIDTH=40;
 
@@ -65,6 +66,7 @@ public:
     std::vector<feedbackMsg> updatefeedback(displayMsg);
     std::vector<feedbackMsg> constructFeedback(feedbackMsg,feedbackMsg);
     void UpdateGame(inputMsg,inputMsg);
+
 
     int Snake1Length;
     std::vector<COORDINATE> Snake1ListOfCoordinate;

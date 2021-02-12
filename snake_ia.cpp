@@ -658,42 +658,42 @@ snake_IA::snake_IA(int Level,displayMsg display,int snake_number){ //snake numbe
     switch (snake_number) {
     case 1:
     {
-    switch(Level)
-    case 0:
-    {
-        std::cout<<"IA-level 0: moving randomly"<<std::endl;
-        break;
-    case 1:
-        std::cout<<"IA-level 1 : eating a random apple"<<std::endl;
-        break;
+        switch(Level)
+        case 0:
+        {
+            std::cout<<"IA-level 0: moving randomly"<<std::endl;
+            break;
+        case 1:
+                std::cout<<"IA-level 1 : eating a random apple"<<std::endl;
+                break;
+            case 2:
+                std::cout<<"IA-level 2 : eating the closest apple"<<std::endl;
+                break;
+            case 3:
+                std::cout<<"IA-level 3: using A*"<<std::endl;
+            };
+            SnakeLength=1;
+            SnakeListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
+            break;
+        }
     case 2:
-        std::cout<<"IA-level 2 : eating the closest apple"<<std::endl;
-        break;
-    case 3:
-        std::cout<<"IA-level 3: using A*"<<std::endl;
-    };
-    SnakeLength=1;
-    SnakeListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
-        break;
-    }
-    case 2:
     {
-    switch(Level)
-    {
-    case 0:
-        std::cout<<"IA-level 0: moving randomly"<<std::endl;
-        break;
-    case 1:
-        std::cout<<"IA-level 1 : eating a random apple"<<std::endl;
-        break;
-    case 2:
-        std::cout<<"IA-level 2 : eating the closest apple"<<std::endl;
-        break;
-    case 3:
-        std::cout<<"IA-level 3: using A*"<<std::endl;
-    };
-    SnakeLength=1;
-    SnakeListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
+        switch(Level)
+        {
+        case 0:
+            std::cout<<"IA-level 0: moving randomly"<<std::endl;
+            break;
+        case 1:
+            std::cout<<"IA-level 1 : eating a random apple"<<std::endl;
+            break;
+        case 2:
+            std::cout<<"IA-level 2 : eating the closest apple"<<std::endl;
+            break;
+        case 3:
+            std::cout<<"IA-level 3: using A*"<<std::endl;
+        };
+        SnakeLength=1;
+        SnakeListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
         break;
     }
 
@@ -728,9 +728,9 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         int Y=msg.y1;
         if(obj_reached)
         {
-        obj_x = Appleslist[randomapple].X;
-        obj_y = Appleslist[randomapple].Y;
-        obj_reached=false;
+            obj_x = Appleslist[randomapple].X;
+            obj_y = Appleslist[randomapple].Y;
+            obj_reached=false;
         }
         if(X==obj_x && Y==obj_y)
         {
@@ -758,14 +758,15 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 randomdir=0;
             }
         }
-       input.dir=randomdir;
-       return input;
+        input.dir=randomdir;
+        return input;
         break;
     }
     case 2:
     {
-        int X=SnakeListOfCoordinate[0].X;
-        int Y=SnakeListOfCoordinate[0].Y;
+        inputMsg input;
+        int X=msg.x1;
+        int Y=msg.y1;
         int closest_apple=0;
         if(obj_reached || obj_already_eaten)
         {
@@ -801,12 +802,13 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 move(2,msg,other);
             }
             else
-            {   
-                go_target(obj_x,obj_y,other);
+            {
+                input=go_target(obj_x,obj_y,msg,other);
             }
         }
         //std::cout<<"objectif"<<std::endl;
         //snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));
+        return input;
         break;
 
 
@@ -982,9 +984,9 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
     }
 };
 
-bool snake_IA::moveX(int *dir)
+bool snake_IA::moveX(feedbackMsg msg,int *dir)
 {
-    int X=SnakeListOfCoordinate[0].X;
+    int X=msg.x1;
     bool move=false;
     if (X!=obj_x)
     {
@@ -1001,7 +1003,7 @@ bool snake_IA::moveX(int *dir)
     return move;
 }
 
-bool snake_IA::moveY(int *dir)
+bool snake_IA::moveY(feedbackMsg, int *dir)
 {
     int Y=SnakeListOfCoordinate[0].Y;
     bool move=false;
@@ -1071,19 +1073,20 @@ bool snake_IA::isaliveSnake(COORDINATE Head, snake_IA other)
     return state;
 };
 
-void snake_IA::go_target(int obj_x,int obj_y,snake_IA other)
+inputMsg snake_IA::go_target(int obj_x,int obj_y,feedbackMsg msg, snake_IA other)
 {
     int dir;
-    int X=SnakeListOfCoordinate[0].X;
-    int Y=SnakeListOfCoordinate[0].Y;
+    inputMsg input;
+    int X=msg.x1;
+    int Y=msg.y1;
     bool depla_x=false;
     bool depla_y=false;
     COORDINATE next_Head;
     bool is_alive;
-    depla_x=moveX(&dir);
+    /*    depla_x=moveX(msg, &dir);
     if (!depla_x)
     {
-        depla_y=moveY(&dir);
+        depla_y=moveY(msg,&dir);
     }
     next_Head = EvalPosHead(X,Y,dir);
     is_alive = isaliveSnake(next_Head,other);
@@ -1098,7 +1101,7 @@ void snake_IA::go_target(int obj_x,int obj_y,snake_IA other)
     {
         if (depla_x)
         {
-            depla_y=moveY(&dir);
+            depla_y=moveY(msg,&dir);
         }
         next_Head = EvalPosHead(X,Y,dir);
         is_alive = isaliveSnake(next_Head,other);
@@ -1127,6 +1130,83 @@ void snake_IA::go_target(int obj_x,int obj_y,snake_IA other)
             SnakeListOfCoordinate.pop_back();
         }
     }
+    */
+
+    const int rows(HEIGHT);
+    const int cols(WIDTH);
+
+    duels::Grid grid(rows, cols);
+    std::vector<duels::GridPoint> path;
+    duels::GridPoint start(X,Y);
+    duels::GridPoint goal(obj_x,obj_y);
+
+    for(int i = 0; i < cols; i++) //This will be used to construct the grid
+    {
+        for(int j=0;j<rows;j++)
+        {
+            duels::GridPoint Point(i,j);
+            COORDINATE Coor=Convert_To_Coordinate(i,j);
+            if(isaliveSnake(Coor,other))
+            {
+                grid.cell(Point)=0; //0 Means the path is free
+
+            }
+            else
+            {
+                grid.cell(Point)=2; //2 Means there's an obstacle
+            }
+        }
+    }
+    duels::GridPoint::configure(grid, true);
+    if(start.x != goal.x)
+    {
+        if (start.x<goal.x && grid.cell(start.x+1,start.y)==0)
+        {
+            dir=2;
+        }
+        else
+        {
+            if (start.x>goal.x && grid.cell(start.x-1,start.y)==0)
+            {
+                dir=3;
+            }
+            else
+            {
+                if (start.y<goal.y && grid.cell(start.x,start.y+1)==0)
+                {
+                    dir=0;
+                }
+                else
+                {
+                    if (start.y>goal.y && grid.cell(start.x,start.y-1)==0)
+                    {
+                        dir=1;
+                    }
+                }
+
+            }
+        }
+    }
+    else
+    {
+
+        if (start.y<goal.y && grid.cell(start.x,start.y+1)==0)
+        {
+            dir=0;
+        }
+        else
+        {
+            dir=1;
+
+        }
+
+
+    }
+    input.dir=dir;
+    return input;
+
+
+
 }
 
 bool snake_IA::isaliveSnakebis(snake_IA other)
@@ -1145,12 +1225,13 @@ bool snake_IA::isaliveSnakebis(snake_IA other)
         }
     }
     for(int i=1;i<SnakeLength-1;i++)
+    {
+        if(Head.X==SnakeListOfCoordinate[i].X && Head.Y==SnakeListOfCoordinate[i].Y)
         {
-            if(Head.X==SnakeListOfCoordinate[i].X && Head.Y==SnakeListOfCoordinate[i].Y)
-            {
-                state=false;
-            }
+            state=false;
         }
+    }
     return state;
 };
+
 
