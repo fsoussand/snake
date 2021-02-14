@@ -3,6 +3,7 @@
 #include "duels/snake/Coordinate.h"
 #include "msg.h"
 #include <vector>
+#include "grid.h"
 
 
 /* classe qui marchait a supprimer des qu'on a modif ca bien
@@ -36,7 +37,7 @@ public:
     bool isaliveSnake(COORDINATE,snake_IA);
     bool isaliveSnakebis(snake_IA);
     COORDINATE EvalPosHead(int, int,int);
-    inputMsg go_target(int, int,feedbackMsg, snake_IA);
+    inputMsg go_target(int, int,feedbackMsg, duels::Grid);
     bool moveX(feedbackMsg, int *);
     bool moveY(feedbackMsg, int *);
     int obj_x;
@@ -48,7 +49,7 @@ public:
     std::vector<COORDINATE> SnakeListOfCoordinate;
     int SnakeNumber;
     int previousdir=4;
-    void ConstructGrid(feedbackMsg,snake_IA other);
+
 };
 
 

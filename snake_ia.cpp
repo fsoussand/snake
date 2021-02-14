@@ -730,7 +730,6 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         {
             obj_x = Appleslist[randomapple].X;
             obj_y = Appleslist[randomapple].Y;
-            std::cout<<obj_x<<" "<<obj_y<<std::endl;
             obj_reached=false;
         }
         if(X==obj_x && Y==obj_y)
@@ -740,38 +739,37 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         else
         {
             obj_reached=false;
-        if (X != obj_x)
-        {
-            if (X - obj_x <0)
+            if (X != obj_x)
             {
-                if (previousdir!=3)
-                randomdir=2;
-                else randomdir=0;
+                if (X - obj_x <0)
+                {
+                    if (previousdir!=3)
+                        randomdir=2;
+                    else randomdir=0;
+                }
+                else
+                {
+                    if (previousdir!=2)
+                        randomdir=3;
+                    else randomdir=0;
+                }
             }
             else
             {
-                if (previousdir!=2)
-                randomdir=3;
-                else randomdir=0;
+                if (Y - obj_y <0)
+                {
+                    if (previousdir!=0)
+                        randomdir=1;
+                    else randomdir=2;
+                }
+                else
+                {
+                    if(previousdir!=1)
+                        randomdir=0;
+                    else randomdir=2;
+                }
             }
         }
-        else
-        {
-            if (Y - obj_y <0)
-            {
-                if (previousdir!=0)
-                randomdir=1;
-                else randomdir=2;
-            }
-            else
-            {
-                if(previousdir!=1)
-                randomdir=0;
-                else randomdir=2;
-            }
-        }
-        }
-       // std::cout<<obj_x<<" "<<obj_y<<std::endl;
         input.dir=randomdir;
         previousdir=randomdir;
         return input;
@@ -783,6 +781,32 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         int X=msg.x1;
         int Y=msg.y1;
         int closest_apple=0;
+
+        int rows(HEIGHT);
+        int cols(WIDTH);
+
+        duels::Grid grid(rows, cols);
+
+        for(int i = 0; i < cols; i++) //This will be used to construct the grid
+        {
+            for(int j=0;j<rows;j++)
+            {
+                duels::GridPoint Point(i,j);
+                COORDINATE Coor=Convert_To_Coordinate(i,j);
+                if(isaliveSnake(Coor,other))
+                {
+                    grid.cell(Point)=0; //0 Means the path is free
+
+                }
+                else
+                {
+                    grid.cell(Point)=2; //2 Means there's an obstacle
+                }
+            }
+        }
+        duels::GridPoint::configure(grid, true);
+
+
         if(obj_reached || obj_already_eaten)
         {
             int distmin=std::pow((X-Appleslist[closest_apple].X),2)+std::pow((Y-Appleslist[closest_apple].Y),2);
@@ -798,11 +822,10 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             }
             obj_x = Appleslist[closest_apple].X;
             obj_y = Appleslist[closest_apple].Y;
-            std::cout<<obj_x<<" "<<obj_y<<std::endl;
             obj_already_eaten=false;
 
         }
-        if (X==obj_x && Y==obj_y)
+        /*if (X==obj_x && Y==obj_y)
         {
             obj_reached=true;
             move(2,msg,other);
@@ -817,10 +840,11 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 move(2,msg,other);
             }
             else
-            {
-                input=go_target(obj_x,obj_y,msg,other);
-            }
-        }
+            {*/
+                input=go_target(obj_x,obj_y,msg,grid);
+
+          //  }
+        //}
         //std::cout<<"objectif"<<std::endl;
         //snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));
         return input;
@@ -1063,7 +1087,7 @@ COORDINATE snake_IA::EvalPosHead(int X, int Y,int dir)
 bool snake_IA::isaliveSnake(COORDINATE Head, snake_IA other)
 {
     bool state=true;
-    if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>=WIDTH)
+    if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
     {
         state=false;
     }
@@ -1088,9 +1112,9 @@ bool snake_IA::isaliveSnake(COORDINATE Head, snake_IA other)
     return state;
 };
 
-inputMsg snake_IA::go_target(int obj_x,int obj_y,feedbackMsg msg, snake_IA other)
+inputMsg snake_IA::go_target(int obj_x,int obj_y,feedbackMsg msg, Grid grid)
 {
-    int dir;
+    int dir=0;
     inputMsg input;
     int X=msg.x1;
     int Y=msg.y1;
@@ -1098,6 +1122,8 @@ inputMsg snake_IA::go_target(int obj_x,int obj_y,feedbackMsg msg, snake_IA other
     bool depla_y=false;
     COORDINATE next_Head;
     bool is_alive;
+    GridPoint start(X,Y);
+    GridPoint goal(obj_x,obj_y);
     /*    depla_x=moveX(msg, &dir);
     if (!depla_x)
     {
@@ -1147,76 +1173,42 @@ inputMsg snake_IA::go_target(int obj_x,int obj_y,feedbackMsg msg, snake_IA other
     }
     */
 
-    const int rows(HEIGHT);
-    const int cols(WIDTH);
-
-    duels::Grid grid(rows, cols);
-    std::vector<duels::GridPoint> path;
-    duels::GridPoint start(X,Y);
-    duels::GridPoint goal(obj_x,obj_y);
-
-    for(int i = 0; i < cols; i++) //This will be used to construct the grid
+    if(start==goal)
     {
-        for(int j=0;j<rows;j++)
-        {
-            duels::GridPoint Point(i,j);
-            COORDINATE Coor=Convert_To_Coordinate(i,j);
-            if(isaliveSnake(Coor,other))
-            {
-                grid.cell(Point)=0; //0 Means the path is free
-
-            }
-            else
-            {
-                grid.cell(Point)=2; //2 Means there's an obstacle
-            }
-        }
-    }
-    duels::GridPoint::configure(grid, true);
-    if(start.x != goal.x)
-    {
-        if (start.x<goal.x && grid.cell(start.x+1,start.y)==0)
-        {
-            dir=2;
-        }
-        else
-        {
-            if (start.x>goal.x && grid.cell(start.x-1,start.y)==0)
-            {
-                dir=3;
-            }
-            else
-            {
-                if (start.y<goal.y && grid.cell(start.x,start.y+1)==0)
-                {
-                    dir=0;
-                }
-                else
-                {
-                    if (start.y>goal.y && grid.cell(start.x,start.y-1)==0)
-                    {
-                        dir=1;
-                    }
-                }
-
-            }
-        }
+        obj_reached=true;
     }
     else
     {
-
-        if (start.y<goal.y && grid.cell(start.x,start.y+1)==0)
+        obj_reached=false;
+        if (X != obj_x)
         {
-            dir=0;
+            if (X - obj_x <0)
+            {
+                if (grid.isFree(X+1,Y)) dir=2;
+                else dir=0;
+            }
+            else
+            {
+                if (grid.isFree(X-1,Y)) dir =3;
+                else dir=0;
+            }
         }
         else
         {
-            dir=1;
-
+            if (Y - obj_y <0)
+            {
+                if (grid.isFree(X,Y+1)) dir=1;
+                else dir=2;
+            }
+            else
+            {
+                if(grid.isFree(X,Y-1))
+                    dir=0;
+                else dir=2;
+            }
         }
-
-
     }
+
     input.dir=dir;
     return input;
 
