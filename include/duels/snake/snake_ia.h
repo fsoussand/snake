@@ -47,6 +47,7 @@ public:
     int SnakeLength;
     std::vector<COORDINATE> SnakeListOfCoordinate;
     int SnakeNumber;
+    int previousdir=4;
     void ConstructGrid(feedbackMsg,snake_IA other);
 };
 

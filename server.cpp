@@ -130,11 +130,16 @@ int main(int argc, char** argv)
     snake.EatfoodSnake2();
     input1=snake1.move(2,feedback1,snake2);
     input2=snake2.move(2,feedback2,snake1);
+    //input2.dir=0;
     snake.UpdateGame(input1,input2);
 
     display=snake.updateDisplay(display);
 
     game_io.sendDisplay(display);
+
+    std::vector<feedbackMsg> FB=snake.updatefeedback(display);
+    feedback1=FB[0];
+    feedback2=FB[1];
 
 
 #ifndef LOCAL_GAME
@@ -142,9 +147,7 @@ int main(int argc, char** argv)
 #endif
 
     // update game state from input1 and input2
-    std::vector<feedbackMsg> FB=snake.updatefeedback(display);
-    feedback1=FB[0];
-    feedback2=FB[1];
+
 
   }
 

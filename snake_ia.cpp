@@ -730,35 +730,50 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         {
             obj_x = Appleslist[randomapple].X;
             obj_y = Appleslist[randomapple].Y;
+            std::cout<<obj_x<<" "<<obj_y<<std::endl;
             obj_reached=false;
         }
         if(X==obj_x && Y==obj_y)
         {
             obj_reached=true;
         }
+        else
+        {
+            obj_reached=false;
         if (X != obj_x)
         {
             if (X - obj_x <0)
             {
+                if (previousdir!=3)
                 randomdir=2;
+                else randomdir=0;
             }
             else
             {
+                if (previousdir!=2)
                 randomdir=3;
+                else randomdir=0;
             }
         }
         else
         {
             if (Y - obj_y <0)
             {
+                if (previousdir!=0)
                 randomdir=1;
+                else randomdir=2;
             }
             else
             {
+                if(previousdir!=1)
                 randomdir=0;
+                else randomdir=2;
             }
         }
+        }
+       // std::cout<<obj_x<<" "<<obj_y<<std::endl;
         input.dir=randomdir;
+        previousdir=randomdir;
         return input;
         break;
     }

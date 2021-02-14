@@ -43,6 +43,7 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
             display.x[i]=rand()%WIDTH;
             display.y[i]=rand()%HEIGHT;
         }
+
         this->Appleslist.push_back(Convert_To_Coordinate(display.x[i],display.y[i]));
     }
 
@@ -180,7 +181,7 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
     feedback2.y1=display.y2;
     feedback2.x2=display.x1;
     feedback2.y2=display.y1;
-    for(int i=0;i<10;i++)
+    for(int i=0;i<Appleslist.size();i++)
     {
         feedback1.x[i]=display.x[i];
         feedback1.y[i]=display.y[i];
