@@ -43,6 +43,7 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
             display.x[i]=rand()%WIDTH;
             display.y[i]=rand()%HEIGHT;
         }
+
         this->Appleslist.push_back(Convert_To_Coordinate(display.x[i],display.y[i]));
     }
 
@@ -180,7 +181,7 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
     feedback2.y1=display.y2;
     feedback2.x2=display.x1;
     feedback2.y2=display.y1;
-    for(int i=0;i<10;i++)
+    for(int i=0;i<Appleslist.size();i++)
     {
         feedback1.x[i]=display.x[i];
         feedback1.y[i]=display.y[i];
@@ -201,31 +202,31 @@ void snake_game::UpdateGame(inputMsg input1,inputMsg input2)
     int Y2=Snake2ListOfCoordinate[0].Y;
   switch(input1.dir)
   {
-  case 0 : //moving up
+  case UP : //moving up
       Y1=Y1-1;
       break;
-  case 1: //moving down
+  case DOWN: //moving down
       Y1=Y1+1;
       break;
-  case 2: //moving right
+  case RIGHT: //moving right
       X1=X1+1;
       break;
-  case 3: //moving left
+  case LEFT: //moving left
       X1=X1-1;
       break;
   }
   switch(input2.dir)
   {
-  case 0 : //moving up
+  case UP : //moving up
       Y2=Y2-1;
       break;
-  case 1: //moving down
+  case DOWN: //moving down
       Y2=Y2+1;
       break;
-  case 2: //moving right
+  case RIGHT: //moving right
       X2=X2+1;
       break;
-  case 3: //moving left
+  case LEFT: //moving left
       X2=X2-1;
       break;
   }
@@ -544,6 +545,7 @@ std::vector<feedbackMsg> snake_game::constructFeedback(feedbackMsg msg1, feedbac
  return FB;
 
 }
+
 
 
 /*
