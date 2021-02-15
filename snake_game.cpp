@@ -202,31 +202,31 @@ void snake_game::UpdateGame(inputMsg input1,inputMsg input2)
     int Y2=Snake2ListOfCoordinate[0].Y;
   switch(input1.dir)
   {
-  case 0 : //moving up
+  case UP : //moving up
       Y1=Y1-1;
       break;
-  case 1: //moving down
+  case DOWN: //moving down
       Y1=Y1+1;
       break;
-  case 2: //moving right
+  case RIGHT: //moving right
       X1=X1+1;
       break;
-  case 3: //moving left
+  case LEFT: //moving left
       X1=X1-1;
       break;
   }
   switch(input2.dir)
   {
-  case 0 : //moving up
+  case UP : //moving up
       Y2=Y2-1;
       break;
-  case 1: //moving down
+  case DOWN: //moving down
       Y2=Y2+1;
       break;
-  case 2: //moving right
+  case RIGHT: //moving right
       X2=X2+1;
       break;
-  case 3: //moving left
+  case LEFT: //moving left
       X2=X2-1;
       break;
   }

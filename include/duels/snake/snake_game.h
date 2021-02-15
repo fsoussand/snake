@@ -14,6 +14,11 @@
 const int HEIGHT=40;
 const int WIDTH=40;
 
+const int UP=0;
+const int DOWN=1;
+const int RIGHT=2;
+const int LEFT=3;
+
 using namespace duels;
 using namespace duels::snake;
 

@@ -50,6 +50,7 @@ public:
     int SnakeNumber;
     int previousdir=4;
 
+
 };
 
 
