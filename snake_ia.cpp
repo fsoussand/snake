@@ -691,6 +691,7 @@ snake_IA::snake_IA(int Level,displayMsg display,int snake_number){ //snake numbe
         break;
     case 3:
         std::cout<<"IA-level 3: using A*"<<std::endl;
+        break;
     };
     SnakeLength=1;
     SnakeListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
@@ -758,8 +759,8 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 randomdir=0;
             }
         }
-       input.dir=randomdir;
-       return input;
+        input.dir=randomdir;
+        return input;
         break;
     }
     case 2:
