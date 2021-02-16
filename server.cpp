@@ -27,6 +27,7 @@ int main(int argc, char** argv)
   inputMsg input1, input2;
   displayMsg display;
   GameIO game_io;
+  int int1,int2;
 
   snake_IA snake1;
   snake_IA snake2;
@@ -129,11 +130,10 @@ int main(int argc, char** argv)
     snake.EatfoodSnake1();
     snake.EatfoodSnake2();
 
-    input1=snake1.move(4,feedback1,snake2);
-
-    input2=snake2.move(1,feedback2,snake1);
+    int1=snake1.move(3,feedback1,snake2);
+    int2=snake2.move(1,feedback2,snake1);
     //input2.dir=0;
-    snake.UpdateGame(input1,input2);
+    snake.UpdateGame(int1,int2);
 
     display=snake.updateDisplay(display);
 

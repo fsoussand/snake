@@ -33,11 +33,11 @@ public:
 
     snake_IA();
     snake_IA(int,displayMsg,int);
-    inputMsg move(int,feedbackMsg,snake_IA);
+    int move(int,feedbackMsg,snake_IA);
     bool isaliveSnake(COORDINATE,snake_IA);
     bool isaliveSnakebis(snake_IA);
     COORDINATE EvalPosHead(int, int,int);
-    inputMsg go_target(int, int,feedbackMsg, duels::Grid);
+    int go_target(int, int,feedbackMsg, duels::Grid);
     bool moveX(feedbackMsg, int *);
     bool moveY(feedbackMsg, int *);
     int obj_x;

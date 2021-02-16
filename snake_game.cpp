@@ -194,13 +194,13 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
 
 }
 
-void snake_game::UpdateGame(inputMsg input1,inputMsg input2)
+void snake_game::UpdateGame(int int1,int int2)
 {
     int X1=Snake1ListOfCoordinate[0].X;
     int Y1=Snake1ListOfCoordinate[0].Y;
     int X2=Snake2ListOfCoordinate[0].X;
     int Y2=Snake2ListOfCoordinate[0].Y;
-  switch(input1.dir)
+  switch(int1)
   {
   case UP : //moving up
       Y1=Y1-1;
@@ -215,7 +215,7 @@ void snake_game::UpdateGame(inputMsg input1,inputMsg input2)
       X1=X1-1;
       break;
   }
-  switch(input2.dir)
+  switch(int2)
   {
   case UP : //moving up
       Y2=Y2-1;

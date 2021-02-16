@@ -70,7 +70,7 @@ public:
     displayMsg updateDisplay(displayMsg);
     std::vector<feedbackMsg> updatefeedback(displayMsg);
     std::vector<feedbackMsg> constructFeedback(feedbackMsg,feedbackMsg);
-    void UpdateGame(inputMsg,inputMsg);
+    void UpdateGame(int,int);
 
 
     int Snake1Length;
