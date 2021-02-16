@@ -728,8 +728,11 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
     {
         Appleslist.push_back(Convert_To_Coordinate(msg.x[i],msg.y[i]));
     }
+
     switch(level)
     {
+    std::cout<<Appleslist.size()<<std::endl;
+
     case 0:
     {
         int randomdir=rand()%4;
@@ -992,8 +995,12 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         const int cols(WIDTH);
 
         duels::Grid grid(rows, cols);
-        int X=SnakeListOfCoordinate[0].X;
-        int Y=SnakeListOfCoordinate[0].Y;
+        int X=msg.x1;
+        int Y=msg.y1;
+
+        COORDINATE a=this->SnakeListOfCoordinate[0];
+        std::cout<<a.X<<std::endl;
+
         std::vector<duels::GridPoint> path;
         duels::GridPoint start(X,Y);
         duels::GridPoint goal;
@@ -1070,26 +1077,27 @@ inputMsg snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 {
                     if (X - next_Head.X <0)
                     {
-                        input.dir=3;
+                        input.dir=RIGHT;
                     }
                     else
                     {
-                        input.dir=2;
+                        input.dir=LEFT;
                     }
                 }
                 else
                 {
                     if (Y - next_Head.Y <0)
                     {
-                        input.dir=1;
+                        input.dir=DOWN;
                     }
                     else
                     {
-                        input.dir=0;
+                        input.dir=UP;
                     }
                 }
             }
         }
+        return input;
         break;
     }
     }
@@ -1114,9 +1122,9 @@ bool snake_IA::moveX(feedbackMsg msg,int *dir)
     return move;
 }
 
-bool snake_IA::moveY(feedbackMsg, int *dir)
+bool snake_IA::moveY(feedbackMsg msg, int *dir)
 {
-    int Y=SnakeListOfCoordinate[0].Y;
+    int Y=msg.y1;
     bool move=false;
     if (Y!=obj_y)
     {
@@ -1174,9 +1182,9 @@ bool snake_IA::isaliveSnake(COORDINATE Head, snake_IA other)
             state=false;
         }
     }
-    for(int i=1;i<SnakeLength;i++)
+    for(int i=1;i<this->SnakeLength;i++)
     {
-        if(Head.X==SnakeListOfCoordinate[i].X && Head.Y==SnakeListOfCoordinate[i].Y)
+        if(Head.X==this->SnakeListOfCoordinate[i].X && Head.Y==this->SnakeListOfCoordinate[i].Y)
         {
             state=false;
         }
