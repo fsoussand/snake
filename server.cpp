@@ -127,6 +127,12 @@ int main(int argc, char** argv)
 #endif
 
       // artificial opponent: put your AI here
+    snake1.SnakeListOfCoordinate=snake.Snake1ListOfCoordinate;
+    snake2.SnakeListOfCoordinate=snake.Snake2ListOfCoordinate;
+    snake1.SnakeLength=snake.Snake1Length;
+    snake2.SnakeLength=snake.Snake2Length;
+
+
     snake.EatfoodSnake1();
     snake.EatfoodSnake2();
     int1=snake1.move(3,feedback1,snake2);
