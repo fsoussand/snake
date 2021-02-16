@@ -29,32 +29,7 @@ public:
     snake_game(displayMsg);
 
     displayMsg Create_display();
-    COORDINATE Convert_To_Coordinate(int x, int y)
-    {
-        COORDINATE Coor;
-        Coor.X=x;
-        Coor.Y=y;
-        return Coor;
-    }
-    void Print_Coord(COORDINATE coor)
-    {
-        int x=coor.X;
-        int y=coor.Y;
-        std::cout<<"("<<x<<","<<y<<")"<<std::endl;
-    }
 
-    bool Test_Coord_in_List(COORDINATE coor,std::vector<COORDINATE> list)
-    {
-        bool Is_in=false;
-        for (int i=0;i<list.size();i++)
-        {
-            if ((coor.X==list[i].X) && ((coor.Y==list[i].Y)))
-            {
-                Is_in = true;
-            }
-        }
-        return Is_in;
-    }
     void EatfoodSnake1();
     void EatfoodSnake2();
     void go_target1(int, int);
@@ -71,6 +46,7 @@ public:
     std::vector<feedbackMsg> updatefeedback(displayMsg);
     std::vector<feedbackMsg> constructFeedback(feedbackMsg,feedbackMsg);
     void UpdateGame(int,int);
+
 
 
     int Snake1Length;
