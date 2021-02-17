@@ -819,7 +819,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
 
 
 
-                if(isaliveSnake(Coor,other))
+                if(this->isaliveSnake(*this,Coor,other))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
 
@@ -892,7 +892,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
     {
         inputMsg input;
 
-        int dir=5;
+        int dir;
 
         const int rows(HEIGHT);
         const int cols(WIDTH);
@@ -913,8 +913,8 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             for(int j=0;j<rows;j++)
             {
                 duels::GridPoint Point(i,j);
-                COORDINATE Coor=Convert_To_Coordinate(i,j);
-                if(isaliveSnake(Coor,other))
+                COORDINATE Coor=Convert_To_Coordinate(j,i);
+                if(isaliveSnake(*this,Coor,other))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
 
@@ -946,12 +946,13 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             obj_x = msg.x[closest_apple];
             obj_y = msg.y[closest_apple];
             obj_already_eaten=false;
+
+
         }
 
 
         if (X==obj_x && Y==obj_y)
         {
-            obj_reached=true;
             //move(3,msg,other);
             int distmin=std::pow((X-msg.x[0]),2)+std::pow((Y-msg.y[0]),2);
             for(int i=0;i<20;i++)
@@ -1045,8 +1046,8 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             for(int j=0;j<rows;j++)
             {
                 duels::GridPoint Point(i,j);
-                COORDINATE Coor=Convert_To_Coordinate(i,j);
-                if(isaliveSnake(Coor,other))
+                COORDINATE Coor=Convert_To_Coordinate(j,i);
+                if(isaliveSnake(*this,Coor,other))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
 
@@ -1201,7 +1202,7 @@ COORDINATE snake_IA::EvalPosHead(int X, int Y,int dir)
     return Head;
 }
 
-bool snake_IA::isaliveSnake(COORDINATE Head, snake_IA other)
+bool snake_IA::isaliveSnake(snake_IA snake,COORDINATE Head, snake_IA other)
 {
     bool state=true;
     if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
@@ -1219,9 +1220,9 @@ bool snake_IA::isaliveSnake(COORDINATE Head, snake_IA other)
             state=false;
         }
     }
-    for(int i=1;i<this->SnakeLength;i++)
+    for(int i=1;i<snake.SnakeLength;i++)
     {
-        if(Head.X==this->SnakeListOfCoordinate[i].X && Head.Y==this->SnakeListOfCoordinate[i].Y)
+        if(Head.X==snake.SnakeListOfCoordinate[i].X && Head.Y==snake.SnakeListOfCoordinate[i].Y)
         {
             state=false;
         }
@@ -1335,7 +1336,7 @@ int snake_IA::go_target(int obj_x,int obj_y,feedbackMsg msg, Grid grid)
 
 bool snake_IA::isaliveSnakebis(snake_IA other)
 {
-    COORDINATE Head=SnakeListOfCoordinate[0];
+    COORDINATE Head=this->SnakeListOfCoordinate[0];
     bool state=true;
     if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>=WIDTH)
     {
@@ -1348,9 +1349,9 @@ bool snake_IA::isaliveSnakebis(snake_IA other)
             state=false;
         }
     }
-    for(int i=1;i<SnakeLength-1;i++)
+    for(int i=1;i<this->SnakeLength-1;i++)
     {
-        if(Head.X==SnakeListOfCoordinate[i].X && Head.Y==SnakeListOfCoordinate[i].Y)
+        if(Head.X==this->SnakeListOfCoordinate[i].X && Head.Y==this->SnakeListOfCoordinate[i].Y)
         {
             state=false;
         }

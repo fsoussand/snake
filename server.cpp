@@ -127,10 +127,28 @@ int main(int argc, char** argv)
 #endif
 
       // artificial opponent: put your AI here
+    snake1.SnakeListOfCoordinate = snake.Snake1ListOfCoordinate;
+    snake2.SnakeListOfCoordinate = snake.Snake2ListOfCoordinate;
+    snake1.SnakeLength = snake.Snake1Length;
+    snake2.SnakeLength = snake.Snake2Length;
+
+    /*for (int i=0;i<HEIGHT;i++)
+    {
+        for (int j=0;j<WIDTH;j++)
+        {
+            COORDINATE A;
+            A=Convert_To_Coordinate(j,i);
+            bool viv;
+            viv=snake1.isaliveSnake(snake1,A,snake2);
+            std::cout<<viv;
+        }
+        std::cout<<""<<std::endl;
+    }*/
+
     snake.EatfoodSnake1();
     snake.EatfoodSnake2();
 
-    int1=snake1.move(3,feedback1,snake2);
+    int1=snake1.move(1,feedback1,snake2);
     int2=snake2.move(1,feedback2,snake1);
     //input2.dir=0;
     snake.UpdateGame(int1,int2);

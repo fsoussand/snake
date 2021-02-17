@@ -232,8 +232,16 @@ void snake_game::UpdateGame(int int1,int int2)
   }
   COORDINATE Head1=Convert_To_Coordinate(X1,Y1);
   Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head1);
+  Snake1ListOfCoordinate.pop_back();
   COORDINATE Head2=Convert_To_Coordinate(X2,Y2);
   Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),Head2);
+  Snake2ListOfCoordinate.pop_back();
+  for (int i=0;i<Snake1ListOfCoordinate.size();i++)
+  {
+      Print_Coord(Snake1ListOfCoordinate[i]);
+  }
+  std::cout<<"-----"<<std::endl;
+
 }
 
 bool snake_game::moveX(int X,int obj_x, int *dir)
@@ -655,3 +663,4 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
     return FB;
 
 }*/
+
