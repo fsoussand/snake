@@ -5,10 +5,10 @@
 #include "include/duels/snake/snake_game.h"
 #include <vector>
 
-#include <duels/utils/grid_point.h>
+#include "include/duels/snake/grid_point.h"
 #include <duels/utils/rand_utils.h>
 #include <map>
-#include <duels/algo/a_star.h>
+#include "include/duels/snake/a_star.h"
 
 
 
@@ -953,9 +953,9 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
 
         if (X==obj_x && Y==obj_y)
         {
-            obj_reached=true;
-            move(3,msg,other);
-            /*int distmin=std::pow((X-msg.x[0]),2)+std::pow((Y-msg.y[0]),2);
+            //obj_reached=true;
+            //dir=move(3,msg,other);
+            int distmin=std::pow((X-msg.x[0]),2)+std::pow((Y-msg.y[0]),2);
             for(int i=0;i<20;i++)
             {
                 int dist=std::pow((X-msg.x[i]),2)+std::pow((Y-msg.y[i]),2);
@@ -969,7 +969,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             }
             obj_x = msg.x[closest_apple];
             obj_y = msg.y[closest_apple];
-            obj_already_eaten=false;*/
+            obj_already_eaten=false;
         }
         else
         {
