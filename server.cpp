@@ -150,7 +150,7 @@ int main(int argc, char** argv)
     snake.EatfoodSnake1();
     snake.EatfoodSnake2();
 
-    int1=snake1.move(1,feedback1,snake2);
+    int1=snake1.move(3,feedback1,snake2);
     int2=snake2.move(1,feedback2,snake1);
     //input2.dir=0;
     snake.UpdateGame(int1,int2);
