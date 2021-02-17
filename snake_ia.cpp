@@ -962,7 +962,6 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 {
                     distmin=dist;
                     closest_apple=i;
-
                 }
 
             }
