@@ -5,10 +5,10 @@
 #include "include/duels/snake/snake_game.h"
 #include <vector>
 
-#include "grid_point.h"
+#include <duels/utils/grid_point.h>
 #include <duels/utils/rand_utils.h>
 #include <map>
-#include "a_star.h"
+#include <duels/algo/a_star.h>
 
 
 
