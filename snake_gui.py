@@ -6,6 +6,8 @@ import pygame
 from time import time
 import os
 
+image_path = os.path.abspath(os.path.dirname(__file__)) + '/snake/'
+
 
 game = Subscriber() 
 init_msg = game.get_init() 
@@ -37,9 +39,8 @@ pygame.init()
 display = pygame.display.set_mode((display_width, display_height)) #we create a display of the size we want
 pygame.display.set_caption('Snake Game') #we write a title 
 
-
 pygame.display.update()
-apple=pygame.image.load("/home/ecn/snake_project/snake/image/Apple.png")
+apple=pygame.image.load(image_path + "Apple.png")
 block_size = 10 #size of one square of the snake 
 apple = pygame.transform.scale(apple, (block_size, block_size))
 font_style = pygame.font.SysFont("arial", 25) #we define the style of writing
