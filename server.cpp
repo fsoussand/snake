@@ -41,9 +41,21 @@ int main(int argc, char** argv)
   // build init message for display
 
   snake_game snake(display);
+  snake1.SnakeListOfCoordinate = snake.Snake1ListOfCoordinate;
+  snake2.SnakeListOfCoordinate = snake.Snake2ListOfCoordinate;
+  snake1.SnakeLength = snake.Snake1Length;
+  snake2.SnakeLength = snake.Snake2Length;
+  for (int i=0;i<snake.Snake1Length;i++)
+  {
+      std::cout<<"";
+      Print_Coord(snake.Snake1ListOfCoordinate[i]);
+  }
+  for (int i=0;i<snake1.SnakeLength;i++)
+  {
+      std::cout<<"=";
+      Print_Coord(snake1.SnakeListOfCoordinate[i]);
+  }
 
-  //snake_IA snake1=snake_IA();
-  //snake_IA snake2=snake_IA();
   display=snake.updateDisplay(display);
   game_io.sendDisplay(display);
 
@@ -69,9 +81,9 @@ int main(int argc, char** argv)
   while(true)
   {
     // check if any regular winner
-    if(!snake.isaliveSnake1bis()||!snake.isaliveSnake2bis())
+    if(!snake1.isaliveSnakebis(snake2)||!snake2.isaliveSnakebis(snake1))
     {
-      if(!snake.isaliveSnake1bis()){
+      if(!snake1.isaliveSnakebis(snake2)){
           game_io.registerVictory(Player::One, feedback1, feedback2);
           game_io.sendDisplay(display,2);
       }
@@ -105,55 +117,31 @@ int main(int argc, char** argv)
       // write dumb player AI from feedback1 to input1
 
 
-    /* partie Lucas pour mangeage correct
-    snake.testbouffagepommeSnake1();
-    display=snake.updateDisplay(display);
-    std::cout<<"display envoyé a python"<<std::endl;
-    snake.Print_Coord(snake.Convert_To_Coordinate(display.x1,display.y1));
-    game_io.sendDisplay(display);
-
-
-    snake.EatfoodSnake1();
-    snake.EatfoodSnake2();
-    snake=snakeIA.move1(4,snake);
-
-    snake=snakeIA.move2(3,snake);
-    display=snake.updateDisplay(display);
-
-    game_io.sendDisplay(display);*/
-
-
 
 #endif
 
       // artificial opponent: put your AI here
 
-    snake1.SnakeListOfCoordinate = snake.Snake1ListOfCoordinate;
-    snake2.SnakeListOfCoordinate = snake.Snake2ListOfCoordinate;
-    snake1.SnakeLength = snake.Snake1Length;
-    snake2.SnakeLength = snake.Snake2Length;
-
-    /*for (int i=0;i<HEIGHT;i++)
-    {
-        for (int j=0;j<WIDTH;j++)
-        {
-            COORDINATE A;
-            A=Convert_To_Coordinate(j,i);
-            bool viv;
-            viv=snake1.isaliveSnake(snake1,A,snake2);
-            std::cout<<viv;
-        }
-        std::cout<<""<<std::endl;
-    }*/
 
 
-    snake.EatfoodSnake1();
-    snake.EatfoodSnake2();
+    //snake.EatfoodSnake1();
+    //snake.EatfoodSnake2();
+
+    //snake1.SnakeListOfCoordinate = snake.Snake1ListOfCoordinate;
+    //snake2.SnakeListOfCoordinate = snake.Snake2ListOfCoordinate;
+    //snake1.SnakeLength = snake.Snake1Length;
+    //snake2.SnakeLength = snake.Snake2Length;
 
     int1=snake1.move(3,feedback1,snake2);
     int2=snake2.move(1,feedback2,snake1);
+
+    //snake.Snake1ListOfCoordinate = snake1.SnakeListOfCoordinate;
+    //snake.Snake2ListOfCoordinate = snake2.SnakeListOfCoordinate;
+    snake.Snake1Length = snake1.SnakeLength;
+    snake.Snake2Length = snake2.SnakeLength;
+
     //input2.dir=0;
-    snake.UpdateGame(int1,int2);
+    snake.UpdateGame(int1,int2,snake1,snake2);
 
     display=snake.updateDisplay(display);
 

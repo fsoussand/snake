@@ -1,4 +1,4 @@
-#include "include/duels/snake/snake_game.h"
+#include "include/duels/snake/Coordinate.h"
 #include <vector>
 #include<iostream>
 

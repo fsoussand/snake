@@ -11,644 +11,6 @@
 #include "include/duels/snake/a_star.h"
 
 
-
-/* a supp quand on a reussi a modif tout ca
-snake_IA::snake_IA(int Level, snake_game snake){
-    /* switch(Level)
-    {
-    case 0:
-        std::cout<<"IA-level 0: moving randomly"<<std::endl;
-        break;
-    case 1:
-        std::cout<<"IA-level 1 : eating a random apple"<<std::endl;
-        break;
-    case 2:
-        std::cout<<"IA-level 2 : eating the closest apple"<<std::endl;
-        break;
-    case 3:
-        std::cout<<"IA-level 3: using A*"<<std::endl;
-    case 4:
-        std::cout<<"IA-level 4: A* measures the distances<<std::endl;
-
-    };
-}
-
-snake_game snake_IA::move1(int level,snake_game snake){
-    switch(level)
-    {
-    case 0:
-    {
-        int randomdir=rand()%4;
-        int X=snake.Snake1ListOfCoordinate[0].X;
-        int Y=snake.Snake1ListOfCoordinate[0].Y;
-        switch (randomdir)
-        {
-        case 0 : //moving down
-            Y=Y-1;
-            break;
-        case 1: //moving up
-            Y=Y+1;
-            break;
-        case 2: //moving right
-            X=X+1;
-            break;
-        case 3: //moving left
-            X=X-1;
-            break;
-        };
-        COORDINATE Head=snake.Convert_To_Coordinate(X,Y);
-        snake.Snake1ListOfCoordinate.insert(snake.Snake1ListOfCoordinate.begin(),Head);
-        break;
-    }
-    case 1:
-    {
-        int randomdir=rand()%4;
-        int randomapple=rand()%snake.Appleslist.size();
-        int X=snake.Snake1ListOfCoordinate[0].X;
-        int Y=snake.Snake1ListOfCoordinate[0].Y;
-        obj1_x = snake.Appleslist[randomapple].X;
-        obj1_y = snake.Appleslist[randomapple].Y;
-        if (X != obj1_x)
-        {
-            if (X - obj1_x <0)
-            {
-                randomdir=2;
-            }
-            else
-            {
-                randomdir=3;
-            }
-        }
-        else
-        {
-            if (Y - obj1_y <0)
-            {
-                randomdir=1;
-            }
-            else
-            {
-                randomdir=0;
-            }
-        }
-        switch (randomdir)
-        {
-        case 0 : //moving up
-            Y=Y-1;
-            break;
-        case 1: //moving down
-            Y=Y+1;
-            break;
-        case 2: //moving right
-            X=X+1;
-            break;
-        case 3: //moving left
-            X=X-1;
-            break;
-        }
-        COORDINATE Head=snake.Convert_To_Coordinate(X,Y);
-        snake.Snake1ListOfCoordinate.insert(snake.Snake1ListOfCoordinate.begin(),Head);
-        snake.EatfoodSnake1();
-        break;
-    }
-    case 2:
-    {
-        int X=snake.Snake1ListOfCoordinate[0].X;
-        int Y=snake.Snake1ListOfCoordinate[0].Y;
-        int closest_apple=0;
-        if(obj1_reached || obj1_already_eaten)
-        {
-            int distmin=std::pow((X-snake.Appleslist[closest_apple].X),2)+std::pow((Y-snake.Appleslist[closest_apple].Y),2);
-            for(int i=1;i<snake.Appleslist.size();i++)
-            {
-                int dist=std::pow((X-snake.Appleslist[i].X),2)+std::pow((Y-snake.Appleslist[i].Y),2);
-                if (dist<distmin)
-                {
-                    distmin=dist;
-                    closest_apple=i;
-                }
-
-            }
-            obj1_x = snake.Appleslist[closest_apple].X;
-            obj1_y = snake.Appleslist[closest_apple].Y;
-            obj1_already_eaten=false;
-
-        }
-        if (X==obj1_x && Y==obj1_y)
-        {
-            obj1_reached=true;
-            snake.EatfoodSnake1();
-            snake=move1(2,snake);
-        }
-        else
-        {
-            obj1_reached=false;
-            COORDINATE obj = snake.Convert_To_Coordinate(obj1_x,obj1_y);
-            if (!snake.Test_Coord_in_List(obj,snake.Appleslist))
-            {
-                obj1_already_eaten=true;
-                snake=move1(2,snake);
-            }
-            else
-            {
-                snake.go_target1(obj1_x,obj1_y);
-            }
-        }
-        //std::cout<<"objectif"<<std::endl;
-        //snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));
-        break;
-    }
-    case 3:
-    {
-        const int rows(HEIGHT);
-        const int cols(WIDTH);
-
-        duels::Grid grid(rows, cols);
-        int X=snake.Snake1ListOfCoordinate[0].X;
-        int Y=snake.Snake1ListOfCoordinate[0].Y;
-        std::vector<duels::GridPoint> path;
-        duels::GridPoint start(X,Y);
-        duels::GridPoint goal;
-
-        for(int i = 0; i < cols; i++) //This will be used to construct the grid
-        {
-            for(int j=0;j<rows;j++)
-            {
-                duels::GridPoint Point(i,j);
-                COORDINATE Coor=snake.Convert_To_Coordinate(i,j);
-                if(snake.isaliveSnake1(Coor))
-                {
-                    grid.cell(Point)=0; //0 Means the path is free
-
-                }
-                else
-                {
-                    grid.cell(Point)=2; //2 Means there's an obstacle
-                }
-            }
-        }
-
-        if(obj1_reached || obj1_already_eaten)
-        {
-            int distmin=std::pow((X-snake.Appleslist[closest_apple].X),2)+std::pow((Y-snake.Appleslist[closest_apple].Y),2);
-            for(int i=1;i<snake.Appleslist.size();i++)
-            {
-                int dist=std::pow((X-snake.Appleslist[i].X),2)+std::pow((Y-snake.Appleslist[i].Y),2);
-                if (dist<distmin)
-                {
-                    distmin=dist;
-                    closest_apple=i;
-
-                }
-
-            }
-            obj1_x = snake.Appleslist[closest_apple].X;
-            obj1_y = snake.Appleslist[closest_apple].Y;
-            obj1_already_eaten=false;
-        }
-
-
-        duels::GridPoint::configure(grid, true);
-
-
-        if (X==obj1_x && Y==obj1_y)
-        {
-            obj1_reached=true;
-            snake.EatfoodSnake1();
-            snake=move1(3,snake);
-        }
-        else
-        {
-            obj1_reached=false;
-            COORDINATE obj = snake.Convert_To_Coordinate(obj1_x,obj1_y);
-            if (!snake.Test_Coord_in_List(obj,snake.Appleslist))
-            {
-                obj1_already_eaten=true;
-                snake=move1(3,snake);
-            }
-            else
-            {
-                goal.x=obj1_x;
-                goal.y=obj1_y;
-
-                path = duels::Astar(start, goal, true);
-                duels::GridPoint next_Point=path[1];
-
-                COORDINATE next_Head=snake.Convert_To_Coordinate(next_Point.x,next_Point.y);
-                snake.Snake1ListOfCoordinate.insert(snake.Snake1ListOfCoordinate.begin(),next_Head);
-                snake.Snake1ListOfCoordinate.pop_back();
-            }
-        }
-        break;
-    }
-    case 4:
-    {
-        const int rows(HEIGHT);
-        const int cols(WIDTH);
-
-        duels::Grid grid(rows, cols);
-        int X=snake.Snake1ListOfCoordinate[0].X;
-        int Y=snake.Snake1ListOfCoordinate[0].Y;
-        std::vector<duels::GridPoint> path;
-        duels::GridPoint start(X,Y);
-        duels::GridPoint goal;
-
-        for(int i = 0; i < cols; i++) //This will be used to construct the grid
-        {
-            for(int j=0;j<rows;j++)
-            {
-                duels::GridPoint Point(i,j);
-                COORDINATE Coor=snake.Convert_To_Coordinate(i,j);
-                if(snake.isaliveSnake1(Coor))
-                {
-                    grid.cell(Point)=0; //0 Means the path is free
-
-                }
-                else
-                {
-                    grid.cell(Point)=2; //2 Means there's an obstacle
-                }
-            }
-        }
-        duels::GridPoint::configure(grid, true);
-
-        if(obj1_reached || obj1_already_eaten)
-        {
-            goal.x=snake.Appleslist[0].X;
-            goal.y=snake.Appleslist[0].Y;
-            path = duels::Astar(start, goal, true);
-            closest_apple=0;
-            int distmin=path.size();
-            for(int i=1;i<snake.Appleslist.size();i++)
-            {
-                goal.x=snake.Appleslist[i].X;
-                goal.y=snake.Appleslist[i].Y;
-                path = duels::Astar(start, goal, true);
-                int dist=path.size();
-                if (dist<distmin)
-                {
-                    distmin=dist;
-                    closest_apple=i;
-
-                }
-
-            }
-            obj1_x = snake.Appleslist[closest_apple].X;
-            obj1_y = snake.Appleslist[closest_apple].Y;
-            obj1_already_eaten=false;
-        }
-
-        if (X==obj1_x && Y==obj1_y)
-        {
-            obj1_reached=true;
-            snake.EatfoodSnake1();
-            snake=move1(4,snake);
-        }
-        else
-        {
-            obj1_reached=false;
-            COORDINATE obj = snake.Convert_To_Coordinate(obj1_x,obj1_y);
-            if (!snake.Test_Coord_in_List(obj,snake.Appleslist))
-            {
-                obj1_already_eaten=true;
-                snake=move1(4,snake);
-            }
-            else
-            {
-                goal.x=obj1_x;
-                goal.y=obj1_y;
-
-                path = duels::Astar(start, goal, true);
-                duels::GridPoint next_Point=path[1];
-
-                COORDINATE next_Head=snake.Convert_To_Coordinate(next_Point.x,next_Point.y);
-                snake.Snake1ListOfCoordinate.insert(snake.Snake1ListOfCoordinate.begin(),next_Head);
-                snake.Snake1ListOfCoordinate.pop_back();
-            }
-        }
-        break;
-    }
-    case 5: // The snake tries to kill its opponent if it close enough
-    {
-        const int rows(HEIGHT);
-        const int cols(WIDTH);
-
-        duels::Grid grid(rows, cols);
-        int X=snake.Snake1ListOfCoordinate[0].X;
-        int Y=snake.Snake1ListOfCoordinate[0].Y;
-        std::vector<duels::GridPoint> path;
-        duels::GridPoint start(X,Y);
-        duels::GridPoint goal;
-
-        for(int i = 0; i < cols; i++) //This will be used to construct the grid
-        {
-            for(int j=0;j<rows;j++)
-            {
-                duels::GridPoint Point(i,j);
-                COORDINATE Coor=snake.Convert_To_Coordinate(i,j);
-                if(snake.isaliveSnake1(Coor))
-                {
-                    grid.cell(Point)=0; //0 Means the path is free
-
-                }
-                else
-                {
-                    grid.cell(Point)=2; //2 Means there's an obstacle
-                }
-            }
-        }
-        duels::GridPoint::configure(grid, true);
-
-        int distmin;
-
-        if(obj1_reached || obj1_already_eaten)
-        {
-            goal.x=snake.Appleslist[0].X;
-            goal.y=snake.Appleslist[0].Y;
-            path = duels::Astar(start, goal, true);
-            closest_apple=0;
-             distmin=path.size();
-            for(int i=1;i<snake.Appleslist.size();i++)
-            {
-                goal.x=snake.Appleslist[i].X;
-                goal.y=snake.Appleslist[i].Y;
-                path = duels::Astar(start, goal, true);
-                int dist=path.size();
-                if (dist<distmin)
-                {
-                    distmin=dist;
-                    closest_apple=i;
-
-                }
-
-            }
-
-            obj1_x = snake.Appleslist[closest_apple].X;
-            obj1_y = snake.Appleslist[closest_apple].Y;
-            obj1_already_eaten=false;
-        }
-
-        GridPoint Head_opponent;
-        Head_opponent.x=snake.Snake2ListOfCoordinate[0].X;
-        Head_opponent.y=snake.Snake2ListOfCoordinate[0].Y;
-        std::vector<GridPoint> path_to_opponent =duels::Astar(start,Head_opponent,true);
-        if (path_to_opponent.size()<distmin)
-        {
-            obj1_x = Head_opponent.x;
-            obj1_y = Head_opponent.y;
-        }
-
-        if (X==obj1_x && Y==obj1_y)
-        {
-            obj1_reached=true;
-            snake.EatfoodSnake1();
-            snake=move1(4,snake);
-        }
-        else
-        {
-            obj1_reached=false;
-            COORDINATE obj = snake.Convert_To_Coordinate(obj1_x,obj1_y);
-            if (!snake.Test_Coord_in_List(obj,snake.Appleslist))
-            {
-                obj1_already_eaten=true;
-                snake=move1(4,snake);
-            }
-            else
-            {
-                goal.x=obj1_x;
-                goal.y=obj1_y;
-
-                path = duels::Astar(start, goal, true);
-                duels::GridPoint next_Point=path[1];
-
-                COORDINATE next_Head=snake.Convert_To_Coordinate(next_Point.x,next_Point.y);
-                snake.Snake1ListOfCoordinate.insert(snake.Snake1ListOfCoordinate.begin(),next_Head);
-                snake.Snake1ListOfCoordinate.pop_back();
-            }
-        }
-        break;
-    }
-    }
-    return snake;
-
-};
-
-snake_game snake_IA::move2(int level,snake_game snake){
-    switch(level)
-    {
-    case 0:
-    {
-        int dir=rand()%4;
-        int X=snake.Snake2ListOfCoordinate[0].X;
-        int Y=snake.Snake2ListOfCoordinate[0].Y;
-        switch (dir)
-        {
-        case 0 : //moving down
-            Y=Y-1;
-            break;
-        case 1: //moving up
-            Y=Y+1;
-            break;
-        case 2: //moving right
-            X=X+1;
-            break;
-        case 3: //moving left
-            X=X-1;
-            break;
-        };
-        COORDINATE Head=snake.Convert_To_Coordinate(X,Y);
-        snake.Snake2ListOfCoordinate.insert(snake.Snake2ListOfCoordinate.begin(),Head);
-        break;
-    }
-    case 1:
-    {
-        int randomdir=rand()%4;
-        int randomapple=rand()%snake.Appleslist.size();
-        int X=snake.Snake2ListOfCoordinate[0].X;
-        int Y=snake.Snake2ListOfCoordinate[0].Y;
-        obj2_x = snake.Appleslist[randomapple].X;
-        obj2_y = snake.Appleslist[randomapple].Y;
-        if (X != obj2_x)
-        {
-            if (X - obj2_x <0)
-            {
-                randomdir=2;
-            }
-            else
-            {
-                randomdir=3;
-            }
-        }
-        else
-        {
-            if (Y - obj2_y <0)
-            {
-                randomdir=1;
-            }
-            else
-            {
-                randomdir=0;
-            }
-        }
-        switch (randomdir)
-        {
-        case 0 : //moving up
-            Y=Y-1;
-            break;
-        case 1: //moving down
-            Y=Y+1;
-            break;
-        case 2: //moving right
-            X=X+1;
-            break;
-        case 3: //moving left
-            X=X-1;
-            break;
-        }
-        COORDINATE Head=snake.Convert_To_Coordinate(X,Y);
-        snake.Snake2ListOfCoordinate.insert(snake.Snake2ListOfCoordinate.begin(),Head);
-        snake.EatfoodSnake2();
-        break;
-    }
-    case 2:
-    {
-        int X=snake.Snake2ListOfCoordinate[0].X;
-        int Y=snake.Snake2ListOfCoordinate[0].Y;
-        int closest_apple=0;
-        if(obj2_reached || obj2_already_eaten)
-        {
-            int distmin=std::pow((X-snake.Appleslist[closest_apple].X),2)+std::pow((Y-snake.Appleslist[closest_apple].Y),2);
-            for(int i=1;i<snake.Appleslist.size();i++)
-            {
-                int dist=std::pow((X-snake.Appleslist[i].X),2)+std::pow((Y-snake.Appleslist[i].Y),2);
-                if (dist<distmin)
-                {
-                    distmin=dist;
-                    closest_apple=i;
-                }
-
-            }
-            obj2_x = snake.Appleslist[closest_apple].X;
-            obj2_y = snake.Appleslist[closest_apple].Y;
-            obj2_already_eaten=false;
-
-        }
-        if (X==obj2_x && Y==obj2_y)
-        {
-            obj2_reached=true;
-            snake.EatfoodSnake2();
-            snake=move2(2,snake);
-        }
-        else
-        {
-            obj2_reached=false;
-            COORDINATE obj = snake.Convert_To_Coordinate(obj2_x,obj2_y);
-            if (!snake.Test_Coord_in_List(obj,snake.Appleslist))
-            {
-                obj2_already_eaten=true;
-                snake=move2(2,snake);
-            }
-            else
-            {
-                snake.go_target2(obj2_x,obj2_y);
-            }
-        }
-        //std::cout<<"objectif"<<std::endl;
-        //snake.Print_Coord(snake.Convert_To_Coordinate(obj_x,obj_y));
-        break;
-    }
-    case 3:
-    {
-
-        const int rows(HEIGHT);
-        const int cols(WIDTH);
-
-        duels::Grid grid(rows, cols);
-        int X=snake.Snake2ListOfCoordinate[0].X;
-        int Y=snake.Snake2ListOfCoordinate[0].Y;
-        std::vector<duels::GridPoint> path;
-        duels::GridPoint start(X,Y);
-        duels::GridPoint goal;
-
-
-        for(int i = 0; i < cols; i++) //This will be used to construct the grid
-        {
-            for(int j=0;j<rows;j++)
-            {
-                duels::GridPoint Point(i,j);
-                COORDINATE Coor=snake.Convert_To_Coordinate(i,j);
-                if(snake.isaliveSnake2(Coor))
-                {
-                    grid.cell(Point)=0; //0 Means the path is free
-
-                }
-                else
-                {
-                    grid.cell(Point)=2; //2 Means there's an obstacle
-                }
-            }
-        }
-
-
-        if(obj2_reached || obj2_already_eaten)
-        {
-            int distmin=std::pow((X-snake.Appleslist[closest_apple].X),2)+std::pow((Y-snake.Appleslist[closest_apple].Y),2);
-            for(int i=1;i<snake.Appleslist.size();i++)
-            {
-                int dist=std::pow((X-snake.Appleslist[i].X),2)+std::pow((Y-snake.Appleslist[i].Y),2);
-                if (dist<distmin)
-                {
-                    distmin=dist;
-                    closest_apple=i;
-
-                }
-
-            }
-            obj2_x = snake.Appleslist[closest_apple].X;
-            obj2_y = snake.Appleslist[closest_apple].Y;
-            obj2_already_eaten=false;
-        }
-
-
-        duels::GridPoint::configure(grid, true);
-
-
-        if (X==obj2_x && Y==obj2_y)
-        {
-            obj2_reached=true;
-            snake.EatfoodSnake2();
-            snake=move2(3,snake);
-        }
-        else
-        {
-            obj2_reached=false;
-            COORDINATE obj = snake.Convert_To_Coordinate(obj2_x,obj2_y);
-            if (!snake.Test_Coord_in_List(obj,snake.Appleslist))
-            {
-                obj2_already_eaten=true;
-                snake=move2(3,snake);
-            }
-            else
-            {
-                goal.x=obj2_x;
-                goal.y=obj2_y;
-
-                path = duels::Astar(start, goal, true);
-                duels::GridPoint next_Point=path[1];
-
-                COORDINATE next_Head=snake.Convert_To_Coordinate(next_Point.x,next_Point.y);
-                snake.EatfoodSnake2();
-                snake.Snake2ListOfCoordinate.insert(snake.Snake2ListOfCoordinate.begin(),next_Head);
-                snake.Snake2ListOfCoordinate.pop_back();
-            }
-        }
-
-        break;
-    }
-    }
-
-    return snake;
-};*/
-
 snake_IA::snake_IA()
 {
 }
@@ -723,15 +85,13 @@ snake_IA::snake_IA(int Level,displayMsg display,int snake_number){ //snake numbe
 }
 
 int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
-    std::vector <COORDINATE> Appleslist;
-   /* for (int i=0;i<20;i++)
+    /*std::vector <COORDINATE> Appleslist;
+    for (int i=0;i<20;i++)
     {
         Appleslist.push_back(Convert_To_Coordinate(msg.x[i],msg.y[i]));
     }*/
     switch(level)
     {
-    std::cout<<Appleslist.size()<<std::endl;
-
     case 0:
     {
         int randomdir=rand()%4;
@@ -757,6 +117,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         if(X==obj_x && Y==obj_y)
         {
             obj_reached=true;
+            EatfoodSnake(other,msg);
         }
         else
         {
@@ -819,7 +180,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
 
 
 
-                if(this->isaliveSnake(*this,Coor,other))
+                if(isaliveSnake(Coor,other))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
 
@@ -853,8 +214,8 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 }
 
             }
-            obj_x = Appleslist[closest_apple].X;
-            obj_y = Appleslist[closest_apple].Y;
+            obj_x = msg.x[closest_apple];
+            obj_y = msg.y[closest_apple];
             obj_already_eaten=false;
 
         }
@@ -867,18 +228,18 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         else
         {
             obj_reached=false;
-            //COORDINATE obj = Convert_To_Coordinate(obj_x,obj_y);
-            /*if (!Test_Coord_in_List(obj,Appleslist))
+            COORDINATE obj = Convert_To_Coordinate(obj_x,obj_y);
+            if (!Test_Coord_in_List(obj,snake_game_ia.Appleslist))
             {
                 obj_already_eaten=true;
                 move(2,msg,other);
             }
-            else{*/
+            else{
             std::cout<<dir;
                 dir=go_target(obj_x,obj_y,msg,grid);
                 std::cout<<dir;
 
-           // }
+            }
 
         }
         //std::cout<<"objectif"<<std::endl;
@@ -901,12 +262,10 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         int X=msg.x1;
         int Y=msg.y1;
         std::vector<duels::GridPoint> path;
-        duels::GridPoint start(X,Y);
+        duels::GridPoint start(SnakeListOfCoordinate[0].X,SnakeListOfCoordinate[0].Y);
         duels::GridPoint goal;
 
         int closest_apple=0;
-
-
 
         for(int i = 0; i < cols; i++) //This will be used to construct the grid
         {
@@ -914,27 +273,32 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             {
                 duels::GridPoint Point(i,j);
                 COORDINATE Coor=Convert_To_Coordinate(j,i);
-                if(isaliveSnake(*this,Coor,other))
+                if(isaliveSnake(Coor,other))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
 
                 }
                 else
                 {
-                    grid.cell(Point)=2; //2 Means there's an obstacle
+                    grid.cell(Point)=1; //2 Means there's an obstacle
                 }
+                std::cout<<grid.cell(Point);
             }
+            std::cout<<std::endl;
         }
+        std::cout<<std::endl;
+        std::cout<<"=============="<<std::endl;
+        std::cout<<std::endl;
 
         duels::GridPoint::configure(grid, true);
 
         if(obj_reached || obj_already_eaten)
         {
 
-            int distmin=std::pow((X-msg.x[0]),2)+std::pow((Y-msg.y[0]),2);
+            int distmin=std::pow((X-snake_game_ia.Appleslist[0].X),2)+std::pow((Y-snake_game_ia.Appleslist[0].Y),2);
             for(int i=1;i<20;i++)
             {
-                int dist=std::pow((X-msg.x[i]),2)+std::pow((Y-msg.y[i]),2);
+                int dist=std::pow((X-snake_game_ia.Appleslist[i].X),2)+std::pow((Y-snake_game_ia.Appleslist[i].Y),2);
                 if (dist<distmin)
                 {
                     distmin=dist;
@@ -943,8 +307,8 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 }
 
             }
-            obj_x = msg.x[closest_apple];
-            obj_y = msg.y[closest_apple];
+            obj_x = snake_game_ia.Appleslist[closest_apple].X;
+            obj_y = snake_game_ia.Appleslist[closest_apple].Y;
             obj_already_eaten=false;
 
 
@@ -953,9 +317,10 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
 
         if (X==obj_x && Y==obj_y)
         {
-            //obj_reached=true;
-            //dir=move(3,msg,other);
-            int distmin=std::pow((X-msg.x[0]),2)+std::pow((Y-msg.y[0]),2);
+            obj_reached=true;
+            EatfoodSnake(other,msg);
+            dir=move(3,msg,other);
+            /*int distmin=std::pow((X-msg.x[0]),2)+std::pow((Y-msg.y[0]),2);
             for(int i=0;i<20;i++)
             {
                 int dist=std::pow((X-msg.x[i]),2)+std::pow((Y-msg.y[i]),2);
@@ -968,22 +333,24 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             }
             obj_x = msg.x[closest_apple];
             obj_y = msg.y[closest_apple];
-            obj_already_eaten=false;
+            obj_already_eaten=false;*/
         }
         else
         {
             obj_reached=false;
-        }
+
             COORDINATE obj = Convert_To_Coordinate(obj_x,obj_y);
-            /*if (!Test_Coord_in_List(obj,Appleslist))
+            if (!Test_Coord_in_List(obj,snake_game_ia.Appleslist))
             {
                 obj_already_eaten=true;
-                move(3,msg,other);
+                dir=move(3,msg,other);
             }
             else
-            {*/
+            {
                 goal.x=obj_x;
                 goal.y=obj_y;
+                grid.cell(start)=0;
+                grid.cell(goal)=0;
 
                 path = duels::Astar(start, goal, true);
                 duels::GridPoint next_Point=path[1];
@@ -1012,9 +379,17 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                         dir=UP;
                     }
                 }
-                //SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
-                //SnakeListOfCoordinate.pop_back();
-           // }
+                SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
+                SnakeListOfCoordinate.pop_back();
+            }
+        }
+        std::cout<<SnakeLength;
+        for (int i=0;i<SnakeLength;i++)
+        {
+            std::cout<<"move=";
+            Print_Coord(SnakeListOfCoordinate[i]);
+        }
+        std::cout<<"======="<<std::endl;
 
         return dir;
 
@@ -1047,7 +422,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             {
                 duels::GridPoint Point(i,j);
                 COORDINATE Coor=Convert_To_Coordinate(j,i);
-                if(isaliveSnake(*this,Coor,other))
+                if(isaliveSnake(Coor,other))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
 
@@ -1223,7 +598,7 @@ COORDINATE snake_IA::EvalPosHead(int X, int Y,int dir)
     return Head;
 }
 
-bool snake_IA::isaliveSnake(snake_IA snake,COORDINATE Head, snake_IA other)
+bool snake_IA::isaliveSnake(COORDINATE Head, snake_IA other)
 {
     bool state=true;
     if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
@@ -1241,9 +616,9 @@ bool snake_IA::isaliveSnake(snake_IA snake,COORDINATE Head, snake_IA other)
             state=false;
         }
     }
-    for(int i=1;i<snake.SnakeLength;i++)
+    for(int i=1;i<SnakeLength;i++)
     {
-        if(Head.X==snake.SnakeListOfCoordinate[i].X && Head.Y==snake.SnakeListOfCoordinate[i].Y)
+        if(Head.X==SnakeListOfCoordinate[i].X && Head.Y==SnakeListOfCoordinate[i].Y)
         {
             state=false;
         }
@@ -1357,7 +732,7 @@ int snake_IA::go_target(int obj_x,int obj_y,feedbackMsg msg, Grid grid)
 
 bool snake_IA::isaliveSnakebis(snake_IA other)
 {
-    COORDINATE Head=this->SnakeListOfCoordinate[0];
+    COORDINATE Head=SnakeListOfCoordinate[0];
     bool state=true;
     if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>=WIDTH)
     {
@@ -1370,9 +745,9 @@ bool snake_IA::isaliveSnakebis(snake_IA other)
             state=false;
         }
     }
-    for(int i=1;i<this->SnakeLength-1;i++)
+    for(int i=1;i<SnakeLength-1;i++)
     {
-        if(Head.X==this->SnakeListOfCoordinate[i].X && Head.Y==this->SnakeListOfCoordinate[i].Y)
+        if(Head.X==SnakeListOfCoordinate[i].X && Head.Y==SnakeListOfCoordinate[i].Y)
         {
             state=false;
         }
@@ -1381,3 +756,62 @@ bool snake_IA::isaliveSnakebis(snake_IA other)
 };
 
 
+void snake_IA::EatfoodSnake(snake_IA other, feedbackMsg msg) //THe function that deals with the snake eating an apple
+{
+    int dx_back=0;
+    int dy_back=0;
+    for (int i=0;i<snake_game_ia.Appleslist.size();i++)
+    {
+        if ((SnakeListOfCoordinate[0].X == snake_game_ia.Appleslist[i].X)&&(SnakeListOfCoordinate[0].Y == snake_game_ia.Appleslist[i].Y)) //If the snake head is on one of the apples
+        {
+
+            if (SnakeLength>=2) //We want to obtain the direction of the tail to add a new body part after the current tail
+            {
+                dx_back=SnakeListOfCoordinate[SnakeLength-1].X-SnakeListOfCoordinate[SnakeLength-2].X;
+                dy_back=SnakeListOfCoordinate[SnakeLength-1].Y-SnakeListOfCoordinate[SnakeLength-2].Y;
+            }
+            SnakeLength+=1;
+            COORDINATE coor2= Convert_To_Coordinate(SnakeListOfCoordinate[SnakeLength-2].X+dx_back,SnakeListOfCoordinate[SnakeLength-2].Y+dy_back);
+            SnakeListOfCoordinate.push_back(coor2); //We add the new body part to the list of coordinates
+
+            COORDINATE new_apple;
+            new_apple.X=rand()%WIDTH;
+            new_apple.Y=rand()%HEIGHT;
+            while(new_apple.X>=WIDTH-15 && new_apple.Y<5)
+            {
+                new_apple.X=rand()%WIDTH;
+                new_apple.Y=rand()%HEIGHT;
+            }
+            for(int i=0;i<SnakeLength-1;i++)
+            {
+
+                while(new_apple.X==SnakeListOfCoordinate[i].X && new_apple.Y==SnakeListOfCoordinate[i].Y)
+                {
+                    new_apple.X=rand()%WIDTH;
+                    new_apple.Y=rand()%HEIGHT;
+                }
+            }
+            for(int i=0;i<other.SnakeLength-1;i++)
+            {
+
+                while(new_apple.X==other.SnakeListOfCoordinate[i].X && new_apple.Y==other.SnakeListOfCoordinate[i].Y)
+                {
+                    new_apple.X=rand()%WIDTH;
+                    new_apple.Y=rand()%HEIGHT;
+                }
+            }
+
+            snake_game_ia.Appleslist.push_back(new_apple);
+
+            int pos;
+            for (int i=0;i<snake_game_ia.Appleslist.size();i++)
+            {
+                if ((snake_game_ia.Appleslist[i].X == SnakeListOfCoordinate[0].X)&&(snake_game_ia.Appleslist[i].Y ==SnakeListOfCoordinate[0].Y))
+                {
+                    pos=i;
+                }
+            }
+            snake_game_ia.Appleslist.erase(snake_game_ia.Appleslist.begin()+pos); //We erase from the list the apple that was eaten
+        }
+    }
+}
