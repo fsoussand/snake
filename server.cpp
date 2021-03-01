@@ -141,15 +141,7 @@ int main(int argc, char** argv)
     snake.Snake2Length = snake2.SnakeLength;
 
     //input2.dir=0;
-    snake.UpdateGame(int1,int2,snake1,snake2);
 
-    display=snake.updateDisplay(display);
-
-    game_io.sendDisplay(display);
-
-    std::vector<feedbackMsg> FB=snake.updatefeedback(display);
-    feedback1=FB[0];
-    feedback2=FB[1];
 
 
 #ifndef LOCAL_GAME
@@ -157,6 +149,15 @@ int main(int argc, char** argv)
 #endif
 
     // update game state from input1 and input2
+  snake.UpdateGame(int1,int2,snake1,snake2);
+
+  display=snake.updateDisplay(display);
+
+  game_io.sendDisplay(display);
+
+  std::vector<feedbackMsg> FB=snake.updatefeedback(display);
+  feedback1=FB[0];
+  feedback2=FB[1];
 
 
   }
