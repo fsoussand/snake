@@ -171,9 +171,9 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
 
         duels::Grid grid(row,col);
 
-        for(int i = 0; i < col-1; i++) //This will be used to construct the grid
+        for(int i = 0; i < row-1; i++) //This will be used to construct the grid
         {
-            for(int j=0;j<row-1;j++)
+            for(int j=0;j<col-1;j++)
             {
                 duels::GridPoint Point(i,j);
                 COORDINATE Coor=Convert_To_Coordinate(i,j);
@@ -265,12 +265,12 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
 
         int closest_apple=0;
 
-        for(int i = 0; i < cols; i++) //This will be used to construct the grid
+        for(int i = 0; i < rows; i++) //This will be used to construct the grid
         {
-            for(int j=0;j<rows;j++)
+            for(int j=0;j<cols;j++)
             {
                 duels::GridPoint Point(i,j);
-                COORDINATE Coor=Convert_To_Coordinate(j,i);
+                COORDINATE Coor=Convert_To_Coordinate(i,j);
                 if(isaliveSnake(Coor,other))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
@@ -278,7 +278,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 }
                 else
                 {
-                    grid.cell(Point)=2; //2 Means there's an obstacle
+                    grid.cell(Point)=1; //2 Means there's an obstacle
                 }
                 //std::cout<<grid.cell(Point);
             }
@@ -378,7 +378,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                   {
                     for(int col = 0; col < cols; ++col)
                     {
-                      std::cout << display[grid.cell(row,col)] << " ";
+                      std::cout << display[grid.cell(col,row)] << " ";
                     }
                     std::cout << std::endl;
                   }
@@ -941,7 +941,7 @@ bool snake_IA::isaliveSnakebis(snake_IA other)
             state=false;
         }
     }
-    for(int i=1;i<SnakeLength-1;i++)
+    for(int i=1;i<SnakeLength;i++)
     {
         if(Head.X==SnakeListOfCoordinate[i].X && Head.Y==SnakeListOfCoordinate[i].Y)
         {
