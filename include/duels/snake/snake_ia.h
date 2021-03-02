@@ -36,6 +36,7 @@ public:
     std::vector<COORDINATE> SnakeListOfCoordinate;
     int SnakeNumber;
     int previousdir=4;
+    int dir;
     snake_game snake_game_ia;
 
 
