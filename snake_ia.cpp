@@ -85,11 +85,6 @@ snake_IA::snake_IA(int Level,displayMsg display,int snake_number){ //snake numbe
 }
 
 int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
-    /*std::vector <COORDINATE> Appleslist;
-    for (int i=0;i<20;i++)
-    {
-        Appleslist.push_back(Convert_To_Coordinate(msg.x[i],msg.y[i]));
-    }*/
     switch(level)
     {
     case 0:
@@ -118,6 +113,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         {
             obj_reached=true;
             EatfoodSnake(other,msg);
+            randomdir = move(1,msg,other);
         }
         else
         {
@@ -253,8 +249,6 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
     }
     case 3:
     {
-        inputMsg input;
-
         //int dir;
 
         const int rows(HEIGHT);
@@ -284,13 +278,11 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 {
                     grid.cell(Point)=1; //2 Means there's an obstacle
                 }
-                //std::cout<<grid.cell(Point);
+                std::cout<<grid.cell(Point);
             }
-           // std::cout<<std::endl;
+            std::cout<<std::endl;
         }
-       // std::cout<<std::endl;
-       // std::cout<<"=============="<<std::endl;
-       // std::cout<<std::endl;
+        std::cout<<std::endl;
 
         duels::GridPoint::configure(grid, true);
 
@@ -327,44 +319,25 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
 
 
             COORDINATE obj = Convert_To_Coordinate(obj_x,obj_y);
-            //if (!Test_Coord_in_List(obj,snake_game_ia.Appleslist))
-            if(other.obj_x==obj_x && other.obj_y==obj_y)
+            obj_already_eaten=true;
+            //if (!Test_Coord_in_List(obj,snake_game_ia.Appleslist)
+            for (int i=0;i<snake_game_ia.Appleslist.size();i++)
             {
-                obj_already_eaten=true;
-                dir=move(1,msg,other);
+                if (obj_x == snake_game_ia.Appleslist[i].X && obj_y == snake_game_ia.Appleslist[i].Y)
+                {
+                    obj_already_eaten=false;
+                }
+            }
+            if(obj_already_eaten)
+            {
+                dir=move(3,msg,other);
             }
             else
             {
                 goal.x=obj_x;
                 goal.y=obj_y;
-                //grid.cell(start)=0;
-                //grid.cell(goal)=0;
-                //duels::GridPoint::configure(grid,true);
-
 
                 path = duels::Astar(start, goal, true);
-
-                /*for(auto p: path)
-                    grid.cell(p) = 2;
-
-                  grid.cell(start) = 3;
-                  grid.cell(goal) = 4;
-
-                  std::map<int, char> display;
-                  display[0] = '.';
-                  display[1] = '#';
-                  display[2] = 'x';
-                  display[3] = 'S';
-                  display[4] = 'G';
-
-                  for(int row = 0; row < rows; ++row)
-                  {
-                    for(int col = 0; col < cols; ++col)
-                    {
-                      std::cout << display[grid.cell(col,row)] << " ";
-                    }
-                    std::cout << std::endl;
-                  }*/
 
                 duels::GridPoint next_Point=path[1];
 
@@ -397,17 +370,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 SnakeListOfCoordinate.pop_back();
             }
         }
-        std::cout<<SnakeLength;
-        /*for (int i=0;i<SnakeLength;i++)
-        {
-            std::cout<<"move=";
-            Print_Coord(SnakeListOfCoordinate[i]);
-        }
-        std::cout<<"======="<<std::endl;*/
-
         return dir;
-
-        //return input;
         break;
     }
     case 4:

@@ -81,9 +81,9 @@ int main(int argc, char** argv)
   while(true)
   {
     // check if any regular winner
-    if(!snake.isaliveSnake1()||!snake.isaliveSnake2())
+    if(!snake1.isaliveSnakebis(snake2)||!snake2.isaliveSnakebis(snake1))
     {
-      if(!snake.isaliveSnake1()){
+      if(!snake1.isaliveSnakebis(snake2)){
           game_io.registerVictory(Player::One, feedback1, feedback2);
           game_io.sendDisplay(display,2);
       }
@@ -132,7 +132,7 @@ int main(int argc, char** argv)
     //snake1.SnakeLength = snake.Snake1Length;
     //snake2.SnakeLength = snake.Snake2Length;
 
-    int1=snake1.move(3,feedback1,snake2);
+    int1=snake1.move(1,feedback1,snake2);
     int2=snake2.move(3,feedback2,snake1);
 
     //snake.Snake1ListOfCoordinate = snake1.SnakeListOfCoordinate;
