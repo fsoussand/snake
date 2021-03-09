@@ -42,24 +42,24 @@ snake_IA::snake_IA(int Level,displayMsg display,int snake_number){ //snake numbe
         }
     case 2:
     {
-    switch(Level)
-    {
-    case 0:
-        std::cout<<"IA-level 0: moving randomly"<<std::endl;
-        break;
-    case 1:
-        std::cout<<"IA-level 1 : eating a random apple"<<std::endl;
-        break;
-    case 2:
-        std::cout<<"IA-level 2 : eating the closest apple"<<std::endl;
-        break;
-    case 3:
-        std::cout<<"IA-level 3: using A*"<<std::endl;
-        break;
-    };
-    SnakeLength=1;
-    SnakeListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
-		switch(Level)
+        switch(Level)
+        {
+        case 0:
+            std::cout<<"IA-level 0: moving randomly"<<std::endl;
+            break;
+        case 1:
+            std::cout<<"IA-level 1 : eating a random apple"<<std::endl;
+            break;
+        case 2:
+            std::cout<<"IA-level 2 : eating the closest apple"<<std::endl;
+            break;
+        case 3:
+            std::cout<<"IA-level 3: using A*"<<std::endl;
+            break;
+        };
+        SnakeLength=1;
+        SnakeListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
+        switch(Level)
         {
         case 0:
             std::cout<<"IA-level 0: moving randomly"<<std::endl;
@@ -103,6 +103,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         int randomapple=rand()%20;
         int X=msg.x1;
         int Y=msg.y1;
+        COORDINATE next_Head;
         if(obj_reached)
         {
             obj_x = msg.x[randomapple];
@@ -113,7 +114,9 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         {
             obj_reached=true;
             EatfoodSnake(other,msg);
-            randomdir = move(1,msg,other);
+            randomdir =UP;
+            next_Head=Convert_To_Coordinate(X,Y-1);
+            //move(1,msg,other);
         }
         else
         {
@@ -122,34 +125,67 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
             {
                 if (X - obj_x <0)
                 {
-                    if (previousdir!=3)
-                        randomdir=2;
-                    else randomdir=0;
+                    if (previousdir!=LEFT)
+                    {
+                        randomdir=RIGHT;
+                        next_Head=Convert_To_Coordinate(X+1,Y);
+                    }
+                    else
+                    {
+                        randomdir=UP;
+                        next_Head=Convert_To_Coordinate(X,Y-1);
+                    }
                 }
                 else
                 {
-                    if (previousdir!=2)
-                        randomdir=3;
-                    else randomdir=0;
+                    if (previousdir!=RIGHT)
+                    {
+                        randomdir=LEFT;
+                        next_Head=Convert_To_Coordinate(X-1,Y);
+                    }
+                    else
+                    {
+                        randomdir=UP;
+                        next_Head=Convert_To_Coordinate(X,Y-1);
+                    }
+
                 }
             }
             else
             {
                 if (Y - obj_y <0)
                 {
-                    if (previousdir!=0)
-                        randomdir=1;
-                    else randomdir=2;
+                    if (previousdir!=UP)
+                    {
+                        randomdir=DOWN;
+                        next_Head=Convert_To_Coordinate(X,Y+1);
+                    }
+                    else
+                    {
+                        randomdir=RIGHT;
+
+                        next_Head=Convert_To_Coordinate(X+1,Y);
+                    }
                 }
                 else
                 {
-                    if(previousdir!=1)
-                        randomdir=0;
-                    else randomdir=2;
+                    if(previousdir!=DOWN)
+                    {
+                        randomdir=UP;
+                        next_Head=Convert_To_Coordinate(X,Y-1);
+
+                    }
+                    else
+                    {
+                        randomdir=RIGHT;
+                        next_Head=Convert_To_Coordinate(X+1,Y);
+                    }
                 }
             }
         }
-        input.dir=randomdir;
+        SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
+        SnakeListOfCoordinate.pop_back();
+        //input.dir=randomdir;
         previousdir=randomdir;
         return randomdir;
         break;
@@ -227,17 +263,17 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         {
             obj_reached=false;
             COORDINATE obj = Convert_To_Coordinate(obj_x,obj_y);
-           /* if (!Test_Coord_in_List(obj,snake_game_ia.Appleslist))
+            /* if (!Test_Coord_in_List(obj,snake_game_ia.Appleslist))
             {
                 obj_already_eaten=true;
                 move(2,msg,other);
             }*/
             //else{
             std::cout<<dir;
-                dir=go_target(obj_x,obj_y,msg,grid);
-                std::cout<<dir;
+            dir=go_target(obj_x,obj_y,msg,grid);
+            std::cout<<dir;
 
-           // }
+            // }
 
         }
         //std::cout<<"objectif"<<std::endl;
@@ -278,11 +314,11 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 {
                     grid.cell(Point)=1; //2 Means there's an obstacle
                 }
-                std::cout<<grid.cell(Point);
+                //std::cout<<grid.cell(Point);
             }
-            std::cout<<std::endl;
+            // std::cout<<std::endl;
         }
-        std::cout<<std::endl;
+        //std::cout<<std::endl;
 
         duels::GridPoint::configure(grid, true);
 
@@ -409,11 +445,11 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
                 }
                 //std::cout<<grid.cell(Point);
             }
-           // std::cout<<std::endl;
+            // std::cout<<std::endl;
         }
-       // std::cout<<std::endl;
-       // std::cout<<"=============="<<std::endl;
-       // std::cout<<std::endl;
+        // std::cout<<std::endl;
+        // std::cout<<"=============="<<std::endl;
+        // std::cout<<std::endl;
 
         duels::GridPoint::configure(grid, true);
 
@@ -471,7 +507,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
 
                 path = duels::Astar(start, goal, true);
 
-               /* for(int i = 0; i < cols; i++) //This will be used to construct the grid
+                /* for(int i = 0; i < cols; i++) //This will be used to construct the grid
                 {
                     for(int j=0;j<rows;j++)
                     {
@@ -536,7 +572,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA other){
         //return input;
         break;
     }
-    /*    inputMsg input;
+        /*    inputMsg input;
 
         int dir;
 
@@ -844,7 +880,7 @@ int snake_IA::go_target(int obj_x,int obj_y,feedbackMsg msg, Grid grid)
             else
             {
                 if (grid.isFree(X-1,Y))
-                dir =3;
+                    dir =3;
                 else dir=0;
             }
         }

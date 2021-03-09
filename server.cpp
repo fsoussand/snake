@@ -78,19 +78,27 @@ int main(int argc, char** argv)
 #endif
 
 
-  while(true)
+  while(snake1.isaliveSnakebis(snake2) && snake2.isaliveSnakebis(snake1))
   {
+
     // check if any regular winner
     if(!snake1.isaliveSnakebis(snake2)||!snake2.isaliveSnakebis(snake1))
+
     {
-      if(!snake1.isaliveSnakebis(snake2)){
+      std::cout<<"Dead"<<std::endl;
+      if(!snake1.isaliveSnakebis(snake2))
+      {
           game_io.registerVictory(Player::One, feedback1, feedback2);
+          //std::cout<<"Dead"<<std::endl;
           game_io.sendDisplay(display,2);
       }
 
       else
+      {
       game_io.registerVictory(Player::Two, feedback1, feedback2);
       game_io.sendDisplay(display,1);
+      //std::cout<<"Dead"<<std::endl;
+      }
     }
 
 
@@ -160,9 +168,10 @@ int main(int argc, char** argv)
   feedback2=FB[1];
 
 
-  }
+}
 
   // final results
+  std::cout<<"end game"<<std::endl;
   game_io.sendResult(display, feedback1, feedback2);
 }
 
