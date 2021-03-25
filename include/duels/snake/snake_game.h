@@ -35,6 +35,7 @@ public:
     void UpdateGame(int,int,snake_IA,snake_IA);
     bool isaliveSnake1();
     bool isaliveSnake2();
+    bool is_over_game(snake_IA,snake_IA);
 
 
 
