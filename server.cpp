@@ -140,8 +140,8 @@ int main(int argc, char** argv)
     //snake1.SnakeLength = snake.Snake1Length;
     //snake2.SnakeLength = snake.Snake2Length;
 
-    int1=snake1.move(1,feedback1,snake2);
-    int2=snake2.move(3,feedback2,snake1);
+    int1=snake1.move(3,feedback1,&snake2);
+    int2=snake2.move(3,feedback2,&snake1);
 
     //snake.Snake1ListOfCoordinate = snake1.SnakeListOfCoordinate;
     //snake.Snake2ListOfCoordinate = snake2.SnakeListOfCoordinate;

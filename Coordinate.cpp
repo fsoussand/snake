@@ -26,9 +26,9 @@ bool Test_Coord_in_List(COORDINATE coor,std::vector<COORDINATE> list)
         if ((coor.X==list[i].X) && ((coor.Y==list[i].Y)))
         {
             Is_in = true;
-           // std::cout<<"In List"<<std::endl;
         }
     }
+    if (list.size()!=20) Is_in=false;
 
     if(Is_in==false) std::cout<<"Not in list"<<std::endl;
     return Is_in;

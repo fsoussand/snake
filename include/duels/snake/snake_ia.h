@@ -16,7 +16,7 @@ public:
 
     snake_IA();
     snake_IA(int,displayMsg,int);
-    int move(int,feedbackMsg,snake_IA);
+    int move(int,feedbackMsg,snake_IA *);
     bool isaliveSnake(COORDINATE,snake_IA);
     bool isaliveSnakebis(snake_IA);
     COORDINATE EvalPosHead(int, int,int);
