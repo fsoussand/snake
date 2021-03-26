@@ -22,6 +22,7 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
 {
 
     srand(time(NULL));
+
     display.x1=rand()%WIDTH;
     display.y1=rand()%HEIGHT;
     while (display.x1>=WIDTH-15 && display.y1<5)
@@ -53,6 +54,9 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
     Snake2Length=1;
     this->Snake1ListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
     this->Snake2ListOfCoordinate.push_back(Convert_To_Coordinate(display.x2,display.y2));
+
+
+
 }
 
 COORDINATE snake_game::generate_random_apple()

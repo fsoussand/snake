@@ -129,6 +129,9 @@ int main(int argc, char** argv)
     if(snake.is_over_game(snake1,snake2))
     {
       std::cout<<"end game"<<std::endl;
+      std::vector<feedbackMsg> FB=snake.updatefeedback(display);
+      feedback1=FB[0];
+      feedback2=FB[1];
       if(!snake1.isaliveSnakebis(snake2))
       {
           game_io.registerVictory(Player::One, feedback1, feedback2);
@@ -140,6 +143,7 @@ int main(int argc, char** argv)
       game_io.registerVictory(Player::Two, feedback1, feedback2);
       game_io.sendDisplay(display,1);
       }
+      game_io.sendResult(display, feedback1, feedback2);
     }
 
 
