@@ -298,7 +298,6 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         duels::GridPoint goal;
 
         int closest_apple=0;
-        int otherdist;
 
         for(int i = 0; i < rows; i++) //This will be used to construct the grid
         {
@@ -360,8 +359,6 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         {
             obj_reached=true;
             EatfoodSnake(*other,msg);
-
-
             dir=move(3,msg,other);
         }
 
@@ -424,8 +421,6 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
     case 4:
     {
 
-        //int dir;
-
         const int rows(HEIGHT);
         const int cols(WIDTH);
 
@@ -460,7 +455,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
 
         duels::GridPoint::configure(grid, true);
 
-        if(obj_reached || obj_already_eaten)
+        if(obj_reached)
         {
 
             goal.x=msg.x[0];
@@ -484,7 +479,6 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
             }
             obj_x = msg.x[closest_apple];
             obj_y = msg.y[closest_apple];
-            obj_already_eaten=false;
         }
 
 
@@ -498,34 +492,15 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
             }
         }
 
-
-
         if (X==obj_x && Y==obj_y)
         {
             obj_reached=true;
             EatfoodSnake(*other,msg);
-
-
             dir=move(4,msg,other);
         }
 
         else
-        {
-
-
-            for (int i=0;i<snake_game_ia.Appleslist.size();i++)
-            {
-                if (obj_x == snake_game_ia.Appleslist[i].X && obj_y == snake_game_ia.Appleslist[i].Y)
-                {
-                    obj_already_eaten=false;
-                }
-            }
-            if(obj_already_eaten)
-            {
-                dir=move(4,msg,other);
-            }
-            else
-            {
+        {   
                 goal.x=obj_x;
                 goal.y=obj_y;
 
@@ -560,7 +535,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
                 }
                 SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
                 SnakeListOfCoordinate.pop_back();
-            }
+
         }
         return dir;
         break;
