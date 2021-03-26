@@ -223,8 +223,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         {
             obj_reached=true;
             EatfoodSnake(*other,msg);
-            randomdir =UP;
-            next_Head=Convert_To_Coordinate(X,Y-1);
+            dir=move(2,msg,other);
         }
         else
         {
@@ -479,7 +478,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
             path = duels::Astar(start, goal, true);
             closest_apple=0;
             int distmin=path.size();
-            for(int i=1;i<20;i++)
+            for(int i=1;i<snake_game_ia.Appleslist.size();i++)
             {
                 goal.x=msg.x[i];
                 goal.y=msg.y[i];
@@ -789,6 +788,7 @@ void snake_IA::EatfoodSnake(snake_IA other, feedbackMsg msg) //THe function that
 
     int dx_back=0;
     int dy_back=0;
+    int pos;
     for (int i=0;i<snake_game_ia.Appleslist.size();i++)
     {
         if ((SnakeListOfCoordinate[0].X == snake_game_ia.Appleslist[i].X)&&(SnakeListOfCoordinate[0].Y == snake_game_ia.Appleslist[i].Y)) //If the snake head is on one of the apples
@@ -832,7 +832,7 @@ void snake_IA::EatfoodSnake(snake_IA other, feedbackMsg msg) //THe function that
 
             snake_game_ia.Appleslist.push_back(new_apple);
 
-            int pos;
+
             for (int i=0;i<snake_game_ia.Appleslist.size();i++)
             {
                 if ((snake_game_ia.Appleslist[i].X == SnakeListOfCoordinate[0].X)&&(snake_game_ia.Appleslist[i].Y ==SnakeListOfCoordinate[0].Y))
@@ -842,5 +842,7 @@ void snake_IA::EatfoodSnake(snake_IA other, feedbackMsg msg) //THe function that
             }
             snake_game_ia.Appleslist.erase(snake_game_ia.Appleslist.begin()+pos); //We erase from the list the apple that was eaten
         }
+
     }
+
 }
