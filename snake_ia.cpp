@@ -443,6 +443,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         int X=msg.x1;
         int Y=msg.y1;
         std::vector<duels::GridPoint> path;
+
         duels::GridPoint start(SnakeListOfCoordinate[0].X,SnakeListOfCoordinate[0].Y);
         duels::GridPoint goal;
 
@@ -470,14 +471,17 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
 
         duels::GridPoint::configure(grid, true);
 
+        goal.x=msg.x[0];
+        goal.y=msg.y[0];
+        path = duels::Astar(start, goal, true);
+        closest_apple=0;
+        int distmin=path.size();
+
         if(obj_reached)
         {
 
-            goal.x=msg.x[0];
-            goal.y=msg.y[0];
-            path = duels::Astar(start, goal, true);
-            closest_apple=0;
-            int distmin=path.size();
+            std::cout<<"Changing objective"<<std::endl;
+
             for(int i=1;i<snake_game_ia.Appleslist.size();i++)
             {
                 goal.x=msg.x[i];
@@ -489,11 +493,15 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
                     distmin=dist;
                     closest_apple=i;
 
+
                 }
 
             }
-            obj_x = msg.x[closest_apple];
-            obj_y = msg.y[closest_apple];
+
+            previous_apple=closest_apple;
+            obj_x = snake_game_ia.Appleslist[closest_apple].X;
+            obj_y = snake_game_ia.Appleslist[closest_apple].Y;
+            std::cout<<obj_x<<std::endl;
             obj_reached=false;
         }
 
@@ -510,8 +518,11 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
 
         if (X==obj_x && Y==obj_y)
         {
-            obj_reached=true;
+
+            std::cout<<"I ate some food"<<std::endl;
             EatfoodSnake(*other,msg);
+            obj_reached=true;
+            obj_x=1;
             dir=move(4,msg,other);
         }
 

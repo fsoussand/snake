@@ -1,10 +1,12 @@
-#ifndef SNAKE_GAME_H
-#define SNAKE_GAME_H
-#include <duels/client.h>
-#include <duels/snake/msg.h>
+//#ifndef SNAKE_GAME_H
+//#define SNAKE_GAME_H
+#include "/opt/duels/include/duels/client.h"
+#include "/home/ecn/snake_project/snake_retrieve/snake/include/duels/snake/msg.h"
 #include <sstream>
 namespace duels {
 namespace snake {
+
+
 class Game: public duels::Client<inputMsg, feedbackMsg>
 {
 public:
@@ -19,4 +21,4 @@ private:
 };
 }
 }
-#endif
+//#endif

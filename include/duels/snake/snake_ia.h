@@ -33,6 +33,7 @@ public:
     bool obj_reached=true;
     bool obj_already_eaten=false;
     int SnakeLength;
+    int previous_apple;
     std::vector<COORDINATE> SnakeListOfCoordinate;
     int SnakeNumber;
     int previousdir=4;
