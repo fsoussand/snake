@@ -444,7 +444,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         int Y=msg.y1;
         std::vector<duels::GridPoint> path;
 
-        duels::GridPoint start(SnakeListOfCoordinate[0].X,SnakeListOfCoordinate[0].Y);
+        duels::GridPoint start(X,Y);
         duels::GridPoint goal;
 
         int closest_apple=0;
@@ -453,55 +453,65 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         {
             for(int j=0;j<cols;j++)
             {
-                duels::GridPoint Point(i,j);
-                COORDINATE Coor=Convert_To_Coordinate(i,j);
+                duels::GridPoint Point(j,i);
+                COORDINATE Coor=Convert_To_Coordinate(j,i);
+
+
+
                 if(isaliveSnake(Coor,*other))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
+                    //std::cout<<"0";
 
                 }
                 else
                 {
-                    grid.cell(Point)=1; //2 Means there's an obstacle
+                    grid.cell(Point)=2; //2 Means there's an obstacle
+                    //std::cout<<"2";
+
+
                 }
 
+                /*for (int i=0;i<20;i++)
+                {
+                    if(Coor.X==snake_game_ia.Appleslist[i].X && Coor.Y==snake_game_ia.Appleslist[i].Y)
+                    {
+                        std::cout<<"3";
+                    }
+                }*/
+
+
             }
+            //std::cout<<std::endl;
 
         }
+        //std::cout<<std::endl;
 
         duels::GridPoint::configure(grid, true);
 
-        goal.x=msg.x[0];
-        goal.y=msg.y[0];
-        path = duels::Astar(start, goal, true);
         closest_apple=0;
+        goal.x=snake_game_ia.Appleslist[0].X;
+        goal.y=snake_game_ia.Appleslist[0].Y;
+        path = duels::Astar(start, goal, true);
         int distmin=path.size();
 
         if(obj_reached)
         {
 
-            std::cout<<"Changing objective"<<std::endl;
-
             for(int i=1;i<snake_game_ia.Appleslist.size();i++)
             {
-                goal.x=msg.x[i];
-                goal.y=msg.y[i];
+                goal.x=snake_game_ia.Appleslist[i].X;
+                goal.y=snake_game_ia.Appleslist[i].Y;
                 path = duels::Astar(start, goal, true);
                 int dist=path.size();
                 if (dist<distmin)
                 {
                     distmin=dist;
                     closest_apple=i;
-
-
                 }
-
             }
-
-            previous_apple=closest_apple;
             obj_x = snake_game_ia.Appleslist[closest_apple].X;
             obj_y = snake_game_ia.Appleslist[closest_apple].Y;
-            std::cout<<obj_x<<std::endl;
             obj_reached=false;
         }
 
@@ -518,50 +528,47 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
 
         if (X==obj_x && Y==obj_y)
         {
-
-            std::cout<<"I ate some food"<<std::endl;
-            EatfoodSnake(*other,msg);
             obj_reached=true;
-            obj_x=1;
+            EatfoodSnake(*other,msg);
             dir=move(4,msg,other);
         }
 
         else
-        {   
-                goal.x=obj_x;
-                goal.y=obj_y;
+        {
+            goal.x=obj_x;
+            goal.y=obj_y;
 
-                path = duels::Astar(start, goal, true);
+            path = duels::Astar(start, goal, true);
 
-                duels::GridPoint next_Point=path[1];
+            duels::GridPoint next_Point=path[1];
 
 
-                COORDINATE next_Head=Convert_To_Coordinate(next_Point.x,next_Point.y);
+            COORDINATE next_Head=Convert_To_Coordinate(next_Point.x,next_Point.y);
 
-                if (X != next_Head.X)
+            if (X != next_Head.X)
+            {
+                if (X - next_Head.X <0)
                 {
-                    if (X - next_Head.X <0)
-                    {
-                        dir=RIGHT;
-                    }
-                    else
-                    {
-                        dir=LEFT;
-                    }
+                    dir=RIGHT;
                 }
                 else
                 {
-                    if (Y - next_Head.Y <0)
-                    {
-                        dir=DOWN;
-                    }
-                    else
-                    {
-                        dir=UP;
-                    }
+                    dir=LEFT;
                 }
-                SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
-                SnakeListOfCoordinate.pop_back();
+            }
+            else
+            {
+                if (Y - next_Head.Y <0)
+                {
+                    dir=DOWN;
+                }
+                else
+                {
+                    dir=UP;
+                }
+            }
+            SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
+            SnakeListOfCoordinate.pop_back();
 
         }
         return dir;
