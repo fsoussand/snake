@@ -41,6 +41,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
             next_Head=Where_is_next_head(randomdir,SnakeListOfCoordinate[0]);
 
         }
+        EatfoodSnake(*other,msg);
         return randomdir;
         break;
     }

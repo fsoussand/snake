@@ -16,11 +16,11 @@ public:
 
     snake_IA();
     snake_IA(int,displayMsg,int);
-    int move(int,feedbackMsg,snake_IA);
+    int move(int,feedbackMsg,snake_IA *);
     bool isaliveSnake(COORDINATE,snake_IA);
     bool isaliveSnakebis(snake_IA);
     COORDINATE EvalPosHead(int, int,int);
-    int go_target(int, int,feedbackMsg, duels::Grid,snake_IA);
+    int go_target(int, int,feedbackMsg, duels::Grid);
     bool moveX(feedbackMsg, int *);
     bool moveY(feedbackMsg, int *);
 
@@ -38,6 +38,8 @@ public:
     int previousdir=4;
     int dir;
     snake_game snake_game_ia;
+    std::vector<COORDINATE> ApplesListSnake;
+
 
 
 };
