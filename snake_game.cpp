@@ -132,7 +132,7 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
 
 }
 
-void snake_game::UpdateGame(int int1,int int2,snake_IA snake1, snake_IA snake2)
+void snake_game::UpdateGame(int int1,int int2,snake_IA *snake1, snake_IA *snake2)
 {
     int X1=Snake1ListOfCoordinate[0].X;
     int Y1=Snake1ListOfCoordinate[0].Y;
@@ -174,8 +174,46 @@ void snake_game::UpdateGame(int int1,int int2,snake_IA snake1, snake_IA snake2)
     COORDINATE Head2=Convert_To_Coordinate(X2,Y2);
     Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),Head2);
     Snake2ListOfCoordinate.pop_back();
-    snake1.SnakeListOfCoordinate = Snake1ListOfCoordinate;
-    snake2.SnakeListOfCoordinate = Snake2ListOfCoordinate;
+    snake1->SnakeListOfCoordinate = Snake1ListOfCoordinate;
+    snake2->SnakeListOfCoordinate = Snake2ListOfCoordinate;
+
+    for(int i=0;i<20;i++) //We want to know if all apples present in snake1 is present in Apples List
+    {
+        bool apple_i_is_in=Test_Coord_in_List(snake1->ApplesListSnake[i],Appleslist);
+
+        if (!apple_i_is_in)
+        {
+            Appleslist.push_back(snake1->ApplesListSnake[i]);
+            break;
+        }
+    }
+
+    for(int i=0;i<20;i++) //We want to know if all apples present in snake2 is present in Apples List
+    {
+        bool apple_i_is_in=Test_Coord_in_List(snake2->ApplesListSnake[i],Appleslist);
+
+        if (!apple_i_is_in)
+        {
+            Appleslist.push_back(snake2->ApplesListSnake[i]);
+            break;
+        }
+    }
+
+
+    for(int i=0;i<20;i++) //We want to know if all apples present in Apples List are ine the Snake Lists
+    {
+        bool apple_i_is_in_1=Test_Coord_in_List(Appleslist[i],snake1->ApplesListSnake);
+        bool apple_i_is_in_2=Test_Coord_in_List(Appleslist[i],snake2->ApplesListSnake);
+        if (!apple_i_is_in_1 || !apple_i_is_in_2)
+
+        {
+            Appleslist.erase(Appleslist.begin()+i);
+            break;
+        }
+
+    }
+    snake1->ApplesListSnake=Appleslist;
+    snake2->ApplesListSnake=Appleslist;
 }
 
 std::vector<feedbackMsg> snake_game::constructFeedback(feedbackMsg msg1, feedbackMsg msg2)

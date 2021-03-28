@@ -29,9 +29,6 @@ int main(int argc, char** argv)
   GameIO game_io;
   int int1,int2;
 
-  snake_IA snake1;
-  snake_IA snake2;
-
 
   // simulation time
   const double dt(game_io.samplingTime());
@@ -41,12 +38,19 @@ int main(int argc, char** argv)
   // build init message for display
 
   snake_game snake(display);
+
+   display=snake.updateDisplay(display);
+
+  snake_IA snake1(1,display,1);
+  snake_IA snake2(1,display,2);
+
   snake1.SnakeListOfCoordinate = snake.Snake1ListOfCoordinate;
   snake2.SnakeListOfCoordinate = snake.Snake2ListOfCoordinate;
   snake1.SnakeLength = snake.Snake1Length;
   snake2.SnakeLength = snake.Snake2Length;
 
   display=snake.updateDisplay(display);
+
   game_io.sendDisplay(display);
 
   std::vector<feedbackMsg> FB=snake.constructFeedback(feedback1,feedback2);
@@ -120,7 +124,7 @@ int main(int argc, char** argv)
 
       // artificial opponent: put your AI here
 
-    int1=snake1.move(1,feedback1,&snake2);
+    int1=snake1.move(4,feedback1,&snake2);
     int2=snake2.move(4,feedback2,&snake1);
 
     snake.Snake1Length = snake1.SnakeLength;
@@ -153,9 +157,7 @@ int main(int argc, char** argv)
 #endif
 
     // update game state from input1 and input2
-  snake.UpdateGame(int1,int2,snake1,snake2);
-
-
+  snake.UpdateGame(int1,int2,&snake1,&snake2);
 
   display=snake.updateDisplay(display);
 

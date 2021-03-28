@@ -28,8 +28,8 @@ bool Test_Coord_in_List(COORDINATE coor,std::vector<COORDINATE> list)
             Is_in = true;
         }
     }
-    if (list.size()!=20) Is_in=false;
+    //if (list.size()!=20) Is_in=false;
 
-    if(Is_in==false) std::cout<<"Not in list"<<std::endl;
+    //if(Is_in==false) std::cout<<"Not in list"<<std::endl;
     return Is_in;
 }
