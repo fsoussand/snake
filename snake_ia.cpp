@@ -47,7 +47,6 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
     }
     case 1:
     {
-        inputMsg input;
         int randomdir=rand()%4;
         int randomapple=rand()%20;
         int X=msg.x1;
@@ -63,9 +62,16 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         {
             obj_reached=true;
             EatfoodSnake(*other,msg);
-            randomdir =UP;
+            randomdir=rand()%4;
+            COORDINATE next_Head=Where_is_next_head(randomdir,SnakeListOfCoordinate[0]);
+            while (!isaliveSnake(next_Head,*other))
+            {
+                randomdir=rand()%4;
+                next_Head=Where_is_next_head(randomdir,SnakeListOfCoordinate[0]);
+
+            }
+
             next_Head=Convert_To_Coordinate(X,Y-1);
-            //move(1,msg,other);
         }
         else
         {
