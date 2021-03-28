@@ -14,7 +14,6 @@ int main(int argc, char** argv)
   while(game.get(feedback))
   {
     // write input in less than timeout
-      input.dir=0;
 
 
 

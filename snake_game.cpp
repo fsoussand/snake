@@ -22,7 +22,6 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
 {
 
     srand(time(NULL));
-
     display.x1=rand()%WIDTH;
     display.y1=rand()%HEIGHT;
     while (display.x1>=WIDTH-15 && display.y1<5)
@@ -54,9 +53,6 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
     Snake2Length=1;
     this->Snake1ListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
     this->Snake2ListOfCoordinate.push_back(Convert_To_Coordinate(display.x2,display.y2));
-
-
-
 }
 
 COORDINATE snake_game::generate_random_apple()
@@ -132,7 +128,7 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
 
 }
 
-void snake_game::UpdateGame(int int1,int int2,snake_IA *snake1, snake_IA *snake2)
+void snake_game::UpdateGame(int int1,int int2,snake_IA snake1, snake_IA snake2)
 {
     int X1=Snake1ListOfCoordinate[0].X;
     int Y1=Snake1ListOfCoordinate[0].Y;
@@ -174,46 +170,8 @@ void snake_game::UpdateGame(int int1,int int2,snake_IA *snake1, snake_IA *snake2
     COORDINATE Head2=Convert_To_Coordinate(X2,Y2);
     Snake2ListOfCoordinate.insert(Snake2ListOfCoordinate.begin(),Head2);
     Snake2ListOfCoordinate.pop_back();
-    snake1->SnakeListOfCoordinate = Snake1ListOfCoordinate;
-    snake2->SnakeListOfCoordinate = Snake2ListOfCoordinate;
-
-    for(int i=0;i<20;i++) //We want to know if all apples present in snake1 is present in Apples List
-    {
-        bool apple_i_is_in=Test_Coord_in_List(snake1->ApplesListSnake[i],Appleslist);
-
-        if (!apple_i_is_in)
-        {
-            Appleslist.push_back(snake1->ApplesListSnake[i]);
-            break;
-        }
-    }
-
-    for(int i=0;i<20;i++) //We want to know if all apples present in snake2 is present in Apples List
-    {
-        bool apple_i_is_in=Test_Coord_in_List(snake2->ApplesListSnake[i],Appleslist);
-
-        if (!apple_i_is_in)
-        {
-            Appleslist.push_back(snake2->ApplesListSnake[i]);
-            break;
-        }
-    }
-
-
-    for(int i=0;i<20;i++) //We want to know if all apples present in Apples List are ine the Snake Lists
-    {
-        bool apple_i_is_in_1=Test_Coord_in_List(Appleslist[i],snake1->ApplesListSnake);
-        bool apple_i_is_in_2=Test_Coord_in_List(Appleslist[i],snake2->ApplesListSnake);
-        if (!apple_i_is_in_1 || !apple_i_is_in_2)
-
-        {
-            Appleslist.erase(Appleslist.begin()+i);
-            break;
-        }
-
-    }
-    snake1->ApplesListSnake=Appleslist;
-    snake2->ApplesListSnake=Appleslist;
+    snake1.SnakeListOfCoordinate = Snake1ListOfCoordinate;
+    snake2.SnakeListOfCoordinate = Snake2ListOfCoordinate;
 }
 
 std::vector<feedbackMsg> snake_game::constructFeedback(feedbackMsg msg1, feedbackMsg msg2)
@@ -262,27 +220,6 @@ bool snake_game::isaliveSnake2()
     for (int i=1;i<Snake2ListOfCoordinate.size();i++)
         if(Snake2ListOfCoordinate[0].X==Snake2ListOfCoordinate[i].X && Snake2ListOfCoordinate[0].Y==Snake2ListOfCoordinate[i].X) state=false;
     if(Snake2ListOfCoordinate[0].X<0 ||Snake2ListOfCoordinate[0].Y<0 || Snake2ListOfCoordinate[0].X>WIDTH || Snake2ListOfCoordinate[0].Y>HEIGHT) state=false;
-    return state;
-}
-
-bool snake_game::is_over_game(snake_IA snake1, snake_IA snake2)
-{
-    bool state=false;
-    COORDINATE Head1=snake1.SnakeListOfCoordinate[0];
-    COORDINATE Head2=snake2.SnakeListOfCoordinate[0];
-
-    for(int i=0;i<Snake2ListOfCoordinate.size();i++)
-        if(Head1.X==Snake2ListOfCoordinate[i].X && Head1.Y==Snake2ListOfCoordinate[i].X) state=true;
-    for (int i=1;i<Snake1ListOfCoordinate.size();i++)
-        if(Head1.X==Snake1ListOfCoordinate[i].X && Head1.Y==Snake1ListOfCoordinate[i].X) state=true;
-    if(Head1.X<0 ||Head1.Y<0 || Head1.X>WIDTH || Head1.Y>HEIGHT) state=true;
-
-    for(int i=0;i<Snake1ListOfCoordinate.size();i++)
-        if(Head2.X==Snake1ListOfCoordinate[i].X && Head2.Y==Snake1ListOfCoordinate[i].X) state=true;
-    for (int i=1;i<Snake2ListOfCoordinate.size();i++)
-        if(Head2.X==Snake2ListOfCoordinate[i].X && Head2.Y==Snake2ListOfCoordinate[i].X) state=true;
-    if(Head2.X<0 ||Head2.Y<0 || Head2.X>WIDTH || Head2.Y>HEIGHT) state=true;
-
     return state;
 }
 
