@@ -11,6 +11,7 @@
 #include "include/duels/snake/a_star.h"
 
 
+
 snake_IA::snake_IA()
 {
 }
@@ -89,12 +90,18 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
     {
     case 0:
     {
+
         int randomdir=rand()%4;
-        inputMsg input;
-        input.dir=randomdir;
-        //return input;
+        COORDINATE next_Head=Where_is_next_head(randomdir,SnakeListOfCoordinate[0]);
+        while (!isaliveSnake(next_Head,*other))
+        {
+            randomdir=rand()%4;
+            next_Head=Where_is_next_head(randomdir,SnakeListOfCoordinate[0]);
+
+        }
         return randomdir;
         break;
+
     }
     case 1:
     {
@@ -461,31 +468,19 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
                 if(isaliveSnake(Coor,*other))
                 {
                     grid.cell(Point)=0; //0 Means the path is free
-                    //std::cout<<"0";
 
                 }
                 else
                 {
                     grid.cell(Point)=2; //2 Means there's an obstacle
-                    //std::cout<<"2";
-
 
                 }
 
-                /*for (int i=0;i<20;i++)
-                {
-                    if(Coor.X==snake_game_ia.Appleslist[i].X && Coor.Y==snake_game_ia.Appleslist[i].Y)
-                    {
-                        std::cout<<"3";
-                    }
-                }*/
-
-
             }
-            //std::cout<<std::endl;
+
 
         }
-        //std::cout<<std::endl;
+
 
         duels::GridPoint::configure(grid, true);
 

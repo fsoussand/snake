@@ -13,6 +13,7 @@ const int UP=0;
 const int DOWN=1;
 const int RIGHT=2;
 const int LEFT=3;
+const int NOTMOVING=-1;
 
 using namespace duels;
 using namespace duels::snake;
@@ -36,6 +37,9 @@ public:
     bool isaliveSnake1();
     bool isaliveSnake2();
     bool is_over_game(snake_IA,snake_IA);
+    bool EatfoodSnake(snake_IA *,snake_IA *, feedbackMsg);
+
+
 
 
 

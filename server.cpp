@@ -121,7 +121,10 @@ int main(int argc, char** argv)
       // artificial opponent: put your AI here
 
     int1=snake1.move(1,feedback1,&snake2);
-    int2=snake2.move(4,feedback2,&snake1);
+   // snake.EatfoodSnake(&snake1,&snake2,feedback1);
+    int2=NOTMOVING;
+   // snake.EatfoodSnake(&snake2,&snake1,feedback1);
+
 
     snake.Snake1Length = snake1.SnakeLength;
     snake.Snake2Length = snake2.SnakeLength;
