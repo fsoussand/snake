@@ -1,4 +1,4 @@
-#include "include/duels/snake/snake_game.h"
+﻿#include "include/duels/snake/snake_game.h"
 #include <duels/snake/msg.h>
 #include "include/duels/snake/snake_ia.h"
 #include<time.h>
@@ -140,6 +140,12 @@ std::vector<feedbackMsg> snake_game::updatefeedback(displayMsg display)
 
 void snake_game::UpdateGame(int int1,int int2,snake_IA snake1, snake_IA snake2)
 {
+    while(Appleslist.size()<20)
+    {
+        COORDINATE new_apple=generate_random_apple();
+        Appleslist.push_back(new_apple);
+    }
+
     int X1=Snake1ListOfCoordinate[0].X;
     int Y1=Snake1ListOfCoordinate[0].Y;
     int X2=Snake2ListOfCoordinate[0].X;
@@ -158,6 +164,7 @@ void snake_game::UpdateGame(int int1,int int2,snake_IA snake1, snake_IA snake2)
     case LEFT: //moving left
         X1=X1-1;
         break;
+
     }
     switch(int2)
     {
@@ -212,4 +219,94 @@ std::vector<feedbackMsg> snake_game::constructFeedback(feedbackMsg msg1, feedbac
 
 }
 
+
+bool snake_game::EatfoodSnake(snake_IA *self,snake_IA *other, feedbackMsg msg) //THe function that deals with the snake eating an apple
+{
+
+    std::vector<COORDINATE> SnakeListOfCoordinate;
+    int SnakeLength;
+    bool has_eaten=false;
+    if(self->SnakeNumber==1)
+    {
+        SnakeListOfCoordinate=Snake1ListOfCoordinate;
+        SnakeLength=Snake1Length;
+    }
+    else
+    {
+     SnakeListOfCoordinate=Snake2ListOfCoordinate;
+     SnakeLength=Snake2Length;
+    }
+    int dx_back=0;
+    int dy_back=0;
+    int pos;
+    for (int i=0;i<Appleslist.size();i++)
+    {
+        if ((SnakeListOfCoordinate[0].X == Appleslist[i].X)&&(SnakeListOfCoordinate[0].Y == Appleslist[i].Y)) //If the snake head is on one of the apples
+        {
+
+            if (SnakeLength>=2) //We want to obtain the direction of the tail to add a new body part after the current tail
+            {
+                dx_back=SnakeListOfCoordinate[SnakeLength-1].X-SnakeListOfCoordinate[SnakeLength-2].X;
+                dy_back=SnakeListOfCoordinate[SnakeLength-1].Y-SnakeListOfCoordinate[SnakeLength-2].Y;
+            }
+            SnakeLength+=1;
+            COORDINATE coor2= Convert_To_Coordinate(SnakeListOfCoordinate[SnakeLength-2].X+dx_back,SnakeListOfCoordinate[SnakeLength-2].Y+dy_back);
+            SnakeListOfCoordinate.push_back(coor2); //We add the new body part to the list of coordinates
+
+            COORDINATE new_apple;
+            new_apple.X=rand()%WIDTH;
+            new_apple.Y=rand()%HEIGHT;
+            while(new_apple.X>=WIDTH-15 && new_apple.Y<5)
+            {
+                new_apple.X=rand()%WIDTH;
+                new_apple.Y=rand()%HEIGHT;
+            }
+            for(int i=0;i<SnakeLength-1;i++)
+            {
+
+                while(new_apple.X==SnakeListOfCoordinate[i].X && new_apple.Y==SnakeListOfCoordinate[i].Y)
+                {
+                    new_apple.X=rand()%WIDTH;
+                    new_apple.Y=rand()%HEIGHT;
+                }
+            }
+            for(int i=0;i<other->SnakeLength-1;i++)
+            {
+
+                while(new_apple.X==other->SnakeListOfCoordinate[i].X && new_apple.Y==other->SnakeListOfCoordinate[i].Y)
+                {
+                    new_apple.X=rand()%WIDTH;
+                    new_apple.Y=rand()%HEIGHT;
+                }
+            }
+
+            Appleslist.push_back(new_apple);
+
+
+            for (int i=0;i<Appleslist.size();i++)
+            {
+                if ((Appleslist[i].X == SnakeListOfCoordinate[0].X)&&(Appleslist[i].Y ==SnakeListOfCoordinate[0].Y))
+                {
+                    pos=i;
+                }
+            }
+            Appleslist.erase(Appleslist.begin()+pos); //We erase from the list the apple that was eaten
+        }
+
+    }
+    if(self->SnakeNumber==1)
+    {
+        if(SnakeLength>Snake1Length) has_eaten=true;
+        Snake1ListOfCoordinate=SnakeListOfCoordinate;
+        Snake1Length=SnakeLength;
+    }
+    else
+    {
+        if(SnakeLength>Snake2Length) has_eaten=true;
+        Snake2ListOfCoordinate=SnakeListOfCoordinate;
+        Snake2Length=SnakeLength;
+    }
+    return has_eaten;
+
+}
 

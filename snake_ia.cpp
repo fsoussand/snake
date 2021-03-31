@@ -11,6 +11,7 @@
 #include "include/duels/snake/a_star.h"
 
 
+
 snake_IA::snake_IA()
 {
 
@@ -42,6 +43,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         SnakeListOfCoordinate.pop_back();
         return dir;
         break;
+
     }
     case 1:
     {

@@ -13,6 +13,7 @@ const int UP=0;
 const int DOWN=1;
 const int RIGHT=2;
 const int LEFT=3;
+const int NOTMOVING=-1;
 
 using namespace duels;
 using namespace duels::snake;
@@ -33,6 +34,16 @@ public:
     std::vector<feedbackMsg> updatefeedback(displayMsg);
     std::vector<feedbackMsg> constructFeedback(feedbackMsg,feedbackMsg);
     void UpdateGame(int,int,snake_IA,snake_IA);
+<<<<<<< HEAD
+=======
+    bool isaliveSnake1();
+    bool isaliveSnake2();
+    bool is_over_game(snake_IA,snake_IA);
+    bool EatfoodSnake(snake_IA *,snake_IA *, feedbackMsg);
+
+
+
+>>>>>>> dbfdfcacb176095d67e02c364295de8d61165610
 
 
     int Snake1Length;
