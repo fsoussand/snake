@@ -199,9 +199,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
     }
     case 2:
     {
-        inputMsg input;
         int randomdir=rand()%4;
-        int randomapple=rand()%20;
         int X=msg.x1;
         int Y=msg.y1;
         COORDINATE next_Head;

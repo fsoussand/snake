@@ -30,8 +30,10 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
         display.x1=rand()%WIDTH;
         display.y1=rand()%HEIGHT;
     }
-    display.x2=rand()%WIDTH;
-    display.y2=rand()%HEIGHT;
+    //display.x2=rand()%WIDTH;
+    //display.y2=rand()%HEIGHT;
+    display.x2=display.x1+1;
+    display.y2=display.y1+1;
     while (display.x2>=WIDTH-15 && display.y2<5)
     {
         display.x2=rand()%WIDTH;
