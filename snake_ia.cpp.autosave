@@ -68,14 +68,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
             {
                 randomdir=rand()%4;
                 next_Head=Where_is_next_head(randomdir,SnakeListOfCoordinate[0]);
-<<<<<<< HEAD
             }
-=======
-
-            }
-
-            next_Head=Convert_To_Coordinate(X,Y-1);
->>>>>>> fe88e422b0cfd5e2c68f0c2bcbec5d2d345e7f0b
         }
         else
         {
