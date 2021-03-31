@@ -27,6 +27,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
     case 0:
     {
         //random move
+        dir=rand()%4;
         COORDINATE next_Head=Where_is_next_head(dir,SnakeListOfCoordinate[0]);
         //test if acceptable next_head
         while (!isaliveSnake(next_Head,*other))
@@ -37,6 +38,8 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         }
         //check if apple eaten
         EatfoodSnake(*other,msg);
+        SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
+        SnakeListOfCoordinate.pop_back();
         return dir;
         break;
     }
@@ -539,7 +542,7 @@ bool snake_IA::isaliveSnake(COORDINATE Head, snake_IA other)
 {
     bool state=true;
     //check if snake is in the window
-    if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>WIDTH)
+    if(Head.X<0||Head.Y<0||Head.X>HEIGHT||Head.Y>=WIDTH)
     {
         state=false;
     }
@@ -662,3 +665,35 @@ void snake_IA::EatfoodSnake(snake_IA other, feedbackMsg msg) //THe function that
     }
 
 }
+
+COORDINATE snake_IA::Where_is_next_head(int dir,COORDINATE previous_head)
+{
+    COORDINATE next_head;
+    int X=previous_head.X;
+    int Y=previous_head.Y;
+    switch(dir)
+    {
+    case UP:
+    {
+        next_head=Convert_To_Coordinate(X,Y-1);
+        break;
+    }
+    case DOWN:
+    {
+        next_head=Convert_To_Coordinate(X,Y+1);
+        break;
+    }
+    case RIGHT:
+    {
+        next_head=Convert_To_Coordinate(X+1,Y);
+        break;
+    }
+    case LEFT:
+    {
+        next_head=Convert_To_Coordinate(X-1,Y);
+        break;
+    }
+    }
+    return next_head;
+};
+

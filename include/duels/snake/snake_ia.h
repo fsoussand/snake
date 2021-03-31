@@ -19,7 +19,7 @@ public:
     int move(int,feedbackMsg,snake_IA *);
     bool isaliveSnake(COORDINATE,snake_IA);
     bool isaliveSnakebis(snake_IA);
-
+    COORDINATE Where_is_next_head(int,COORDINATE);
     void EatfoodSnake(snake_IA,feedbackMsg);
 
 
