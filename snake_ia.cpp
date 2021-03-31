@@ -236,6 +236,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
                     }
                 }
             }
+            previousdir=dir;
             //update snake coordinates
             SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
             SnakeListOfCoordinate.pop_back();
@@ -314,9 +315,43 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         {
             while(other->obj_x==obj_x && obj_y==other->obj_y)
             {
-                closest_apple=rand()%snake_game_ia.Appleslist.size();
-                other->obj_x=snake_game_ia.Appleslist[closest_apple].X;
-                other->obj_y=snake_game_ia.Appleslist[closest_apple].Y;
+                int dist0=std::pow((X-snake_game_ia.Appleslist[0].X),2)+std::pow((Y-snake_game_ia.Appleslist[0].Y),2);
+
+                int dist1=std::pow((X-snake_game_ia.Appleslist[1].X),2)+std::pow((Y-snake_game_ia.Appleslist[1].Y),2);
+                int second_closest;
+                if (dist0<dist1)
+                {
+                    closest_apple=0;
+                    second_closest=1;
+                    distmin=dist0;
+                }
+                else
+                {
+                    closest_apple=1;
+                    second_closest=0;
+                    distmin=dist1;
+                }
+                //set the obj
+                for(int i=2;i<20;i++)
+                {
+                    int dist=std::pow((X-snake_game_ia.Appleslist[i].X),2)+std::pow((Y-snake_game_ia.Appleslist[i].Y),2);
+                    if (dist<distmin)
+                    {
+                        distmin=dist;
+                        second_closest=closest_apple;
+                        closest_apple=i;
+                    }
+                    else
+                    {
+                        if (dist<dist1)
+                        {
+                            second_closest=i;
+                            dist1=dist;
+                        }
+                    }
+                }
+                obj_x = snake_game_ia.Appleslist[second_closest].X;
+                obj_y = snake_game_ia.Appleslist[second_closest].Y;
             }
         }
 
@@ -342,12 +377,12 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
                     break;
                 }
             }
-            if(obj_already_eaten)
+            /*if(obj_already_eaten)
             {
                 dir=move(3,msg,other);
-            }
-            else
-            {
+            }*/
+            //else
+            //{
                 //build the path
                 goal.x=obj_x;
                 goal.y=obj_y;
@@ -384,7 +419,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
                 //update snake coordinates
                 SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
                 SnakeListOfCoordinate.pop_back();
-            }
+            //}
         }
         return dir;
         break;
@@ -460,9 +495,57 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
         {
             while(other->obj_x==obj_x && obj_y==other->obj_y)
             {
-                closest_apple=rand()%snake_game_ia.Appleslist.size();
+                /*closest_apple=rand()%snake_game_ia.Appleslist.size();
                 other->obj_x=snake_game_ia.Appleslist[closest_apple].X;
-                other->obj_y=snake_game_ia.Appleslist[closest_apple].Y;
+                other->obj_y=snake_game_ia.Appleslist[closest_apple].Y;*/
+                duels::GridPoint goal0;
+                goal0.x=snake_game_ia.Appleslist[0].X;
+                goal0.y=snake_game_ia.Appleslist[0].Y;
+                path = duels::Astar(start, goal0, true);
+                int dist0=path.size();
+
+                duels::GridPoint goal1;
+                goal0.x=snake_game_ia.Appleslist[1].X;
+                goal0.y=snake_game_ia.Appleslist[1].Y;
+                path = duels::Astar(start, goal1, true);
+                int dist1=path.size();
+
+                int second_closest;
+                if (dist0<dist1)
+                {
+                    closest_apple=0;
+                    second_closest=1;
+                    distmin=dist0;
+                }
+                else
+                {
+                    closest_apple=1;
+                    second_closest=0;
+                    distmin=dist1;
+                }
+                for(int i=2;i<snake_game_ia.Appleslist.size();i++)
+                {
+                    goal.x=snake_game_ia.Appleslist[i].X;
+                    goal.y=snake_game_ia.Appleslist[i].Y;
+                    path = duels::Astar(start, goal, true);
+                    int dist=path.size();
+                    if (dist<distmin)
+                    {
+                        distmin=dist;
+                        second_closest=closest_apple;
+                        closest_apple=i;
+                    }
+                    else
+                    {
+                        if (dist<dist1)
+                        {
+                            second_closest=i;
+                            dist1=dist;
+                        }
+                    }
+                }
+                obj_x = snake_game_ia.Appleslist[second_closest].X;
+                obj_y = snake_game_ia.Appleslist[second_closest].Y;
             }
         }
 

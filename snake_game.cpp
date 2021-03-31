@@ -22,6 +22,7 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
 {
 
     srand(time(NULL));
+    //create snake1 head
     display.x1=rand()%WIDTH;
     display.y1=rand()%HEIGHT;
     while (display.x1>=WIDTH-15 && display.y1<5)
@@ -29,6 +30,7 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
         display.x1=rand()%WIDTH;
         display.y1=rand()%HEIGHT;
     }
+    //create snake2 head
     display.x2=rand()%WIDTH;
     display.y2=rand()%HEIGHT;
     while (display.x2>=WIDTH-15 && display.y2<5)
@@ -36,6 +38,7 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
         display.x2=rand()%WIDTH;
         display.y2=rand()%HEIGHT;
     }
+    //create apples
     for(int i=0;i<20;i++)
     {
 
@@ -49,6 +52,7 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
 
         this->Appleslist.push_back(Convert_To_Coordinate(display.x[i],display.y[i]));
     }
+    //initialize snake
     Snake1Length=1;
     Snake2Length=1;
     this->Snake1ListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
@@ -58,13 +62,16 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
 COORDINATE snake_game::generate_random_apple()
 {
     COORDINATE new_apple;
+    //generate apple
     new_apple.X=rand()%WIDTH;
     new_apple.Y=rand()%HEIGHT;
+    //check if in score part
     while(new_apple.X>=WIDTH-15 && new_apple.Y<5)
     {
         new_apple.X=rand()%WIDTH;
         new_apple.Y=rand()%HEIGHT;
     }
+    //check if in snake1
     for(int i=0;i<Snake1Length-1;i++)
     {
 
@@ -74,6 +81,7 @@ COORDINATE snake_game::generate_random_apple()
             new_apple.Y=rand()%HEIGHT;
         }
     }
+    //check if in snake2
     for(int i=0;i<Snake2Length-1;i++)
     {
 
@@ -90,10 +98,12 @@ COORDINATE snake_game::generate_random_apple()
 
 displayMsg snake_game::updateDisplay(displayMsg display)
 {
+    //update positions snakes
     display.x1=Snake1ListOfCoordinate[0].X;
     display.y1=Snake1ListOfCoordinate[0].Y;
     display.x2=Snake2ListOfCoordinate[0].X;
     display.y2=Snake2ListOfCoordinate[0].Y;
+    //update positions apples
     for(int i=0;i<Appleslist.size();i++)
     {
         display.x[i]=Appleslist[i].X;
@@ -164,6 +174,7 @@ void snake_game::UpdateGame(int int1,int int2,snake_IA snake1, snake_IA snake2)
         X2=X2-1;
         break;
     }
+    //update snakes bodies
     COORDINATE Head1=Convert_To_Coordinate(X1,Y1);
     Snake1ListOfCoordinate.insert(Snake1ListOfCoordinate.begin(),Head1);
     Snake1ListOfCoordinate.pop_back();
@@ -201,25 +212,4 @@ std::vector<feedbackMsg> snake_game::constructFeedback(feedbackMsg msg1, feedbac
 
 }
 
-bool snake_game::isaliveSnake1()
-{
-    bool state=true;
-    for(int i=0;i<Snake2ListOfCoordinate.size();i++)
-        if(Snake1ListOfCoordinate[0].X==Snake2ListOfCoordinate[i].X && Snake1ListOfCoordinate[0].Y==Snake2ListOfCoordinate[i].X) state=false;
-    for (int i=1;i<Snake1ListOfCoordinate.size();i++)
-        if(Snake1ListOfCoordinate[0].X==Snake1ListOfCoordinate[i].X && Snake1ListOfCoordinate[0].Y==Snake1ListOfCoordinate[i].X) state=false;
-    if(Snake1ListOfCoordinate[0].X<0 ||Snake1ListOfCoordinate[0].Y<0 || Snake1ListOfCoordinate[0].X>WIDTH || Snake1ListOfCoordinate[0].Y>HEIGHT) state=false;
-    return state;
-}
-
-bool snake_game::isaliveSnake2()
-{
-    bool state=true;
-    for(int i=0;i<Snake1ListOfCoordinate.size();i++)
-        if(Snake2ListOfCoordinate[0].X==Snake1ListOfCoordinate[i].X && Snake2ListOfCoordinate[0].Y==Snake1ListOfCoordinate[i].X) state=false;
-    for (int i=1;i<Snake2ListOfCoordinate.size();i++)
-        if(Snake2ListOfCoordinate[0].X==Snake2ListOfCoordinate[i].X && Snake2ListOfCoordinate[0].Y==Snake2ListOfCoordinate[i].X) state=false;
-    if(Snake2ListOfCoordinate[0].X<0 ||Snake2ListOfCoordinate[0].Y<0 || Snake2ListOfCoordinate[0].X>WIDTH || Snake2ListOfCoordinate[0].Y>HEIGHT) state=false;
-    return state;
-}
 
