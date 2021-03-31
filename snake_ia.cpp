@@ -60,8 +60,6 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
             obj_reached=true;
             //check if apple eaten
             EatfoodSnake(*other,msg);
-            dir=move(1,msg,other); //pour moi pas besoin de faire du random juste on recommence nan?
-
         }
         else
         {
@@ -234,14 +232,16 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
                     }
                 }
             }
+            //update snake coordinates
+            SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
+            SnakeListOfCoordinate.pop_back();
         }
-        //update snake coordinates
-        SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
-        SnakeListOfCoordinate.pop_back();
         for (int i=0;i<SnakeListOfCoordinate.size();i++)
         {
             Print_Coord(SnakeListOfCoordinate[i]);
         }
+        std::cout<<SnakeLength<<std::endl;
+
         std::cout<<"___________"<<std::endl;
         previousdir=dir;
         return dir;
