@@ -60,6 +60,7 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
             obj_reached=true;
             //check if apple eaten
             EatfoodSnake(*other,msg);
+            dir=move(1,msg,other);
         }
         else
         {
@@ -125,10 +126,10 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
                     }
                 }
             }
+            //update the snake coordinates
+            SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
+            SnakeListOfCoordinate.pop_back();
         }
-        //update the snake coordinates
-        SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
-        SnakeListOfCoordinate.pop_back();
         previousdir=dir;
         return dir;
         break;
@@ -236,13 +237,6 @@ int snake_IA::move(int level,feedbackMsg msg,snake_IA *other){
             SnakeListOfCoordinate.insert(SnakeListOfCoordinate.begin(),next_Head);
             SnakeListOfCoordinate.pop_back();
         }
-        for (int i=0;i<SnakeListOfCoordinate.size();i++)
-        {
-            Print_Coord(SnakeListOfCoordinate[i]);
-        }
-        std::cout<<SnakeLength<<std::endl;
-
-        std::cout<<"___________"<<std::endl;
         previousdir=dir;
         return dir;
         break;
