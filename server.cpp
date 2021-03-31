@@ -45,16 +45,6 @@ int main(int argc, char** argv)
   snake2.SnakeListOfCoordinate = snake.Snake2ListOfCoordinate;
   snake1.SnakeLength = snake.Snake1Length;
   snake2.SnakeLength = snake.Snake2Length;
-  for (int i=0;i<snake.Snake1Length;i++)
-  {
-      std::cout<<"";
-      Print_Coord(snake.Snake1ListOfCoordinate[i]);
-  }
-  for (int i=0;i<snake1.SnakeLength;i++)
-  {
-      std::cout<<"=";
-      Print_Coord(snake1.SnakeListOfCoordinate[i]);
-  }
 
   display=snake.updateDisplay(display);
   game_io.sendDisplay(display);
@@ -85,11 +75,9 @@ int main(int argc, char** argv)
     if(!snake1.isaliveSnakebis(snake2)||!snake2.isaliveSnakebis(snake1))
 
     {
-      std::cout<<"Dead"<<std::endl;
       if(!snake1.isaliveSnakebis(snake2))
       {
           game_io.registerVictory(Player::One, feedback1, feedback2);
-          //std::cout<<"Dead"<<std::endl;
           game_io.sendDisplay(display,2);
       }
 
@@ -97,16 +85,8 @@ int main(int argc, char** argv)
       {
       game_io.registerVictory(Player::Two, feedback1, feedback2);
       game_io.sendDisplay(display,1);
-      //std::cout<<"Dead"<<std::endl;
       }
     }
-
-
-    // build display information
-
-    //game_io.sendDisplay(display);
-
-
 
 #ifndef LOCAL_GAME
     if(two_players)
@@ -130,27 +110,11 @@ int main(int argc, char** argv)
 
       // artificial opponent: put your AI here
 
+    int1=snake1.move(3,feedback1,&snake2);
+    int2=snake2.move(3,feedback2,&snake1);
 
-
-    //snake.EatfoodSnake1();
-    //snake.EatfoodSnake2();
-
-    //snake1.SnakeListOfCoordinate = snake.Snake1ListOfCoordinate;
-    //snake2.SnakeListOfCoordinate = snake.Snake2ListOfCoordinate;
-    //snake1.SnakeLength = snake.Snake1Length;
-    //snake2.SnakeLength = snake.Snake2Length;
-
-    int1=snake1.move(0,feedback1,&snake2);
-    int2=snake2.move(0,feedback2,&snake1);
-
-    //snake.Snake1ListOfCoordinate = snake1.SnakeListOfCoordinate;
-    //snake.Snake2ListOfCoordinate = snake2.SnakeListOfCoordinate;
     snake.Snake1Length = snake1.SnakeLength;
     snake.Snake2Length = snake2.SnakeLength;
-
-    //input2.dir=0;
-
-
 
 #ifndef LOCAL_GAME
     }
@@ -159,6 +123,7 @@ int main(int argc, char** argv)
     // update game state from input1 and input2
   snake.UpdateGame(int1,int2,snake1,snake2);
 
+  // update display
   display=snake.updateDisplay(display);
 
   game_io.sendDisplay(display);

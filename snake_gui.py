@@ -94,13 +94,11 @@ def draw_snake2(block_size, snake_body2, Length_of_snake2): #we draw the second 
     
 display.fill(white) #the display screen will be white
 
-    
-display.fill(white) #the display screen will be white
 
-for i in range (int(display_width/10)):
-    for j in range (int(display_height/10)):
+for i in range (int(display_width/block_size)):
+    for j in range (int(display_height/block_size)):
         if (i%2==j%2):
-            pygame.draw.rect(display, gray, [i*10, j*10,10,10])
+            pygame.draw.rect(display, gray, [i*block_size, j*block_size,block_size,block_size])
 
 snake1_Body = []
 snake2_Body = []

@@ -19,10 +19,6 @@ public:
     int move(int,feedbackMsg,snake_IA *);
     bool isaliveSnake(COORDINATE,snake_IA);
     bool isaliveSnakebis(snake_IA);
-    COORDINATE EvalPosHead(int, int,int);
-    int go_target(int, int,feedbackMsg, duels::Grid);
-    bool moveX(feedbackMsg, int *);
-    bool moveY(feedbackMsg, int *);
 
     void EatfoodSnake(snake_IA,feedbackMsg);
 
@@ -34,13 +30,9 @@ public:
     bool obj_already_eaten=false;
     int SnakeLength;
     std::vector<COORDINATE> SnakeListOfCoordinate;
-    int SnakeNumber;
     int previousdir=4;
     int dir;
     snake_game snake_game_ia;
-    std::vector<COORDINATE> ApplesListSnake;
-
-
 
 };
 
