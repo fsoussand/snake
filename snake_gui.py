@@ -87,52 +87,13 @@ def draw_snake2(block_size, snake_body2, Length_of_snake2): #we draw the second 
      for x in snake_body2:
              pygame.draw.rect(display, cyan, [block_size*x[0], block_size*x[1], block_size, block_size])
              
-
-def Choosing_Level():
-    pygame.draw.rect(display, red,[200,100,400,200])
-    Levelchoice = score_font.render("What level do you want to play ?", True, white)
-    display.blit(Levelchoice, [225, 150])
-    button_1 = BUTTON(300, 200, '1')
-    button_2 = BUTTON(400, 200, '2')
-    button_3= BUTTON (500,200,'3')
-    Level=0
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if button_1.collidepoint(pygame.mouse.get_pos()):
-                display.blit(score_font.render("Choosed", True, white), [300, 200])
-                Level=1
-            elif button_2.collidepoint(pygame.mouse.get_pos()):
-                Level=10
-                display.blit(score_font.render("Choosed", True, white), [400, 200])
-            elif button_3.collidepoint(pygame.mouse.get_pos()):
-                Level=11
-                display.blit(score_font.render("Choosed", True, white), [400, 200])
-        clock.tick(60)
-        pygame.display.update()
-    return Level
-        
-def BUTTON(x,y, level):
-    pygame.draw.circle(display, black,(x,y),25)
-    Leveli = score_font.render(level, True, white)
-    return display.blit(Leveli, (x-5,y-5))
         
         
 
-#if __name__ == '__main__':
-    
-    # init display / structure from init_msg
+
     
 display.fill(white) #the display screen will be white
 
-#Level=0
-#while (Level==0):
-#    Level=Choosing_Level()
-    
-#init_msg.Level=Level
-    # init_msg.<other fields> 
     
 display.fill(white) #the display screen will be white
 

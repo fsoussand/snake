@@ -22,7 +22,6 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
 {
 
     srand(time(NULL));
-
     display.x1=rand()%WIDTH;
     display.y1=rand()%HEIGHT;
     while (display.x1>=WIDTH-15 && display.y1<5)
@@ -54,9 +53,6 @@ snake_game::snake_game(displayMsg display) //constructor of snake_game : creates
     Snake2Length=1;
     this->Snake1ListOfCoordinate.push_back(Convert_To_Coordinate(display.x1,display.y1));
     this->Snake2ListOfCoordinate.push_back(Convert_To_Coordinate(display.x2,display.y2));
-
-
-
 }
 
 COORDINATE snake_game::generate_random_apple()
@@ -224,27 +220,6 @@ bool snake_game::isaliveSnake2()
     for (int i=1;i<Snake2ListOfCoordinate.size();i++)
         if(Snake2ListOfCoordinate[0].X==Snake2ListOfCoordinate[i].X && Snake2ListOfCoordinate[0].Y==Snake2ListOfCoordinate[i].X) state=false;
     if(Snake2ListOfCoordinate[0].X<0 ||Snake2ListOfCoordinate[0].Y<0 || Snake2ListOfCoordinate[0].X>WIDTH || Snake2ListOfCoordinate[0].Y>HEIGHT) state=false;
-    return state;
-}
-
-bool snake_game::is_over_game(snake_IA snake1, snake_IA snake2)
-{
-    bool state=false;
-    COORDINATE Head1=snake1.SnakeListOfCoordinate[0];
-    COORDINATE Head2=snake2.SnakeListOfCoordinate[0];
-
-    for(int i=0;i<Snake2ListOfCoordinate.size();i++)
-        if(Head1.X==Snake2ListOfCoordinate[i].X && Head1.Y==Snake2ListOfCoordinate[i].X) state=true;
-    for (int i=1;i<Snake1ListOfCoordinate.size();i++)
-        if(Head1.X==Snake1ListOfCoordinate[i].X && Head1.Y==Snake1ListOfCoordinate[i].X) state=true;
-    if(Head1.X<0 ||Head1.Y<0 || Head1.X>WIDTH || Head1.Y>HEIGHT) state=true;
-
-    for(int i=0;i<Snake1ListOfCoordinate.size();i++)
-        if(Head2.X==Snake1ListOfCoordinate[i].X && Head2.Y==Snake1ListOfCoordinate[i].X) state=true;
-    for (int i=1;i<Snake2ListOfCoordinate.size();i++)
-        if(Head2.X==Snake2ListOfCoordinate[i].X && Head2.Y==Snake2ListOfCoordinate[i].X) state=true;
-    if(Head2.X<0 ||Head2.Y<0 || Head2.X>WIDTH || Head2.Y>HEIGHT) state=true;
-
     return state;
 }
 
